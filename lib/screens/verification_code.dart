@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
-class EnterPhone extends StatelessWidget {
-  static const String id = "enter_your_phone";
+class VerificationCode extends StatefulWidget {
+  static const String id = "verification_code";
 
+  @override
+  _VerificationCodeState createState() => _VerificationCodeState();
+}
+
+class _VerificationCodeState extends State<VerificationCode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,57 +65,63 @@ class EnterPhone extends StatelessWidget {
                           right: 10,
                           bottom: 10,
                         ),
-                        child: Card(
-                          elevation: 5,
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 58,
-                              bottom: 10,
+                        child: Flexible(
+                          flex: 2,
+                          child: Card(
+                            elevation: 5,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  'Enter your phone number to login',
-                                  style: TextStyle(
-                                    fontSize: 18,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 58,
+                                bottom: 10,
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    'Enter the verification code',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  width: 400,
-                                  child: Padding(
+                                  Padding(
                                     padding: const EdgeInsets.symmetric(
-                                      vertical: 20,
-                                      horizontal: 30,
-                                    ),
-                                    child: TextField(
-                                      textAlign: TextAlign.center,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.white,
-                                          ),
-                                          borderRadius: const BorderRadius.all(
-                                            const Radius.circular(50.0),
-                                          ),
-                                        ),
-                                        filled: true,
-                                        fillColor: Color(0xFFf9f9f9),
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey[500],
-                                        ),
-                                        hintText: "+880 xxxxxxxxxx",
+                                        vertical: 15, horizontal: 15),
+                                    child: PinFieldAutoFill(
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(),
+                                      decoration: UnderlineDecoration(
+                                        textStyle: TextStyle(
+                                            fontSize: 20, color: Colors.black),
+                                        colorBuilder: FixedColorBuilder(
+                                            Colors.black.withOpacity(0.3)),
                                       ),
-                                      style: TextStyle(),
-                                      keyboardType: TextInputType.number,
-                                      maxLength: 10,
+                                      // UnderlineDecoration, BoxLooseDecoration or BoxTightDecoration see https://github.com/TinoGuo/pin_input_text_field for more info,
+                                      // currentCode: // prefill with a code
+                                      // onCodeSubmitted: //code submitted callback
+                                      // onCodeChanged: //code changed callback
+                                      codeLength: 4, //code length, default 6
                                     ),
                                   ),
-                                )
-                              ],
+                                  Text(
+                                    "Didn't receive a code?",
+                                    style: TextStyle(
+                                      color: Colors.black38,
+                                    ),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () {
+                                      //something
+                                    },
+                                    child: Text(
+                                      'Resend',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -132,14 +144,14 @@ class EnterPhone extends StatelessWidget {
                         right: 50,
                         top: 18,
                         child: Image(
-                          image: AssetImage('assets/icons/login.png'),
+                          image: AssetImage('assets/icons/otpicon.png'),
                           height: 35,
                         ),
                       ),
                     ],
                   ),
                   SizedBox(
-                    height: 15,
+                    height: 10,
                   ),
                   FlatButton(
                     color: Colors.white,
@@ -158,7 +170,7 @@ class EnterPhone extends StatelessWidget {
                       /*...*/
                     },
                     child: Text(
-                      "Login",
+                      "Confirm",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.black,
@@ -166,7 +178,7 @@ class EnterPhone extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.10,
+                    height: MediaQuery.of(context).size.height * 0.05,
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
