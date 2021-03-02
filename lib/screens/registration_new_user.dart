@@ -1,3 +1,4 @@
+import 'package:dd_app/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationNewUser extends StatefulWidget {
@@ -195,7 +196,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                         ),
                       ),
                       onPressed: () {
-                        /*...*/
+                        Navigator.pushNamed(context, HomePage.id);
                       },
                       child: Text(
                         "Confirm",
@@ -227,7 +228,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                           ),
                         ),
                         onPressed: () {
-                          /*...*/
+                          Navigator.pushNamed(context, HomePage.id);
                         },
                         child: Text(
                           "Skip >",

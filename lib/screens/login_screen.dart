@@ -1,3 +1,6 @@
+import 'package:dd_app/screens/enter_phone.dart';
+import 'package:dd_app/screens/home_page.dart';
+import 'package:dd_app/screens/verification_code.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -194,7 +197,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        /*...*/
+                        Navigator.pushNamed(context, HomePage.id);
                       },
                       child: Text(
                         "Login",
@@ -226,7 +229,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          /*...*/
+                          Navigator.pushNamed(context, VerificationCode.id);
                         },
                         child: Text(
                           "Skip >",

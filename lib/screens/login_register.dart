@@ -1,3 +1,5 @@
+import 'package:dd_app/screens/enter_phone.dart';
+import 'package:dd_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginRegister extends StatefulWidget {
@@ -60,7 +62,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                   ),
                 ),
                 onPressed: () {
-                  /*...*/
+                  Navigator.pushNamed(context, EnterPhone.id);
                 },
                 child: Text(
                   "Registration",
@@ -86,7 +88,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                   ),
                 ),
                 onPressed: () {
-                  /*...*/
+                  Navigator.pushNamed(context, LoginScreen.id);
                 },
                 child: Text(
                   "Login",

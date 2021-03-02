@@ -1,3 +1,4 @@
+import 'package:dd_app/screens/verification_code.dart';
 import 'package:flutter/material.dart';
 
 class EnterPhone extends StatelessWidget {
@@ -157,7 +158,7 @@ class EnterPhone extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        /*...*/
+                        Navigator.pushNamed(context, VerificationCode.id);
                       },
                       child: Text(
                         "Login",
@@ -189,7 +190,7 @@ class EnterPhone extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          /*...*/
+                          Navigator.pushNamed(context, VerificationCode.id);
                         },
                         child: Text(
                           "Skip >",

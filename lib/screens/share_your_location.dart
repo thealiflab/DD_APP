@@ -1,3 +1,4 @@
+import 'package:dd_app/screens/login_register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -89,7 +90,7 @@ class ShareYourLocation extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        /*...*/
+                        Navigator.pushNamed(context, LoginRegister.id);
                       },
                       child: Text(
                         "Skip >",

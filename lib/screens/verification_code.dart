@@ -1,3 +1,4 @@
+import 'package:dd_app/screens/registration_new_user.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
@@ -169,7 +170,7 @@ class _VerificationCodeState extends State<VerificationCode> {
                         ),
                       ),
                       onPressed: () {
-                        /*...*/
+                        Navigator.pushNamed(context, RegistrationNewUser.id);
                       },
                       child: Text(
                         "Confirm",
@@ -201,7 +202,7 @@ class _VerificationCodeState extends State<VerificationCode> {
                           ),
                         ),
                         onPressed: () {
-                          /*...*/
+                          Navigator.pushNamed(context, RegistrationNewUser.id);
                         },
                         child: Text(
                           "Skip >",
