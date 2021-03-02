@@ -1,4 +1,5 @@
 import 'package:dd_app/screens/hotel_only.dart';
+import 'package:dd_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/screens/opening_screen.dart';
 import 'package:dd_app/screens/share_your_location.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xFFFCFEFF),
         primaryColor: Color(0xFF24b5c4),
       ),
-      home: LoginRegister(),
+      home: LoginScreen(),
       // initialRoute: ShareYourLocation.id,
       // routes: {
       //   OpeningScreen.id: (context) => OpeningScreen(),
