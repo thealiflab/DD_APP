@@ -183,7 +183,6 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                   ),
                   FlatButton(
                     color: Colors.white,
-                    textColor: Colors.black,
                     padding: EdgeInsets.symmetric(
                       vertical: 15,
                       horizontal: 50,
