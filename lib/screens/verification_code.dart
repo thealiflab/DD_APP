@@ -67,64 +67,60 @@ class _VerificationCodeState extends State<VerificationCode> {
                             right: 10,
                             bottom: 10,
                           ),
-                          child: Flexible(
-                            flex: 2,
-                            child: Card(
-                              elevation: 5,
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                          child: Card(
+                            elevation: 5,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 58,
+                                bottom: 10,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 58,
-                                  bottom: 10,
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      'Enter the verification code',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    'Enter the verification code',
+                                    style: TextStyle(
+                                      fontSize: 18,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 15),
-                                      child: PinFieldAutoFill(
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(),
-                                        decoration: UnderlineDecoration(
-                                          textStyle: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black),
-                                          colorBuilder: FixedColorBuilder(
-                                              Colors.black.withOpacity(0.3)),
-                                        ),
-                                        // UnderlineDecoration, BoxLooseDecoration or BoxTightDecoration see https://github.com/TinoGuo/pin_input_text_field for more info,
-                                        // currentCode: // prefill with a code
-                                        // onCodeSubmitted: //code submitted callback
-                                        // onCodeChanged: //code changed callback
-                                        codeLength: 4, //code length, default 6
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 15),
+                                    child: PinFieldAutoFill(
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(),
+                                      decoration: UnderlineDecoration(
+                                        textStyle: TextStyle(
+                                            fontSize: 20, color: Colors.black),
+                                        colorBuilder: FixedColorBuilder(
+                                            Colors.black.withOpacity(0.3)),
                                       ),
+                                      // UnderlineDecoration, BoxLooseDecoration or BoxTightDecoration see https://github.com/TinoGuo/pin_input_text_field for more info,
+                                      // currentCode: // prefill with a code
+                                      // onCodeSubmitted: //code submitted callback
+                                      // onCodeChanged: //code changed callback
+                                      codeLength: 4, //code length, default 6
                                     ),
-                                    Text(
-                                      "Didn't receive a code?",
-                                      style: TextStyle(
-                                        color: Colors.black38,
-                                      ),
+                                  ),
+                                  Text(
+                                    "Didn't receive a code?",
+                                    style: TextStyle(
+                                      color: Colors.black38,
                                     ),
-                                    FlatButton(
-                                      onPressed: () {
-                                        //something
-                                      },
-                                      child: Text(
-                                        'Resend',
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () {
+                                      //something
+                                    },
+                                    child: Text(
+                                      'Resend',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                           ),

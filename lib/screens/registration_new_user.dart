@@ -66,92 +66,89 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                             right: 10,
                             bottom: 10,
                           ),
-                          child: Flexible(
-                            flex: 2,
-                            child: Card(
-                              elevation: 5,
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                          child: Card(
+                            elevation: 5,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 58,
+                                bottom: 10,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 58,
-                                  bottom: 10,
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      'Enter Profile Details',
-                                      style: TextStyle(
-                                        fontSize: 18,
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    'Enter Profile Details',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    width: 400,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 30,
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      width: 400,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10,
-                                          horizontal: 30,
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                const Radius.circular(50.0),
-                                              ),
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              ),
+                                      child: TextField(
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              const Radius.circular(50.0),
                                             ),
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            hintStyle: TextStyle(
-                                              color: Colors.black54,
+                                            borderSide: BorderSide(
+                                              color: Colors.white,
                                             ),
-                                            hintText: "Full Name",
                                           ),
-                                          style: TextStyle(),
-                                          keyboardType: TextInputType.text,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 400,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10,
-                                          horizontal: 30,
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                const Radius.circular(50.0),
-                                              ),
-                                            ),
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            hintStyle: TextStyle(
-                                              color: Colors.black54,
-                                            ),
-                                            hintText: "Email Address",
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          hintStyle: TextStyle(
+                                            color: Colors.black54,
                                           ),
-                                          style: TextStyle(),
-                                          keyboardType:
-                                              TextInputType.emailAddress,
+                                          hintText: "Full Name",
                                         ),
+                                        style: TextStyle(),
+                                        keyboardType: TextInputType.text,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Container(
+                                    width: 400,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 30,
+                                      ),
+                                      child: TextField(
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              const Radius.circular(50.0),
+                                            ),
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          hintStyle: TextStyle(
+                                            color: Colors.black54,
+                                          ),
+                                          hintText: "Email Address",
+                                        ),
+                                        style: TextStyle(),
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
