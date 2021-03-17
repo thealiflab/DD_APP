@@ -2,13 +2,13 @@ import 'package:dd_app/model/login_user_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class APIService {
+class LoginService {
   Future<LoginResponseModel> login(LoginRequestModel requestModel) async {
     //String url = "https://reqres.in/api/login";
-    String url = "https://apps.dd.limited/api/v1/login";
+    const baseUrl = "https://apps.dd.limited";
 
     final response = await http.post(
-      url,
+      "$baseUrl/api/v1/login",
       body: requestModel.toJson(),
     );
     print(response.body);

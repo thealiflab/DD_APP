@@ -2,9 +2,14 @@ import 'package:dd_app/screens/login_register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ShareYourLocation extends StatelessWidget {
+class ShareYourLocation extends StatefulWidget {
   static const String id = "share_your_location";
 
+  @override
+  _ShareYourLocationState createState() => _ShareYourLocationState();
+}
+
+class _ShareYourLocationState extends State<ShareYourLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +58,7 @@ class ShareYourLocation extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50.0),
               ),
               onPressed: () {
-                /*...*/
+                //locationEnable();
               },
               child: Text(
                 "Share Your Location",

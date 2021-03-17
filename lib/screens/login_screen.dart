@@ -256,11 +256,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             isApiCallProcess = true;
                           });
 
-                          APIService apiService = new APIService();
+                          LoginService apiService = new LoginService();
                           apiService.login(requestModel).then((value) {
                             setState(() {
                               isApiCallProcess = false;
                             });
+
+                            print(value.CI);
+                            print(value.token);
 
                             if (value.token.isNotEmpty) {
                               final snackBar = SnackBar(
