@@ -11,7 +11,8 @@ import 'package:dd_app/screens/enter_phone.dart';
 import 'package:dd_app/screens/verification_code.dart';
 import 'package:dd_app/screens/registration_new_user.dart';
 import 'package:dd_app/screens/login_register.dart';
-import 'package:dd_app/screens/home_page.dart';
+import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/home_screen/home_page.dart';
+import 'package:dd_app/screens/about_us.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,24 +26,25 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xFFFCFEFF),
         primaryColor: Color(0xFF24b5c4),
       ),
-      home: Profile(),
-      // initialRoute: ShareYourLocation.id,
-      // routes: {
-      //   //OpeningScreen.id: (context) => OpeningScreen(),
-      //   //Profile.id: (context) => Profile(),
-      //   ShareYourLocation.id: (context) => ShareYourLocation(),
-      //   LoginRegister.id: (context) => LoginRegister(),
-      //   LoginScreen.id: (context) => LoginScreen(),
-      //   EnterPhone.id: (context) => EnterPhone(),
-      //   VerificationCode.id: (context) => VerificationCode(),
-      //   RegistrationNewUser.id: (context) => RegistrationNewUser(),
-      //   HomePage.id: (context) => HomePage(),
-      //   HotelOnly.id: (context) => HotelOnly(),
-      //   RestaurantOnly.id: (context) => RestaurantOnly(),
-      //   BusOnly.id: (context) => BusOnly(),
-      //   AirOnly.id: (context) => AirOnly(),
-      //   HelicopterOnly.id: (context) => HelicopterOnly(),
-      // },
+      //home: Profile(),
+      initialRoute: ShareYourLocation.id,
+      routes: {
+        //OpeningScreen.id: (context) => OpeningScreen(),
+        ShareYourLocation.id: (context) => ShareYourLocation(),
+        LoginRegister.id: (context) => LoginRegister(),
+        LoginScreen.id: (context) => LoginScreen(),
+        EnterPhone.id: (context) => EnterPhone(),
+        VerificationCode.id: (context) => VerificationCode(),
+        RegistrationNewUser.id: (context) => RegistrationNewUser(),
+        HomePage.id: (context) => HomePage(),
+        HotelOnly.id: (context) => HotelOnly(),
+        RestaurantOnly.id: (context) => RestaurantOnly(),
+        BusOnly.id: (context) => BusOnly(),
+        AirOnly.id: (context) => AirOnly(),
+        HelicopterOnly.id: (context) => HelicopterOnly(),
+        Profile.id: (context) => Profile(),
+        AboutUs.id: (context) => AboutUs(),
+      },
     );
   }
 }

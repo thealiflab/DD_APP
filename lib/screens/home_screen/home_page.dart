@@ -1,3 +1,4 @@
+import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/air_only.dart';
 import 'package:dd_app/screens/bus_only.dart';
 import 'package:dd_app/screens/helicopter_only.dart';
@@ -6,6 +7,9 @@ import 'package:dd_app/screens/restaurant_only.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/components/popular_deals.dart';
 import 'package:dd_app/components/services.dart';
+import 'package:dd_app/screens/profile_screen/profile.dart';
+import 'package:dd_app/screens/about_us.dart';
+import 'drawer_per_user.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -32,96 +36,73 @@ class _HomePageState extends State<HomePage> {
         child: Drawer(
           child: ListView(
             children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(25),
-                    bottomRight: Radius.circular(25)),
-                child: DrawerHeader(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xFF34d3ae),
-                        Color(0xFF24b5c4),
-                      ],
-                    ),
-                  ),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 80,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/homepage/profile.jpg'),
-                              fit: BoxFit.cover,
-                            ),
-                            boxShadow: [],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          'Mr Ahmed',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              DrawerPerUser(),
               ListTile(
-                leading: Icon(Icons.person),
+                leading: Icon(
+                  Icons.person,
+                ),
                 title: Text('Profile'),
                 onTap: () {
-                  // Navigator.pushNamed(context, '/home');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => Profile(),
+                    ),
+                  );
                 },
               ),
               ListTile(
-                leading: Icon(Icons.description),
+                leading: Icon(
+                  Icons.description,
+                ),
                 title: Text('Blog'),
                 onTap: () {
                   // Navigator.pushNamed(context, '/home');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.payments),
-                title: Text('Payment'),
+                leading: Icon(
+                  Icons.payments,
+                ),
+                title: Text('Subscription'),
                 onTap: () {
                   // Navigator.pushNamed(context, '/transactionsList');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.history),
+                leading: Icon(
+                  Icons.history,
+                ),
                 title: Text('Payment History'),
                 onTap: () {
                   // Navigator.pushNamed(context, '/transactionsList');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.redeem),
-                title: Text('Redeem'),
+                leading: Icon(
+                  Icons.redeem,
+                ),
+                title: Text('Discounts'),
                 onTap: () {
                   // Navigator.pushNamed(context, '/transactionsList');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.help_outline),
+                leading: Icon(
+                  Icons.help_outline,
+                ),
                 title: Text('About Us'),
                 onTap: () {
-                  // Navigator.pushNamed(context, '/transactionsList');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => AboutUs()));
                 },
               ),
               ListTile(
-                leading: Icon(Icons.logout),
+                leading: Icon(
+                  Icons.logout,
+                ),
                 title: Text('Logout'),
                 onTap: () {
                   // Navigator.pushNamed(context, '/transactionsList');
@@ -316,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                         }
                         break;
 
-                      case 'Helicopter':
+                      case 'Aviation Service':
                         {
                           Navigator.push(
                             context,

@@ -1,4 +1,4 @@
-import 'package:dd_app/screens/home_page.dart';
+import 'home_screen/home_page.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationNewUser extends StatefulWidget {

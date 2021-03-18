@@ -26,6 +26,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   sms_autofill: ^1.2.7
   flutter_svg: any
+  dio: ^3.0.10
 
 dev_dependencies:
   flutter_test:

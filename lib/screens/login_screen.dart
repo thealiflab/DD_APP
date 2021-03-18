@@ -1,8 +1,7 @@
 import 'package:dd_app/api/web_api.dart';
 import 'package:dd_app/model/login_user_model.dart';
 import 'package:dd_app/progressHUD.dart';
-import 'package:dd_app/screens/enter_phone.dart';
-import 'package:dd_app/screens/home_page.dart';
+import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/verification_code.dart';
 import 'package:flutter/material.dart';
 
@@ -14,11 +13,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  GlobalKey<FormState> globalFormKey = new GlobalKey<FormState>();
-  bool hidePassword = true;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
+  bool _hidePassword = true;
   LoginRequestModel requestModel;
-  bool isApiCallProcess = false;
+  bool _isApiCallProcess = false;
 
   @override
   void initState() {
@@ -30,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return ProgressHUD(
       child: _UISetup(context),
-      inAsyncCall: isApiCallProcess,
+      inAsyncCall: _isApiCallProcess,
       opacity: 0.3,
     );
   }
@@ -38,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget _UISetup(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.center,
@@ -105,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 bottom: 10,
                               ),
                               child: Form(
-                                key: globalFormKey,
+                                key: _globalFormKey,
                                 child: Column(
                                   children: <Widget>[
                                     Text(
@@ -144,11 +143,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                           ),
                                           style: TextStyle(),
                                           keyboardType: TextInputType.phone,
-                                          maxLength: 50,
+                                          maxLength: 11,
                                           onSaved: (input) =>
                                               requestModel.phone = input,
                                           validator: (input) => input.length <
-                                                  11
+                                                      11 ||
+                                                  input.isEmpty
                                               ? "Phone Number should be valid"
                                               : null,
                                         ),
@@ -180,25 +180,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                             hintText: "Password",
                                             suffixIcon: IconButton(
-                                              icon: Icon(hidePassword
+                                              icon: Icon(_hidePassword
                                                   ? Icons.visibility_off
                                                   : Icons.visibility),
                                               onPressed: () {
                                                 setState(() {
-                                                  hidePassword = !hidePassword;
+                                                  _hidePassword =
+                                                      !_hidePassword;
                                                 });
                                               },
                                             ),
                                           ),
                                           autofocus: false,
-                                          obscureText: hidePassword,
+                                          obscureText: _hidePassword,
                                           style: TextStyle(),
                                           keyboardType:
                                               TextInputType.visiblePassword,
                                           maxLength: 50,
                                           onSaved: (input) =>
                                               requestModel.password = input,
-                                          validator: (input) => input.length < 6
+                                          validator: (input) => input.length <
+                                                      6 ||
+                                                  input.isEmpty
                                               ? "Password should be at least 6 character long"
                                               : null,
                                         ),
@@ -253,13 +256,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         if (validateAndSave()) {
                           setState(() {
-                            isApiCallProcess = true;
+                            _isApiCallProcess = true;
                           });
 
                           LoginService apiService = new LoginService();
                           apiService.login(requestModel).then((value) {
                             setState(() {
-                              isApiCallProcess = false;
+                              _isApiCallProcess = false;
                             });
 
                             print(value.CI);
@@ -269,12 +272,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               final snackBar = SnackBar(
                                 content: Text("Login Successful"),
                               );
-                              scaffoldKey.currentState.showSnackBar(snackBar);
+                              _scaffoldKey.currentState.showSnackBar(snackBar);
+                              Navigator.pushNamed(context, HomePage.id);
                             } else {
                               final snackBar = SnackBar(
                                 content: Text(value.error),
                               );
-                              scaffoldKey.currentState.showSnackBar(snackBar);
+                              _scaffoldKey.currentState.showSnackBar(snackBar);
                             }
                           });
 
@@ -334,7 +338,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   bool validateAndSave() {
-    final form = globalFormKey.currentState;
+    final form = _globalFormKey.currentState;
     if (form.validate()) {
       form.save();
       return true;

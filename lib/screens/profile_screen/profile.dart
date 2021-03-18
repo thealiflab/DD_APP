@@ -16,6 +16,10 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text("Profile"),
       ),
       body: Padding(
@@ -27,6 +31,10 @@ class _ProfileState extends State<Profile> {
             ProfileInfoPanel(
               textIcon: Icons.account_circle,
               info: "Mr Ahmed",
+            ),
+            ProfileInfoPanel(
+              textIcon: Icons.lock,
+              info: "2102-1001-SELK27",
             ),
             ProfileInfoPanel(
               textIcon: Icons.phone,
