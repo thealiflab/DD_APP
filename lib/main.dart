@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:dd_app/screens/share_your_location.dart';
 import 'package:dd_app/screens/enter_phone.dart';
 import 'package:dd_app/screens/otp_code.dart';
-import 'package:dd_app/screens/registration_new_user.dart';
+import 'package:dd_app/screens/registration_details.dart';
 import 'package:dd_app/screens/login_register.dart';
 import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/about_us.dart';

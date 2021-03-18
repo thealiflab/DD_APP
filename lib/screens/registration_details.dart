@@ -101,78 +101,80 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                 top: 58,
                                 bottom: 10,
                               ),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    'Enter Profile Details',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    width: 400,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 10,
-                                        horizontal: 30,
+                              child: Form(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      'Enter Profile Details',
+                                      style: TextStyle(
+                                        fontSize: 18,
                                       ),
-                                      child: TextField(
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              const Radius.circular(50.0),
-                                            ),
-                                            borderSide: BorderSide(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          hintStyle: TextStyle(
-                                            color: Colors.black54,
-                                          ),
-                                          hintText: "Full Name",
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      width: 400,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                          horizontal: 30,
                                         ),
-                                        style: TextStyle(),
-                                        keyboardType: TextInputType.text,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 400,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 10,
-                                        horizontal: 30,
-                                      ),
-                                      child: TextField(
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              const Radius.circular(50.0),
+                                        child: TextField(
+                                          textAlign: TextAlign.center,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                const Radius.circular(50.0),
+                                              ),
+                                              borderSide: BorderSide(
+                                                color: Colors.white,
+                                              ),
                                             ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            hintStyle: TextStyle(
+                                              color: Colors.black54,
+                                            ),
+                                            hintText: "Full Name",
                                           ),
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          hintStyle: TextStyle(
-                                            color: Colors.black54,
-                                          ),
-                                          hintText: "Email Address",
+                                          style: TextStyle(),
+                                          keyboardType: TextInputType.text,
                                         ),
-                                        style: TextStyle(),
-                                        keyboardType:
-                                            TextInputType.emailAddress,
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    Container(
+                                      width: 400,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                          horizontal: 30,
+                                        ),
+                                        child: TextField(
+                                          textAlign: TextAlign.center,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                const Radius.circular(50.0),
+                                              ),
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            hintStyle: TextStyle(
+                                              color: Colors.black54,
+                                            ),
+                                            hintText: "Email Address",
+                                          ),
+                                          style: TextStyle(),
+                                          keyboardType:
+                                              TextInputType.emailAddress,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

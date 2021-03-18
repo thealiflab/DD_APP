@@ -1,4 +1,4 @@
-import 'package:dd_app/screens/registration_new_user.dart';
+import 'package:dd_app/screens/registration_details.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:dd_app/model/register_second_otp.dart';
