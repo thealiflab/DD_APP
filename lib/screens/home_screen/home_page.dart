@@ -10,6 +10,8 @@ import 'package:dd_app/components/services.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'drawer_per_user.dart';
+import 'package:dd_app/model/customer_info_model.dart';
+import 'package:dd_app/api/customer_api.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -25,6 +27,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   int _bottomNavigationBarIndex = 0;
+
+  CustomerInfo customerData;
+
+  @override
+  void initState() {
+    super.initState();
+    customerData = new CustomerInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,15 +132,15 @@ class _HomePageState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera),
-            title: Text('Scan'),
+            label: 'Scan',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu),
-            title: Text('Menu'),
+            label: 'Menu',
           ),
         ],
       ),
@@ -153,7 +163,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(height: 5.0),
                     Text(
-                      'Mr. Ahmed',
+                      "User",
+                      //TODO fix this
+                      // '${customerData.getData()}',
                       style: TextStyle(
                           fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),

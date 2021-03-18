@@ -219,10 +219,6 @@ class _OTPCodeState extends State<OTPCode> {
                         requestModel.otp = _OTP;
                         requestModel.phone = receivedData['phone'];
 
-                        print("success 1");
-                        print(requestModel.otp);
-                        print(requestModel.phone);
-
                         if (validateAndSave()) {
                           setState(() {
                             _isApiCallProcess = true;
@@ -234,7 +230,6 @@ class _OTPCodeState extends State<OTPCode> {
                             setState(() {
                               _isApiCallProcess = false;
                             });
-                            print("success 2");
 
                             //TODO change this and handle this with state management
                             print(value.CI);

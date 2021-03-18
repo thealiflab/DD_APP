@@ -4,6 +4,7 @@ import 'package:dd_app/progressHUD.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/otp_code.dart';
 import 'package:flutter/material.dart';
+import 'package:dd_app/api/global_ref_values.dart' as ref;
 
 class LoginScreen extends StatefulWidget {
   static const String id = "login_screen";
@@ -264,6 +265,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {
                               _isApiCallProcess = false;
                             });
+
+                            //TODO change this and handle this with state management
+                            print(value.CI);
+                            ref.CI = value.CI;
+                            print(value.token);
+                            ref.token = value.token;
 
                             if (value.token.isNotEmpty) {
                               final snackBar = SnackBar(
