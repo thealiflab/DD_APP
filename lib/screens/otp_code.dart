@@ -4,6 +4,7 @@ import 'package:pinput/pin_put/pin_put.dart';
 import 'package:dd_app/model/register_second_otp.dart';
 import 'package:dd_app/api/reg_second_api.dart';
 import 'package:dd_app/progressHUD.dart';
+import 'package:dd_app/api/global_ref_values.dart' as ref;
 
 class OTPCode extends StatefulWidget {
   static const String id = "verification_code";
@@ -17,7 +18,7 @@ class _OTPCodeState extends State<OTPCode> {
 
   String _OTP = "";
 
-  RegisterSecondRequestModel requestModel = RegisterSecondRequestModel();
+  RegisterSecondRequestModel requestModel;
 
   final TextEditingController _pinPutController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
@@ -27,6 +28,7 @@ class _OTPCodeState extends State<OTPCode> {
   @override
   void initState() {
     super.initState();
+    requestModel = new RegisterSecondRequestModel();
   }
 
   @override
@@ -233,12 +235,18 @@ class _OTPCodeState extends State<OTPCode> {
                               _isApiCallProcess = false;
                             });
                             print("success 2");
+
+                            //TODO change this and handle this with state management
                             print(value.CI);
+                            ref.CI = value.CI;
                             print(value.token);
+                            ref.token = value.token;
 
                             if (value.token.isNotEmpty) {
                               Navigator.pushNamed(
-                                  context, RegistrationNewUser.id);
+                                context,
+                                RegistrationNewUser.id,
+                              );
                             } else {
                               print(value.error);
                               print('API not called properly');

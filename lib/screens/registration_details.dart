@@ -1,7 +1,8 @@
 import 'home_screen/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/progressHUD.dart';
-import 'package:dd_app/model/login_user_model.dart'; //should have to change
+import 'package:dd_app/model/register_third_details_update.dart';
+import 'package:dd_app/api/reg_third_api.dart';
 
 class RegistrationNewUser extends StatefulWidget {
   static const String id = "registration_new_user";
@@ -11,16 +12,14 @@ class RegistrationNewUser extends StatefulWidget {
 }
 
 class _RegistrationNewUserState extends State<RegistrationNewUser> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
-  bool _hidePassword = true;
-  LoginRequestModel requestModel;
+  RegisterThirdRequestModel requestModel;
   bool _isApiCallProcess = false;
 
   @override
   void initState() {
     super.initState();
-    requestModel = new LoginRequestModel();
+    requestModel = new RegisterThirdRequestModel();
   }
 
   @override
@@ -34,8 +33,9 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
 
   @override
   Widget _UISetup(BuildContext context) {
+    Map<String, Object> receivedData =
+        ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.center,
@@ -102,6 +102,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                 bottom: 10,
                               ),
                               child: Form(
+                                key: _globalFormKey,
                                 child: Column(
                                   children: <Widget>[
                                     Text(
@@ -120,7 +121,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                           vertical: 10,
                                           horizontal: 30,
                                         ),
-                                        child: TextField(
+                                        child: TextFormField(
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
                                             border: OutlineInputBorder(
@@ -141,6 +142,12 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                           ),
                                           style: TextStyle(),
                                           keyboardType: TextInputType.text,
+                                          onSaved: (value) {
+                                            requestModel.name = value.trim();
+                                          },
+                                          validator: (input) => input.isEmpty
+                                              ? "Enter valid name"
+                                              : null,
                                         ),
                                       ),
                                     ),
@@ -151,7 +158,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                           vertical: 10,
                                           horizontal: 30,
                                         ),
-                                        child: TextField(
+                                        child: TextFormField(
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
                                             border: OutlineInputBorder(
@@ -170,6 +177,21 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                           style: TextStyle(),
                                           keyboardType:
                                               TextInputType.emailAddress,
+                                          onSaved: (value) {
+                                            requestModel.email = value.trim();
+                                          },
+                                          validator: (value) {
+                                            Pattern pattern =
+                                                r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                                                r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                                                r"{0,253}[a-zA-Z0-9])?)*$";
+                                            RegExp regex = new RegExp(pattern);
+                                            if (!regex.hasMatch(value) ||
+                                                value.isEmpty)
+                                              return 'Enter a valid email address';
+                                            else
+                                              return null;
+                                          },
                                         ),
                                       ),
                                     ),
@@ -219,7 +241,32 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, HomePage.id);
+                        if (validateAndSave()) {
+                          setState(() {
+                            _isApiCallProcess = true;
+                          });
+
+                          RegisterServiceThird apiService =
+                              new RegisterServiceThird();
+                          apiService.login(requestModel).then((value) {
+                            setState(() {
+                              _isApiCallProcess = false;
+                            });
+
+                            if (value.message.isNotEmpty) {
+                              print(value.message);
+                              Navigator.pushNamed(
+                                context,
+                                HomePage.id,
+                              );
+                            } else {
+                              print(value.message);
+                            }
+                          });
+
+                          print(requestModel.toJson());
+                        }
+                        // Navigator.pushNamed(context, HomePage.id);
                       },
                       child: Text(
                         "Confirm",
@@ -270,5 +317,14 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
         ),
       ),
     );
+  }
+
+  bool validateAndSave() {
+    final form = _globalFormKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
   }
 }

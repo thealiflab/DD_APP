@@ -1,17 +1,19 @@
-import 'package:dd_app/model/register_second_otp.dart';
+import 'package:dd_app/model/register_third_details_update.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'global_ref_values.dart' as ref;
 
-class RegisterServiceSecond {
-  Future<RegisterSecondResponseModel> login(
-      RegisterSecondRequestModel requestModel) async {
+class RegisterServiceThird {
+  Future<RegisterThirdResponseModel> login(
+      RegisterThirdRequestModel requestModel) async {
     const baseUrl = "https://apps.dd.limited";
 
     final response = await http.post(
-      "$baseUrl/api/v1/customer/register",
+      "$baseUrl/api/v1/customer/update",
       headers: <String, String>{
         "Accept": "application/json",
-        'State': 'Second',
+        'Authorization': 'Bearer ${ref.token}',
+        'Customer-ID': '${ref.CI}',
       },
       body: requestModel.toJson(),
     );
@@ -20,7 +22,7 @@ class RegisterServiceSecond {
     print(requestModel.toJson());
 
     if (response.statusCode == 200 || response.statusCode == 400) {
-      return RegisterSecondResponseModel.fromJson(json.decode(response.body));
+      return RegisterThirdResponseModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load Data');
     }
