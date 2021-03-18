@@ -1,15 +1,15 @@
-class LoginResponseModel {
+class RegisterSecondResponseModel {
   final String token;
   final String error;
   final String CI;
 
-  LoginResponseModel({
+  RegisterSecondResponseModel({
     this.token,
     this.error,
     this.CI,
   });
-  factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
-    return LoginResponseModel(
+  factory RegisterSecondResponseModel.fromJson(Map<String, dynamic> json) {
+    return RegisterSecondResponseModel(
       token: json["token"] != null ? json["token"] : "",
       error: json["error"] != null ? json["error"] : "",
       CI: json["Customer-ID"] != null ? json["Customer-ID"] : "",
@@ -17,23 +17,17 @@ class LoginResponseModel {
   }
 }
 
-class LoginRequestModel {
+class RegisterSecondRequestModel {
   String phone;
-  String password;
+  String otp;
 
-  LoginRequestModel({
-    this.phone,
-    this.password,
-  });
+  RegisterSecondRequestModel({this.phone, this.otp});
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = {
-      'phone': phone.trim(),
-      'password': password.trim()
+    Map<String, String> map = {
+      'phone': phone,
+      'otp': otp,
     };
-
     return map;
   }
 }
-
-//for registration

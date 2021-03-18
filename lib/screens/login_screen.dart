@@ -2,7 +2,7 @@ import 'package:dd_app/api/web_api.dart';
 import 'package:dd_app/model/login_user_model.dart';
 import 'package:dd_app/progressHUD.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
-import 'package:dd_app/screens/verification_code.dart';
+import 'package:dd_app/screens/otp_code.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -265,9 +265,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               _isApiCallProcess = false;
                             });
 
-                            print(value.CI);
-                            print(value.token);
-
                             if (value.token.isNotEmpty) {
                               final snackBar = SnackBar(
                                 content: Text("Login Successful"),
@@ -316,7 +313,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, VerificationCode.id);
+                          Navigator.pushNamed(context, OTPCode.id);
                         },
                         child: Text(
                           "Skip >",

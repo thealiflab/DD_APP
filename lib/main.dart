@@ -8,7 +8,7 @@ import 'package:dd_app/screens/restaurant_only.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/screens/share_your_location.dart';
 import 'package:dd_app/screens/enter_phone.dart';
-import 'package:dd_app/screens/verification_code.dart';
+import 'package:dd_app/screens/otp_code.dart';
 import 'package:dd_app/screens/registration_new_user.dart';
 import 'package:dd_app/screens/login_register.dart';
 import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/home_screen/home_page.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         LoginRegister.id: (context) => LoginRegister(),
         LoginScreen.id: (context) => LoginScreen(),
         EnterPhone.id: (context) => EnterPhone(),
-        VerificationCode.id: (context) => VerificationCode(),
+        OTPCode.id: (context) => OTPCode(),
         RegistrationNewUser.id: (context) => RegistrationNewUser(),
         HomePage.id: (context) => HomePage(),
         HotelOnly.id: (context) => HotelOnly(),

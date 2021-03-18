@@ -1,5 +1,7 @@
 import 'home_screen/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:dd_app/progressHUD.dart';
+import 'package:dd_app/model/login_user_model.dart'; //should have to change
 
 class RegistrationNewUser extends StatefulWidget {
   static const String id = "registration_new_user";
@@ -9,9 +11,31 @@ class RegistrationNewUser extends StatefulWidget {
 }
 
 class _RegistrationNewUserState extends State<RegistrationNewUser> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
+  bool _hidePassword = true;
+  LoginRequestModel requestModel;
+  bool _isApiCallProcess = false;
+
+  @override
+  void initState() {
+    super.initState();
+    requestModel = new LoginRequestModel();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return ProgressHUD(
+      child: _UISetup(context),
+      inAsyncCall: _isApiCallProcess,
+      opacity: 0.3,
+    );
+  }
+
+  @override
+  Widget _UISetup(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.center,

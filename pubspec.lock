@@ -151,25 +151,18 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
-  pin_input_text_field:
-    dependency: transitive
+  pinput:
+    dependency: "direct main"
     description:
-      name: pin_input_text_field
+      name: pinput
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.0"
+    version: "1.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.99"
-  sms_autofill:
-    dependency: "direct main"
-    description:
-      name: sms_autofill
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.7"
   source_span:
     dependency: transitive
     description:

@@ -1,11 +1,38 @@
-import 'package:dd_app/screens/verification_code.dart';
+import 'package:dd_app/screens/otp_code.dart';
 import 'package:flutter/material.dart';
+import 'package:dd_app/progressHUD.dart';
+import 'package:dd_app/model/register_first_phone.dart';
+import 'package:dd_app/api/reg_first_api.dart';
 
-class EnterPhone extends StatelessWidget {
+class EnterPhone extends StatefulWidget {
   static const String id = "enter_your_phone";
 
   @override
+  _EnterPhoneState createState() => _EnterPhoneState();
+}
+
+class _EnterPhoneState extends State<EnterPhone> {
+  GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
+  RegisterFirstRequestModel requestModel;
+  bool _isApiCallProcess = false;
+
+  @override
+  void initState() {
+    super.initState();
+    requestModel = new RegisterFirstRequestModel();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    return ProgressHUD(
+      child: _UISetup(context),
+      inAsyncCall: _isApiCallProcess,
+      opacity: 0.3,
+    );
+  }
+
+  @override
+  Widget _UISetup(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -72,47 +99,57 @@ class EnterPhone extends StatelessWidget {
                                 top: 58,
                                 bottom: 10,
                               ),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    'Enter your phone number to login',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 400,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 20,
-                                        horizontal: 30,
+                              child: Form(
+                                key: _globalFormKey,
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      'Enter your phone number to login',
+                                      style: TextStyle(
+                                        fontSize: 18,
                                       ),
-                                      child: TextField(
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.white,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              const Radius.circular(50.0),
-                                            ),
-                                          ),
-                                          filled: true,
-                                          fillColor: Color(0xFFf9f9f9),
-                                          hintStyle: TextStyle(
-                                            color: Colors.grey[500],
-                                          ),
-                                          hintText: "+880 xxxxxxxxxx",
+                                    ),
+                                    Container(
+                                      width: 400,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 20,
+                                          horizontal: 30,
                                         ),
-                                        style: TextStyle(),
-                                        keyboardType: TextInputType.number,
-                                        maxLength: 10,
+                                        child: TextFormField(
+                                          textAlign: TextAlign.center,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.white,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                const Radius.circular(50.0),
+                                              ),
+                                            ),
+                                            filled: true,
+                                            fillColor: Color(0xFFf9f9f9),
+                                            hintStyle: TextStyle(
+                                              color: Colors.grey[500],
+                                            ),
+                                            hintText: "+880 xxxxxxxxxx",
+                                          ),
+                                          style: TextStyle(),
+                                          keyboardType: TextInputType.phone,
+                                          maxLength: 11,
+                                          onSaved: (input) =>
+                                              requestModel.phone = input,
+                                          validator: (input) => input.length <
+                                                      11 ||
+                                                  input.isEmpty
+                                              ? "Phone Number should be valid"
+                                              : null,
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -158,7 +195,37 @@ class EnterPhone extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, VerificationCode.id);
+                        if (validateAndSave()) {
+                          setState(() {
+                            _isApiCallProcess = true;
+                          });
+
+                          RegisterServiceFirst apiService =
+                              new RegisterServiceFirst();
+                          apiService.login(requestModel).then((value) {
+                            setState(() {
+                              _isApiCallProcess = false;
+                            });
+
+                            print(value.message);
+
+                            if (value.status) {
+                              Navigator.pushNamed(
+                                context,
+                                OTPCode.id,
+                                arguments: {
+                                  "phone": requestModel.phone,
+                                },
+                              );
+                            } else {
+                              print('API not called properly');
+                              print(value.error);
+                            }
+                          });
+
+                          print(requestModel.toJson());
+                        }
+                        // Navigator.pushNamed(context, HomePage.id);
                       },
                       child: Text(
                         "Login",
@@ -190,7 +257,7 @@ class EnterPhone extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, VerificationCode.id);
+                          Navigator.pushNamed(context, OTPCode.id);
                         },
                         child: Text(
                           "Skip >",
@@ -209,5 +276,14 @@ class EnterPhone extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool validateAndSave() {
+    final form = _globalFormKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
   }
 }
