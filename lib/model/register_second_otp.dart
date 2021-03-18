@@ -24,9 +24,9 @@ class RegisterSecondRequestModel {
   RegisterSecondRequestModel({this.phone, this.otp});
 
   Map<String, dynamic> toJson() {
-    Map<String, String> map = {
+    Map<String, dynamic> map = {
       'phone': phone,
-      'otp': otp,
+      'OTP': otp,
     };
     return map;
   }
