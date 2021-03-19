@@ -40,7 +40,7 @@ class DrawerPerUser extends StatelessWidget {
                 height: 15,
               ),
               Text(
-                'Mr Ahmed',
+                'Mr User',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white,

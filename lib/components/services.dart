@@ -13,5 +13,5 @@ List<Service> services = [
   Service('Restaurant', Icons.restaurant),
   Service('Air Ticket', Icons.airplanemode_active),
   Service('Bus Ticket', Icons.bus_alert),
-  Service('Helicopter', Icons.car_rental),
+  Service('Aviation Service', Icons.car_rental),
 ];

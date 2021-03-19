@@ -12,6 +12,7 @@ import 'package:dd_app/screens/about_us.dart';
 import 'drawer_per_user.dart';
 import 'package:dd_app/model/customer_info_model.dart';
 import 'package:dd_app/api/customer_api.dart';
+import 'package:dd_app/screens/share_your_location.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -115,7 +116,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 title: Text('Logout'),
                 onTap: () {
-                  // Navigator.pushNamed(context, '/transactionsList');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              ShareYourLocation()));
                 },
               ),
             ],
@@ -309,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                         }
                         break;
 
-                      case 'Aviation Service':
+                      case 'Helicopter':
                         {
                           Navigator.push(
                             context,

@@ -22,57 +22,59 @@ class _ProfileState extends State<Profile> {
         ),
         title: Text("Profile"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 25),
-        child: Column(
-          children: [
-            ProfilePic(),
-            SizedBox(height: 20),
-            ProfileInfoPanel(
-              textIcon: Icons.account_circle,
-              info: "Mr Ahmed",
-            ),
-            ProfileInfoPanel(
-              textIcon: Icons.lock,
-              info: "2102-1001-SELK27",
-            ),
-            ProfileInfoPanel(
-              textIcon: Icons.phone,
-              info: "01712121212",
-            ),
-            ProfileInfoPanel(
-              textIcon: Icons.email,
-              info: "support@dd.limited",
-            ),
-            ProfileInfoPanel(
-              textIcon: Icons.security,
-              info: "Change Password",
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            Container(
-              height: 50,
-              width: 100,
-              decoration: BoxDecoration(
-                color: Color(0xFF24b5c4),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(50),
-                ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 25),
+          child: Column(
+            children: [
+              ProfilePic(),
+              SizedBox(height: 20),
+              ProfileInfoPanel(
+                textIcon: Icons.account_circle,
+                info: "Mr Ahmed",
               ),
-              child: FlatButton(
-                onPressed: () {
-                  //something
-                },
-                child: Text(
-                  'Update',
-                  style: TextStyle(
-                    color: Colors.white,
+              ProfileInfoPanel(
+                textIcon: Icons.lock,
+                info: "2102-1001-SELK27",
+              ),
+              ProfileInfoPanel(
+                textIcon: Icons.phone,
+                info: "01712121212",
+              ),
+              ProfileInfoPanel(
+                textIcon: Icons.email,
+                info: "support@dd.limited",
+              ),
+              ProfileInfoPanel(
+                textIcon: Icons.security,
+                info: "Change Password",
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Container(
+                height: 50,
+                width: 100,
+                decoration: BoxDecoration(
+                  color: Color(0xFF24b5c4),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
                   ),
                 ),
-              ),
-            )
-          ],
+                child: FlatButton(
+                  onPressed: () {
+                    //something
+                  },
+                  child: Text(
+                    'Update',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
