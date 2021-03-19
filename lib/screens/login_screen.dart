@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: <Widget>[
                     Image(
                       image: AssetImage('assets/images/openingthemeimage.png'),
-                      height: MediaQuery.of(context).size.width * 0.45,
+                      height: MediaQuery.of(context).size.width * 0.3,
                     ),
                     Stack(
                       children: <Widget>[
@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(
-                                top: 58,
+                                top: 55,
                                 bottom: 10,
                               ),
                               child: Form(

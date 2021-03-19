@@ -14,6 +14,7 @@ class RegistrationNewUser extends StatefulWidget {
 class _RegistrationNewUserState extends State<RegistrationNewUser> {
   GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
   RegisterThirdRequestModel requestModel;
+  bool _hidePassword = true;
   bool _isApiCallProcess = false;
 
   @override
@@ -155,7 +156,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                       width: 400,
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                          vertical: 10,
+                                          vertical: 2,
                                           horizontal: 30,
                                         ),
                                         child: TextFormField(
@@ -192,6 +193,59 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                             else
                                               return null;
                                           },
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 400,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                          horizontal: 30,
+                                        ),
+                                        child: TextFormField(
+                                          textAlign: TextAlign.center,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.white,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                const Radius.circular(50.0),
+                                              ),
+                                            ),
+                                            filled: true,
+                                            fillColor: Color(0xFFf9f9f9),
+                                            hintStyle: TextStyle(
+                                              color: Colors.grey[500],
+                                            ),
+                                            hintText: "Password",
+                                            suffixIcon: IconButton(
+                                              icon: Icon(_hidePassword
+                                                  ? Icons.visibility_off
+                                                  : Icons.visibility),
+                                              onPressed: () {
+                                                setState(() {
+                                                  _hidePassword =
+                                                      !_hidePassword;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          autofocus: false,
+                                          obscureText: _hidePassword,
+                                          style: TextStyle(),
+                                          keyboardType:
+                                              TextInputType.visiblePassword,
+                                          maxLength: 50,
+                                          onSaved: (input) =>
+                                              requestModel.password = input,
+                                          validator: (input) => input.length <
+                                                      6 ||
+                                                  input.isEmpty
+                                              ? "Password should be at least 6 character long"
+                                              : null,
                                         ),
                                       ),
                                     ),

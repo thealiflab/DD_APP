@@ -14,6 +14,7 @@ class RegisterThirdResponseModel {
 class RegisterThirdRequestModel {
   String name;
   String email;
+  String password;
 
   RegisterThirdRequestModel({this.name, this.email});
 
@@ -21,6 +22,7 @@ class RegisterThirdRequestModel {
     Map<String, dynamic> map = {
       'name': name,
       'email': email,
+      'password': password,
     };
     return map;
   }
