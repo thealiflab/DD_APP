@@ -1,6 +1,7 @@
 import 'package:dd_app/screens/air_only.dart';
 import 'package:dd_app/screens/bus_only.dart';
 import 'package:dd_app/screens/helicopter_only.dart';
+import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
 import 'package:dd_app/screens/hotel_only.dart';
 import 'package:dd_app/screens/login_screen.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
@@ -11,8 +12,9 @@ import 'package:dd_app/screens/enter_phone.dart';
 import 'package:dd_app/screens/otp_code.dart';
 import 'package:dd_app/screens/registration_details.dart';
 import 'package:dd_app/screens/login_register.dart';
-import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/about_us.dart';
+import 'package:dd_app/screens/home_screen/home_page.dart';
+import 'package:dd_app/screens/discounts.dart';
 
 void main() => runApp(MyApp());
 
@@ -37,6 +39,8 @@ class MyApp extends StatelessWidget {
         OTPCode.id: (context) => OTPCode(),
         RegistrationNewUser.id: (context) => RegistrationNewUser(),
         HomePage.id: (context) => HomePage(),
+        OpenQRScanner.id: (context) => OpenQRScanner(),
+        Discounts.id: (context) => Discounts(),
         HotelOnly.id: (context) => HotelOnly(),
         RestaurantOnly.id: (context) => RestaurantOnly(),
         BusOnly.id: (context) => BusOnly(),

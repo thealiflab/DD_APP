@@ -9,10 +9,12 @@ import 'package:dd_app/components/popular_deals.dart';
 import 'package:dd_app/components/services.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:dd_app/screens/about_us.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'drawer_per_user.dart';
 import 'package:dd_app/model/customer_info_model.dart';
 import 'package:dd_app/api/customer_api.dart';
 import 'package:dd_app/screens/share_your_location.dart';
+import 'open_qr_scanner.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -23,6 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   void _openEndDrawer() {
     _scaffoldKey.currentState.openEndDrawer();
   }
@@ -131,7 +134,10 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _bottomNavigationBarIndex,
         onTap: (value) {
           if (value == 2) {
-            _openEndDrawer();
+            _openEndDrawer(); // To open right side drawer
+          }
+          if (value == 1) {
+            Navigator.pushNamed(context, OpenQRScanner.id);
           }
         },
         items: [
@@ -223,21 +229,23 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.grey,
                     ),
                   ),
-                  Container(
-                    height: 50.0,
-                    width: MediaQuery.of(context).size.width * 0.79,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Search Your Deals',
-                        hintStyle: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.0,
-                          color: Colors.grey.withOpacity(0.8),
+                  Expanded(
+                    child: Container(
+                      height: 50.0,
+                      width: MediaQuery.of(context).size.width * 0.79,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Search Your Deals',
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.0,
+                            color: Colors.grey.withOpacity(0.8),
+                          ),
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -261,7 +269,7 @@ class _HomePageState extends State<HomePage> {
             endIndent: 50,
           ),
           SizedBox(
-            height: 12,
+            height: 5,
           ),
           Container(
             height: 120,
@@ -356,12 +364,14 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             SizedBox(
-                              height: 7,
+                              height: 5,
                             ),
                             Center(
                               child: Text(
                                 services[index].title,
-                                style: TextStyle(fontSize: 16.0),
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                ),
                               ),
                             ),
                           ],

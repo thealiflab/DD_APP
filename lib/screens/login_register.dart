@@ -1,4 +1,5 @@
 import 'package:dd_app/screens/enter_phone.dart';
+import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                 height: MediaQuery.of(context).size.width * 0.45,
               ),
               Text(
-                'Dream Destination',
+                'DD Travel App',
                 style: TextStyle(
                   height: 2,
                   fontSize: 22,
@@ -120,7 +121,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                     ),
                   ),
                   onPressed: () {
-                    /*...*/
+                    Navigator.pushNamed(context, HomePage.id);
                   },
                   child: Text(
                     "Skip >",

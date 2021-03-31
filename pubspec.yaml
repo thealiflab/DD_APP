@@ -14,7 +14,7 @@ description: Travel Made Simple
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   http:
@@ -23,10 +23,11 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^1.0.1
   pinput: any
   flutter_svg: any
   dio: ^3.0.10
+  qr_code_scanner: ^0.4.0
 
 dev_dependencies:
   flutter_test:
