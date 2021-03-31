@@ -2,6 +2,7 @@ import 'package:dd_app/screens/enter_phone.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:dd_app/utilities/constants.dart';
 
 class LoginRegister extends StatefulWidget {
   static const String id = "deal_swiper";
@@ -22,7 +23,7 @@ class _LoginRegisterState extends State<LoginRegister> {
             end: Alignment.bottomCenter,
             colors: [
               Color(0xFF34d3ae),
-              Color(0xFF24b5c4),
+              kPrimaryColor,
             ],
           ),
         ),
@@ -95,7 +96,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                   "Login",
                   style: TextStyle(
                     fontSize: 18,
-                    color: Color(0xFF24b5c4),
+                    color: kPrimaryColor,
                   ),
                 ),
               ),

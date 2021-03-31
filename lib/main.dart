@@ -1,6 +1,6 @@
 import 'package:dd_app/screens/air_only.dart';
 import 'package:dd_app/screens/bus_only.dart';
-import 'package:dd_app/screens/helicopter_only.dart';
+import 'package:dd_app/screens/aviation_only.dart';
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
 import 'package:dd_app/screens/hotel_only.dart';
 import 'package:dd_app/screens/login_screen.dart';

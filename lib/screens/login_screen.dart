@@ -5,6 +5,7 @@ import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/otp_code.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/api/global_ref_values.dart' as ref;
+import 'package:dd_app/utilities/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = "login_screen";
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
               end: Alignment.bottomCenter,
               colors: [
                 Color(0xFF34d3ae),
-                Color(0xFF24b5c4),
+                kPrimaryColor,
               ],
             ),
           ),

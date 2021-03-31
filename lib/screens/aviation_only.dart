@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dd_app/components/popular_deals.dart';
+import 'package:dd_app/utilities/popular_deals.dart';
 
 class HelicopterOnly extends StatefulWidget {
   static const String id = "Helicopter_only";

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:dd_app/progressHUD.dart';
 import 'package:dd_app/model/register_first_phone.dart';
 import 'package:dd_app/api/reg_first_api.dart';
+import 'package:dd_app/utilities/constants.dart';
 
 class EnterPhone extends StatefulWidget {
   static const String id = "enter_your_phone";
@@ -43,7 +44,7 @@ class _EnterPhoneState extends State<EnterPhone> {
               end: Alignment.bottomCenter,
               colors: [
                 Color(0xFF34d3ae),
-                Color(0xFF24b5c4),
+                kPrimaryColor,
               ],
             ),
           ),

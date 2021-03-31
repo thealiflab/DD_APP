@@ -1,20 +1,18 @@
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/air_only.dart';
 import 'package:dd_app/screens/bus_only.dart';
-import 'package:dd_app/screens/helicopter_only.dart';
+import 'package:dd_app/screens/aviation_only.dart';
 import 'package:dd_app/screens/hotel_only.dart';
 import 'package:dd_app/screens/restaurant_only.dart';
 import 'package:flutter/material.dart';
-import 'package:dd_app/components/popular_deals.dart';
-import 'package:dd_app/components/services.dart';
+import 'package:dd_app/utilities/popular_deals.dart';
+import 'package:dd_app/utilities/services.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
-import 'package:dd_app/screens/about_us.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'drawer_per_user.dart';
-import 'package:dd_app/model/customer_info_model.dart';
 import 'package:dd_app/api/customer_api.dart';
 import 'package:dd_app/screens/share_your_location.dart';
 import 'open_qr_scanner.dart';
+import 'package:dd_app/utilities/constants.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -333,8 +331,7 @@ class _HomePageState extends State<HomePage> {
                         break;
                     }
                   },
-                  highlightColor: Color(0xFF24b5c4),
-                  splashColor: Color(0xFF24b5c4),
+                  splashColor: kPrimaryColor,
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 10.0),
                     height: 50,
@@ -359,7 +356,7 @@ class _HomePageState extends State<HomePage> {
                             Center(
                               child: Icon(
                                 services[index].icon,
-                                color: Color(0xFF24b5c4),
+                                color: kPrimaryColor,
                                 size: 30.0,
                               ),
                             ),
@@ -397,7 +394,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Text(
                   'view all',
-                  style: TextStyle(fontSize: 18.0, color: Color(0xFF24b5c4)),
+                  style: TextStyle(fontSize: 18.0, color: kPrimaryColor),
                 )
               ],
             ),
@@ -492,7 +489,7 @@ _hotelPackage(int index) {
                 SizedBox(height: 5),
                 Text(
                   '\$${hotels[index].discount} %',
-                  style: TextStyle(fontSize: 16, color: Color(0xFF24b5c4)),
+                  style: TextStyle(fontSize: 16, color: kPrimaryColor),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
@@ -500,28 +497,28 @@ _hotelPackage(int index) {
                     children: <Widget>[
                       Icon(
                         Icons.directions_car,
-                        color: Color(0xFF24b5c4),
+                        color: kPrimaryColor,
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Icon(
                         Icons.hot_tub,
-                        color: Color(0xFF24b5c4),
+                        color: kPrimaryColor,
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Icon(
                         Icons.local_bar,
-                        color: Color(0xFF24b5c4),
+                        color: kPrimaryColor,
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Icon(
                         Icons.wifi,
-                        color: Color(0xFF24b5c4),
+                        color: kPrimaryColor,
                       ),
                     ],
                   ),
@@ -540,7 +537,7 @@ _hotelPackage(int index) {
                   width: 100,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: Color(0xFF24b5c4),
+                    color: kPrimaryColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26,

@@ -1,6 +1,7 @@
 import 'package:dd_app/screens/login_register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:dd_app/utilities/constants.dart';
 
 class ShareYourLocation extends StatefulWidget {
   static const String id = "share_your_location";
@@ -21,7 +22,7 @@ class _ShareYourLocationState extends State<ShareYourLocation> {
             end: Alignment.bottomCenter,
             colors: [
               Color(0xFF34d3ae),
-              Color(0xFF24b5c4),
+              kPrimaryColor,
             ],
           ),
         ),

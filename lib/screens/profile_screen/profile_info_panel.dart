@@ -9,9 +9,9 @@ class ProfileInfoPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: Container(
-        height: 60,
+        height: 50,
         decoration: BoxDecoration(
           color: Color(0xFFedeef7),
           borderRadius: BorderRadius.all(

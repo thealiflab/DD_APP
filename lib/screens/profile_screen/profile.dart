@@ -52,27 +52,6 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 40,
               ),
-              Container(
-                height: 50,
-                width: 100,
-                decoration: BoxDecoration(
-                  color: Color(0xFF24b5c4),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50),
-                  ),
-                ),
-                child: FlatButton(
-                  onPressed: () {
-                    //something
-                  },
-                  child: Text(
-                    'Update',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),

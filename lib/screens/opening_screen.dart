@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dd_app/utilities/constants.dart';
 
 class OpeningScreen extends StatelessWidget {
   static const String id = "openning_screen";
@@ -13,7 +14,7 @@ class OpeningScreen extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               Color(0xFF34d3ae),
-              Color(0xFF24b5c4),
+              kPrimaryColor,
             ],
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:dd_app/progressHUD.dart';
 import 'package:dd_app/model/register_third_details_update.dart';
 import 'package:dd_app/api/reg_third_api.dart';
+import 'package:dd_app/utilities/constants.dart';
 
 class RegistrationNewUser extends StatefulWidget {
   static const String id = "registration_new_user";
@@ -46,7 +47,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
               end: Alignment.bottomCenter,
               colors: [
                 Color(0xFF34d3ae),
-                Color(0xFF24b5c4),
+                kPrimaryColor,
               ],
             ),
           ),

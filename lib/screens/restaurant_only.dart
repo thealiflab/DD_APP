@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dd_app/components/popular_deals.dart';
+import 'package:dd_app/utilities/popular_deals.dart';
+import 'package:dd_app/utilities/constants.dart';
 
 class RestaurantOnly extends StatefulWidget {
   static const String id = "restaurant_only";
@@ -116,7 +117,10 @@ _hotelPackage(int index) {
                 SizedBox(height: 5),
                 Text(
                   '\$${hotels[index].discount} %',
-                  style: TextStyle(fontSize: 16, color: Color(0xFF24b5c4)),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: kPrimaryColor,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
@@ -124,28 +128,28 @@ _hotelPackage(int index) {
                     children: <Widget>[
                       Icon(
                         Icons.directions_car,
-                        color: Color(0xFF24b5c4),
+                        color: kPrimaryColor,
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Icon(
                         Icons.hot_tub,
-                        color: Color(0xFF24b5c4),
+                        color: kPrimaryColor,
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Icon(
                         Icons.local_bar,
-                        color: Color(0xFF24b5c4),
+                        color: kPrimaryColor,
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Icon(
                         Icons.wifi,
-                        color: Color(0xFF24b5c4),
+                        color: kPrimaryColor,
                       ),
                     ],
                   ),
@@ -164,7 +168,7 @@ _hotelPackage(int index) {
                   width: 100,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: Color(0xFF24b5c4),
+                    color: kPrimaryColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26,

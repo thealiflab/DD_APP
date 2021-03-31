@@ -5,6 +5,7 @@ import 'package:dd_app/model/register_second_otp.dart';
 import 'package:dd_app/api/reg_second_api.dart';
 import 'package:dd_app/progressHUD.dart';
 import 'package:dd_app/api/global_ref_values.dart' as ref;
+import 'package:dd_app/utilities/constants.dart';
 
 class OTPCode extends StatefulWidget {
   static const String id = "verification_code";
@@ -54,7 +55,7 @@ class _OTPCodeState extends State<OTPCode> {
               end: Alignment.bottomCenter,
               colors: [
                 Color(0xFF34d3ae),
-                Color(0xFF24b5c4),
+                kPrimaryColor,
               ],
             ),
           ),
@@ -130,7 +131,7 @@ class _OTPCodeState extends State<OTPCode> {
                                         },
                                         followingFieldDecoration: BoxDecoration(
                                           border: Border.all(
-                                            color: Color(0xFF24b5c4),
+                                            color: kPrimaryColor,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(12.0),
@@ -144,7 +145,7 @@ class _OTPCodeState extends State<OTPCode> {
                                         ),
                                         submittedFieldDecoration: BoxDecoration(
                                           border: Border.all(
-                                            color: Color(0xFF24b5c4),
+                                            color: kPrimaryColor,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(12.0),
