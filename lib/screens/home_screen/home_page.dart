@@ -9,7 +9,6 @@ import 'package:dd_app/utilities/popular_deals.dart';
 import 'package:dd_app/utilities/services.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'drawer_per_user.dart';
-import 'package:dd_app/api/customer_api.dart';
 import 'package:dd_app/screens/share_your_location.dart';
 import 'open_qr_scanner.dart';
 import 'package:dd_app/utilities/constants.dart';
@@ -30,12 +29,9 @@ class _HomePageState extends State<HomePage> {
 
   int _bottomNavigationBarIndex = 0;
 
-  CustomerInfo customerData;
-
   @override
   void initState() {
     super.initState();
-    customerData = new CustomerInfo();
   }
 
   @override
