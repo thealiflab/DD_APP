@@ -1,10 +1,15 @@
 import 'package:dd_app/api/login_api.dart';
 import 'package:dd_app/progressHUD.dart';
 import 'package:flutter/material.dart';
+import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/skip_button.dart';
 import 'package:dd_app/utilities/app_join_button.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+//SharedPreferences
+SharedPreferences localStorage;
 
 class LoginScreen extends StatefulWidget {
   static const String id = "login_screen";
@@ -20,11 +25,22 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginRequestModel requestModel;
   bool _isApiCallProcess = false;
 
+  Future sharedPrefFunc() async {
+    localStorage = await SharedPreferences.getInstance();
+  }
+
   @override
   void initState() {
     super.initState();
+    sharedPrefFunc();
     //requestModel object is created for sending data to web-server through api
     requestModel = new LoginRequestModel();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    super.dispose();
   }
 
   @override
@@ -192,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     AppJoinButton(
                         buttonColor: Colors.white,
                         buttonText: "Login",
-                        onTap: () {
+                        onTap: () async {
                           if (validateAndSave()) {
                             setState(() {
                               _isApiCallProcess = true;
@@ -207,24 +223,43 @@ class _LoginScreenState extends State<LoginScreen> {
                                 });
 
                                 //Will print received data from web-server through api
+                                print("Below data is got from api");
                                 print(value.CI);
                                 print(value.token);
 
-                                //TODO login validationg check slightly, previously done with snackbar
-                                // if (value.token.isNotEmpty) {
-                                //   final snackBar = SnackBar(
-                                //     content: Text("Login Successful"),
-                                //   );
-                                //   _scaffoldKey.currentState
-                                //       .showSnackBar(snackBar);
-                                //   Navigator.pushNamed(context, HomePage.id);
-                                // } else {
-                                //   final snackBar = SnackBar(
-                                //     content: Text(value.error),
-                                //   );
-                                //   _scaffoldKey.currentState
-                                //       .showSnackBar(snackBar);
-                                // }
+                                //To store data in local storage
+                                //loginDataSave(value.CI, value.token);
+
+                                localStorage.setString('Customer-ID', value.CI);
+                                localStorage.setString(
+                                    'Authorization', value.token);
+
+                                if (value.token.isNotEmpty &&
+                                    localStorage != null) {
+                                  print(
+                                      "Below data is printed from localstorage");
+                                  print(localStorage.get('Customer-ID'));
+                                  print(localStorage.get('Authorization'));
+                                  Navigator.pushNamed(context, HomePage.id);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(value.error),
+                                      duration:
+                                          const Duration(milliseconds: 1500),
+                                      width: 280.0, // Width of the SnackBar.
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal:
+                                            8.0, // Inner padding for SnackBar content.
+                                      ),
+                                      behavior: SnackBarBehavior.floating,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
                             );
 
