@@ -1,11 +1,10 @@
-import 'package:dd_app/api/web_api.dart';
-import 'package:dd_app/model/login_user_model.dart';
+import 'package:dd_app/api/login_api.dart';
 import 'package:dd_app/progressHUD.dart';
-import 'package:dd_app/screens/home_screen/home_page.dart';
-import 'package:dd_app/screens/otp_code.dart';
 import 'package:flutter/material.dart';
-import 'package:dd_app/api/global_ref_values.dart' as ref;
 import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/utilities/skip_button.dart';
+import 'package:dd_app/utilities/app_join_button.dart';
+import 'package:dd_app/utilities/join_now_heading.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = "login_screen";
@@ -24,67 +23,44 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    //requestModel object is created for sending data to web-server through api
     requestModel = new LoginRequestModel();
   }
 
   @override
   Widget build(BuildContext context) {
     return ProgressHUD(
-      child: _UISetup(context),
+      child: _uiSetup(context),
       inAsyncCall: _isApiCallProcess,
       opacity: 0.3,
     );
   }
 
-  @override
-  Widget _UISetup(BuildContext context) {
+  Widget _uiSetup(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
+          height: MediaQuery.of(context)
+              .size
+              .height, //TODO this for all similar page
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF34d3ae),
-                kPrimaryColor,
-              ],
-            ),
-          ),
+          decoration: kPageBackgroundGradientEffect,
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 50, top: 50),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Join now for\nMaximum deals',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 26,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-                Divider(
-                  color: Colors.white,
-                  height: 20,
-                  thickness: 3,
-                  indent: 50,
-                  endIndent: 50,
+                JoinNowHeading(),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.08,
                 ),
                 Column(
                   children: <Widget>[
-                    Image(
-                      image: AssetImage('assets/images/openingthemeimage.png'),
-                      height: MediaQuery.of(context).size.width * 0.3,
-                    ),
+                    // Image(
+                    //   image: AssetImage('assets/images/openingthemeimage.png'),
+                    //   height: MediaQuery.of(context).size.width * 0.3,
+                    // ),
                     Stack(
                       children: <Widget>[
                         Padding(
@@ -113,10 +89,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                       'Enter login Details',
                                       style: TextStyle(
                                         fontSize: 18,
+                                        color: kPrimaryColor,
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 14,
                                     ),
                                     Container(
                                       width: 400,
@@ -126,24 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         child: TextFormField(
                                           textAlign: TextAlign.center,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              ),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                const Radius.circular(50.0),
-                                              ),
-                                            ),
-                                            filled: true,
-                                            fillColor: Color(0xFFf9f9f9),
-                                            hintStyle: TextStyle(
-                                              color: Colors.grey[500],
-                                            ),
-                                            hintText: "Phone",
-                                          ),
-                                          style: TextStyle(),
+                                          decoration: kLoginInputDecoration,
                                           keyboardType: TextInputType.phone,
                                           maxLength: 11,
                                           onSaved: (input) =>
@@ -165,37 +125,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         child: TextFormField(
                                           textAlign: TextAlign.center,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              ),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                const Radius.circular(50.0),
-                                              ),
-                                            ),
-                                            filled: true,
-                                            fillColor: Color(0xFFf9f9f9),
-                                            hintStyle: TextStyle(
-                                              color: Colors.grey[500],
-                                            ),
+                                          decoration:
+                                              kLoginInputDecoration.copyWith(
                                             hintText: "Password",
                                             suffixIcon: IconButton(
                                               icon: Icon(_hidePassword
                                                   ? Icons.visibility_off
                                                   : Icons.visibility),
                                               onPressed: () {
-                                                setState(() {
-                                                  _hidePassword =
-                                                      !_hidePassword;
-                                                });
+                                                setState(
+                                                  () {
+                                                    _hidePassword =
+                                                        !_hidePassword;
+                                                  },
+                                                );
                                               },
                                             ),
                                           ),
-                                          autofocus: false,
                                           obscureText: _hidePassword,
-                                          style: TextStyle(),
                                           keyboardType:
                                               TextInputType.visiblePassword,
                                           maxLength: 50,
@@ -240,96 +187,60 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 15,
+                      height: MediaQuery.of(context).size.height * 0.03,
                     ),
-                    FlatButton(
-                      color: Colors.white,
-                      textColor: Colors.black,
-                      padding: EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 50,
-                      ),
-                      splashColor: Colors.blueAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          50.0,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (validateAndSave()) {
-                          setState(() {
-                            _isApiCallProcess = true;
-                          });
-
-                          LoginService apiService = new LoginService();
-                          apiService.login(requestModel).then((value) {
+                    AppJoinButton(
+                        buttonColor: Colors.white,
+                        buttonText: "Login",
+                        onTap: () {
+                          if (validateAndSave()) {
                             setState(() {
-                              _isApiCallProcess = false;
+                              _isApiCallProcess = true;
                             });
 
-                            //TODO change this and handle this with state management
-                            print(value.CI);
-                            ref.CI = value.CI;
-                            print(value.token);
-                            ref.token = value.token;
+                            //apiService object is created for getting data from web-server through api
+                            LoginService apiService = new LoginService();
+                            apiService.login(requestModel).then(
+                              (value) {
+                                setState(() {
+                                  _isApiCallProcess = false;
+                                });
 
-                            if (value.token.isNotEmpty) {
-                              final snackBar = SnackBar(
-                                content: Text("Login Successful"),
-                              );
-                              _scaffoldKey.currentState.showSnackBar(snackBar);
-                              Navigator.pushNamed(context, HomePage.id);
-                            } else {
-                              final snackBar = SnackBar(
-                                content: Text(value.error),
-                              );
-                              _scaffoldKey.currentState.showSnackBar(snackBar);
-                            }
-                          });
+                                //Will print received data from web-server through api
+                                print(value.CI);
+                                print(value.token);
 
-                          print(requestModel.toJson());
-                        }
-                        // Navigator.pushNamed(context, HomePage.id);
-                      },
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
+                                //TODO login validationg check slightly, previously done with snackbar
+                                // if (value.token.isNotEmpty) {
+                                //   final snackBar = SnackBar(
+                                //     content: Text("Login Successful"),
+                                //   );
+                                //   _scaffoldKey.currentState
+                                //       .showSnackBar(snackBar);
+                                //   Navigator.pushNamed(context, HomePage.id);
+                                // } else {
+                                //   final snackBar = SnackBar(
+                                //     content: Text(value.error),
+                                //   );
+                                //   _scaffoldKey.currentState
+                                //       .showSnackBar(snackBar);
+                                // }
+                              },
+                            );
+
+                            print(requestModel.toJson());
+                          }
+                        },
+                        textColor: kPrimaryColor),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.10,
+                      height: MediaQuery.of(context).size.height * 0.05,
                     ),
                     Align(
                       alignment: Alignment.bottomRight,
-                      child: FlatButton(
-                        color: Colors.transparent,
-                        textColor: Colors.white,
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
-                        ),
-                        splashColor: Colors.blueAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            50.0,
-                          ),
-                          side: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, OTPCode.id);
+                      child: SkipButton(
+                        onTap: () {
+                          //TODO
                         },
-                        child: Text(
-                          "Skip >",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                          ),
-                        ),
                       ),
                     ),
                   ],

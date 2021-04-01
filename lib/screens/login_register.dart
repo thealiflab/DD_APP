@@ -3,9 +3,11 @@ import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/utilities/app_join_button.dart';
+import 'package:dd_app/utilities/skip_button.dart';
 
 class LoginRegister extends StatefulWidget {
-  static const String id = "deal_swiper";
+  static const String id = "login_register";
 
   @override
   _LoginRegisterState createState() => _LoginRegisterState();
@@ -17,16 +19,7 @@ class _LoginRegisterState extends State<LoginRegister> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF34d3ae),
-              kPrimaryColor,
-            ],
-          ),
-        ),
+        decoration: kPageBackgroundGradientEffect,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -39,98 +32,36 @@ class _LoginRegisterState extends State<LoginRegister> {
               Text(
                 'DD Travel App',
                 style: TextStyle(
-                  height: 2,
-                  fontSize: 22,
-                  color: Colors.white,
-                ),
+                    height: 3,
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
               SizedBox(
-                height: 100,
+                height: 70,
               ),
-              FlatButton(
-                color: Colors.transparent,
+              AppJoinButton(
+                buttonColor: Colors.transparent,
+                buttonText: "Registration",
+                onTap: () => Navigator.pushNamed(context, EnterPhone.id),
                 textColor: Colors.white,
-                padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                  horizontal: 92,
-                ),
-                splashColor: Colors.blueAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    50.0,
-                  ),
-                  side: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, EnterPhone.id);
-                },
-                child: Text(
-                  "Registration",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
               ),
               SizedBox(
                 height: 15,
               ),
-              FlatButton(
-                color: Colors.white,
-                padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                  horizontal: 120,
-                ),
-                splashColor: Colors.blueAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    50.0,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, LoginScreen.id);
-                },
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: kPrimaryColor,
-                  ),
-                ),
+              AppJoinButton(
+                buttonColor: Colors.white,
+                buttonText: "Login",
+                onTap: () => Navigator.pushNamed(context, LoginScreen.id),
+                textColor: kPrimaryColor,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.20,
+                height: MediaQuery.of(context).size.height * 0.10,
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                child: FlatButton(
-                  color: Colors.transparent,
-                  textColor: Colors.white,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 20,
-                  ),
-                  splashColor: Colors.blueAccent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      50.0,
-                    ),
-                    side: BorderSide(
-                      color: Colors.white,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, HomePage.id);
-                  },
-                  child: Text(
-                    "Skip >",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.white,
-                    ),
-                  ),
+                child: SkipButton(
+                  onTap: () => Navigator.pushNamed(context, HomePage.id),
                 ),
               ),
             ],
