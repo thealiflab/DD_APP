@@ -23,7 +23,6 @@ class LoginRegister extends StatefulWidget {
 }
 
 class _LoginRegisterState extends State<LoginRegister> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,14 +65,14 @@ class _LoginRegisterState extends State<LoginRegister> {
                 textColor: kPrimaryColor,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.10,
+                height: MediaQuery.of(context).size.height * 0.15,
               ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: SkipButton(
-                  onTap: () => Navigator.pushNamed(context, HomePage.id),
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.bottomRight,
+              //   child: SkipButton(
+              //     onTap: () => Navigator.pushNamed(context, HomePage.id),
+              //   ),
+              // ),
             ],
           ),
         ),

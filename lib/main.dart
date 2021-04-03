@@ -7,7 +7,6 @@ import 'package:dd_app/screens/login_screen.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:dd_app/screens/restaurant_only.dart';
 import 'package:flutter/material.dart';
-import 'package:dd_app/screens/share_your_location.dart';
 import 'package:dd_app/screens/enter_phone.dart';
 import 'package:dd_app/screens/otp_code.dart';
 import 'package:dd_app/screens/registration_details.dart';

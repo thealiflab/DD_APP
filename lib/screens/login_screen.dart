@@ -263,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
-                                      backgroundColor: Colors.white,
+                                      backgroundColor: Colors.red,
                                     ),
                                   );
                                 }
@@ -275,16 +275,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         textColor: kPrimaryColor),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
+                      height: MediaQuery.of(context).size.height * 0.20,
                     ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: SkipButton(
-                        onTap: () {
-                          //TODO
-                        },
-                      ),
-                    ),
+                    // Align(
+                    //   alignment: Alignment.bottomRight,
+                    //   child: SkipButton(
+                    //     onTap: () {
+                    //       //TODO
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
