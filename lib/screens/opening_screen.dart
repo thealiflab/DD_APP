@@ -7,12 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dd_app/screens/login_register.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 
-String loggedInEmail;
+String loggedInPhone;
 
 Future userLoggedInOrNot() async {
   final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();
-  loggedInEmail = sharedPreferences.get('phone');
+  loggedInPhone = sharedPreferences.get('phone');
 }
 
 class OpeningScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _OpeningScreenState extends State<OpeningScreen> {
   @override
   void initState() {
     userLoggedInOrNot().whenComplete(() async {
-      loggedInEmail == null
+      loggedInPhone == null
           ? Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => LoginRegister()),

@@ -1,3 +1,5 @@
+import 'package:dd_app/screens/login_screen.dart';
+
 import 'home_screen/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/progressHUD.dart';
@@ -312,7 +314,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                               print(value.message);
                               Navigator.pushNamed(
                                 context,
-                                HomePage.id,
+                                LoginScreen.id,
                               );
                             } else {
                               print(value.message);
@@ -331,39 +333,39 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: FlatButton(
-                        color: Colors.transparent,
-                        textColor: Colors.white,
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
-                        ),
-                        splashColor: Colors.blueAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            50.0,
-                          ),
-                          side: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, HomePage.id);
-                        },
-                        child: Text(
-                          "Skip >",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   height: MediaQuery.of(context).size.height * 0.05,
+                    // ),
+                    // Align(
+                    //   alignment: Alignment.bottomRight,
+                    //   child: FlatButton(
+                    //     color: Colors.transparent,
+                    //     textColor: Colors.white,
+                    //     padding: EdgeInsets.symmetric(
+                    //       vertical: 10,
+                    //       horizontal: 20,
+                    //     ),
+                    //     splashColor: Colors.blueAccent,
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(
+                    //         50.0,
+                    //       ),
+                    //       side: BorderSide(
+                    //         color: Colors.white,
+                    //       ),
+                    //     ),
+                    //     onPressed: () {
+                    //       Navigator.pushNamed(context, HomePage.id);
+                    //     },
+                    //     child: Text(
+                    //       "Skip >",
+                    //       style: TextStyle(
+                    //         fontSize: 20.0,
+                    //         color: Colors.white,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

@@ -3,11 +3,13 @@ import 'package:dd_app/screens/air_only.dart';
 import 'package:dd_app/screens/bus_only.dart';
 import 'package:dd_app/screens/aviation_only.dart';
 import 'package:dd_app/screens/hotel_only.dart';
+import 'package:dd_app/screens/login_register.dart';
 import 'package:dd_app/screens/restaurant_only.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/popular_deals.dart';
 import 'package:dd_app/utilities/services.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'drawer_per_user.dart';
 import 'package:dd_app/screens/share_your_location.dart';
 import 'open_qr_scanner.dart';
@@ -135,12 +137,13 @@ class _HomePageState extends State<HomePage> {
                           Icons.logout,
                         ),
                         title: Text('Logout'),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ShareYourLocation()));
+                        onTap: () async {
+                          SharedPreferences localStorage =
+                              await SharedPreferences.getInstance();
+                          localStorage.remove("phone");
+                          localStorage.remove("Customer-ID");
+                          localStorage.remove("Authorization");
+                          Navigator.pushNamed(context, LoginRegister.id);
                         },
                       ),
                     ],
