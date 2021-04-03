@@ -138,11 +138,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                         title: Text('Logout'),
                         onTap: () async {
-                          SharedPreferences localStorage =
-                              await SharedPreferences.getInstance();
+                          localStorage = await SharedPreferences.getInstance();
                           localStorage.remove("phone");
-                          localStorage.remove("Customer-ID");
-                          localStorage.remove("Authorization");
                           Navigator.pushNamed(context, LoginRegister.id);
                         },
                       ),

@@ -1,6 +1,5 @@
 import 'package:dd_app/screens/login_screen.dart';
-
-import 'home_screen/home_page.dart';
+import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/progressHUD.dart';
 import 'package:dd_app/model/register_third_details_update.dart';
@@ -42,49 +41,20 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          height: MediaQuery.of(context).size.height,
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF34d3ae),
-                kPrimaryColor,
-              ],
-            ),
-          ),
+          decoration: kPageBackgroundGradientEffect,
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 50, top: 50),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Join now for\nMaximum deals',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 26,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-                Divider(
-                  color: Colors.white,
-                  height: 20,
-                  thickness: 3,
-                  indent: 50,
-                  endIndent: 50,
+                JoinNowHeading(),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.08,
                 ),
                 Column(
                   children: <Widget>[
-                    Image(
-                      image: AssetImage('assets/images/openingthemeimage.png'),
-                      height: MediaQuery.of(context).size.width * 0.45,
-                    ),
                     Stack(
                       children: <Widget>[
                         Padding(
@@ -283,7 +253,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                       ],
                     ),
                     SizedBox(
-                      height: 10,
+                      height: MediaQuery.of(context).size.height * 0.03,
                     ),
                     FlatButton(
                       color: Colors.white,
@@ -291,7 +261,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                         vertical: 15,
                         horizontal: 50,
                       ),
-                      splashColor: Colors.blueAccent,
+                      splashColor: kPrimaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                           50.0,
@@ -332,6 +302,9 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                           color: Colors.black,
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
                     ),
                     // SizedBox(
                     //   height: MediaQuery.of(context).size.height * 0.05,

@@ -76,10 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Column(
                   children: <Widget>[
-                    // Image(
-                    //   image: AssetImage('assets/images/openingthemeimage.png'),
-                    //   height: MediaQuery.of(context).size.width * 0.3,
-                    // ),
                     Stack(
                       children: <Widget>[
                         Padding(

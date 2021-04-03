@@ -7,12 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dd_app/screens/login_register.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 
+SharedPreferences localStorage;
 String loggedInPhone;
 
 Future userLoggedInOrNot() async {
-  final SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
-  loggedInPhone = sharedPreferences.get('phone');
+  localStorage = await SharedPreferences.getInstance();
+  loggedInPhone = localStorage.get('phone');
 }
 
 class OpeningScreen extends StatefulWidget {
