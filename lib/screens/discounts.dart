@@ -31,7 +31,7 @@ class _DiscountsState extends State<Discounts> {
             Text(
               receivedData.barCodeString != null
                   ? receivedData.barCodeString
-                  : "Data",
+                  : "Please try manually from the login portal",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,

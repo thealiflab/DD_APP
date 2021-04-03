@@ -25,6 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginRequestModel requestModel;
   bool _isApiCallProcess = false;
 
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   Future sharedPrefFunc() async {
     localStorage = await SharedPreferences.getInstance();
   }
@@ -118,12 +121,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                           horizontal: 30,
                                         ),
                                         child: TextFormField(
+                                          controller: phoneController,
                                           textAlign: TextAlign.center,
                                           decoration: kLoginInputDecoration,
                                           keyboardType: TextInputType.phone,
                                           maxLength: 11,
-                                          onSaved: (input) =>
-                                              requestModel.phone = input,
                                           validator: (input) => input.length <
                                                       11 ||
                                                   input.isEmpty
@@ -140,6 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           horizontal: 30,
                                         ),
                                         child: TextFormField(
+                                          controller: passwordController,
                                           textAlign: TextAlign.center,
                                           decoration:
                                               kLoginInputDecoration.copyWith(
@@ -162,8 +165,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                           keyboardType:
                                               TextInputType.visiblePassword,
                                           maxLength: 50,
-                                          onSaved: (input) =>
-                                              requestModel.password = input,
                                           validator: (input) => input.length <
                                                       6 ||
                                                   input.isEmpty
@@ -214,6 +215,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               _isApiCallProcess = true;
                             });
 
+                            requestModel.phone =
+                                phoneController.text.toString();
+                            requestModel.password =
+                                passwordController.text.toString();
+
                             //apiService object is created for getting data from web-server through api
                             LoginService apiService = new LoginService();
                             apiService.login(requestModel).then(
@@ -228,8 +234,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 print(value.token);
 
                                 //To store data in local storage
-                                //loginDataSave(value.CI, value.token);
-
+                                localStorage.setString(
+                                    'phone', phoneController.text.toString());
                                 localStorage.setString('Customer-ID', value.CI);
                                 localStorage.setString(
                                     'Authorization', value.token);
@@ -237,14 +243,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (value.token.isNotEmpty &&
                                     localStorage != null) {
                                   print(
-                                      "Below data is printed from localstorage");
+                                      "Below data is printed from local storage");
+                                  print(localStorage.get('phone'));
                                   print(localStorage.get('Customer-ID'));
                                   print(localStorage.get('Authorization'));
                                   Navigator.pushNamed(context, HomePage.id);
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(value.error),
+                                      content: Text(
+                                        value.error,
+                                        style: TextStyle(color: Colors.black),
+                                      ),
                                       duration:
                                           const Duration(milliseconds: 1500),
                                       width: 280.0, // Width of the SnackBar.
@@ -257,6 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
+                                      backgroundColor: Colors.white,
                                     ),
                                   );
                                 }

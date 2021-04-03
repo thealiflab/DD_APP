@@ -1,10 +1,11 @@
 import "package:flutter/material.dart";
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:dd_app/utilities/constants.dart';
 
 class ProfilePic extends StatelessWidget {
-  const ProfilePic({
-    Key key,
-  }) : super(key: key);
+  final String imageURL;
+
+  ProfilePic({@required this.imageURL});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,9 @@ class ProfilePic extends StatelessWidget {
         overflow: Overflow.visible,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage('assets/images/homepage/profile.jpg'),
+            backgroundImage: imageURL == null
+                ? AssetImage('assets/images/homepage/profile.jpg')
+                : NetworkImage(baseUrl + "/" + imageURL),
           ),
           Positioned(
             bottom: 0,

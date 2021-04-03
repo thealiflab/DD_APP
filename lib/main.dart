@@ -15,8 +15,26 @@ import 'package:dd_app/screens/login_register.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/discounts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dd_app/utilities/constants.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 
-void main() => runApp(MyApp());
+String loggedInEmail;
+
+Future userLoggedInOrNot() async {
+  final SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+  loggedInEmail = sharedPreferences.get('phone');
+}
+
+void main() {
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+    if (kReleaseMode) exit(1);
+  };
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -26,13 +44,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xFFFCFEFF),
-        primaryColor: Color(0xFF24b5c4),
+        primaryColor: kPrimaryColor,
       ),
       //home: Profile(),
-      initialRoute: ShareYourLocation.id,
+      initialRoute: loggedInEmail == null ? LoginRegister.id : HomePage.id,
       routes: {
         //OpeningScreen.id: (context) => OpeningScreen(),
-        ShareYourLocation.id: (context) => ShareYourLocation(),
+        //ShareYourLocation.id: (context) => ShareYourLocation(),
         LoginRegister.id: (context) => LoginRegister(),
         LoginScreen.id: (context) => LoginScreen(),
         EnterPhone.id: (context) => EnterPhone(),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:dd_app/utilities/constants.dart';
 
 class DrawerPerUser extends StatelessWidget {
-  const DrawerPerUser({
-    Key key,
-  }) : super(key: key);
+  final String imageURL;
+  final String name;
+
+  DrawerPerUser({@required this.imageURL, @required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +32,17 @@ class DrawerPerUser extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50.0),
                   image: DecorationImage(
-                    image: AssetImage('assets/images/homepage/profile.jpg'),
+                    image: imageURL == null
+                    ? AssetImage('assets/images/homepage/profile.jpg') : NetworkImage(baseUrl + "/" + imageURL),
                     fit: BoxFit.cover,
                   ),
-                  boxShadow: [],
                 ),
               ),
               SizedBox(
                 height: 15,
               ),
               Text(
-                'Mr User',
+                name,
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white,
