@@ -202,9 +202,10 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           Text(
                             'Hello,',
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontSize: 20.0,
-                                color: Colors.grey,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 5.0),
@@ -212,7 +213,9 @@ class _HomePageState extends State<HomePage> {
                             snapshot.data['data']['user_fullname'].toString() ??
                                 "Guest User",
                             style: TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: kPrimaryColor),
                           ),
                         ],
                       ),
