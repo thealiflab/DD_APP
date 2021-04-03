@@ -5,6 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/app_join_button.dart';
 import 'package:dd_app/utilities/skip_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+String loggedInEmail;
+
+Future userLoggedInOrNot() async {
+  final SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+  loggedInEmail = sharedPreferences.get('phone');
+}
 
 class LoginRegister extends StatefulWidget {
   static const String id = "login_register";
@@ -14,6 +23,7 @@ class LoginRegister extends StatefulWidget {
 }
 
 class _LoginRegisterState extends State<LoginRegister> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

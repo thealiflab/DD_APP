@@ -15,18 +15,10 @@ import 'package:dd_app/screens/login_register.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/discounts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-
-String loggedInEmail;
-
-Future userLoggedInOrNot() async {
-  final SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
-  loggedInEmail = sharedPreferences.get('phone');
-}
+import 'package:dd_app/screens/opening_screen.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -47,9 +39,9 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
       ),
       //home: Profile(),
-      initialRoute: loggedInEmail == null ? LoginRegister.id : HomePage.id,
+      initialRoute: OpeningScreen.id,
       routes: {
-        //OpeningScreen.id: (context) => OpeningScreen(),
+        OpeningScreen.id: (context) => OpeningScreen(),
         //ShareYourLocation.id: (context) => ShareYourLocation(),
         LoginRegister.id: (context) => LoginRegister(),
         LoginScreen.id: (context) => LoginScreen(),
