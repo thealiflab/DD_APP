@@ -5,15 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences localStorage;
 
-class UserInfoAPI {
-  Future<dynamic> getUData() async {
+class VendorInfoAPI {
+  Future<dynamic> getVData() async {
     localStorage = await SharedPreferences.getInstance();
     print(localStorage != null ? true : false);
     print(localStorage.get('Authorization'));
 
     try {
       http.Response response = await http.get(
-        "$baseUrl/api/v1/customer",
+        "$baseUrl/api/v1/vendor/0",
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',

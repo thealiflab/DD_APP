@@ -1,3 +1,4 @@
+import 'package:dd_app/api/vendor_info_api.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/air_only.dart';
 import 'package:dd_app/screens/bus_only.dart';
@@ -15,6 +16,7 @@ import 'package:dd_app/screens/share_your_location.dart';
 import 'open_qr_scanner.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/api/user_info_api.dart';
+import 'package:dd_app/api/vendor_info_api.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -25,8 +27,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //For API Call
-  Future<dynamic> apiData;
+  Future<dynamic> userApiData;
+  Future<dynamic> vendorApiData;
+
   UserInfoAPI userInfoAPI = UserInfoAPI();
+  VendorInfoAPI vendorInfoAPI = VendorInfoAPI();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -38,8 +43,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    apiData = userInfoAPI.getData();
-    print("printing apiData $apiData");
+    userApiData = userInfoAPI.getUData();
+    vendorApiData = vendorInfoAPI.getVData();
+    print("printing apiData $userApiData");
     super.initState();
   }
 
@@ -52,7 +58,7 @@ class _HomePageState extends State<HomePage> {
             topRight: Radius.circular(35), bottomLeft: Radius.circular(35)),
         child: Drawer(
           child: FutureBuilder<dynamic>(
-              future: userInfoAPI.getData(),
+              future: userInfoAPI.getUData(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   return ListView(
@@ -138,7 +144,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                         title: Text('Logout'),
                         onTap: () async {
-                          localStorage = await SharedPreferences.getInstance();
+                          SharedPreferences localStorage =
+                              await SharedPreferences.getInstance();
                           localStorage.remove("phone");
                           Navigator.pushNamed(context, LoginRegister.id);
                         },
@@ -177,7 +184,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: FutureBuilder<dynamic>(
-        future: userInfoAPI.getData(),
+        future: userInfoAPI.getUData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             print("this is snapshot values below");
@@ -192,7 +199,6 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
                             'Hello,',
@@ -325,53 +331,53 @@ class _HomePageState extends State<HomePage> {
 
                           switch (onTapService) {
                             case 'Hotel':
-                              {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HotelOnly()),
-                                );
-                              }
+                              // {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => HotelOnly()),
+                              //   );
+                              // }
                               break;
 
                             case 'Restaurant':
-                              {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RestaurantOnly()),
-                                );
-                              }
+                              // {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => RestaurantOnly()),
+                              //   );
+                              // }
                               break;
 
                             case 'Air Ticket':
-                              {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AirOnly()),
-                                );
-                              }
+                              // {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => AirOnly()),
+                              //   );
+                              // }
                               break;
 
                             case 'Bus Ticket':
-                              {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BusOnly()),
-                                );
-                              }
+                              // {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => BusOnly()),
+                              //   );
+                              // }
                               break;
 
                             case 'Helicopter':
-                              {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HelicopterOnly()),
-                                );
-                              }
+                              // {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => HelicopterOnly()),
+                              //   );
+                              // }
                               break;
                           }
                         },
@@ -395,7 +401,6 @@ class _HomePageState extends State<HomePage> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 20),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Center(
                                     child: Icon(
@@ -454,19 +459,136 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 20.0,
                 ),
-                Column(
-                  children: <Widget>[
-                    _hotelPackage(0),
-                    SizedBox(height: 20),
-                    _hotelPackage(1),
-                    SizedBox(height: 20),
-                    _hotelPackage(2),
-                    SizedBox(height: 20),
-                    _hotelPackage(4),
-                    SizedBox(height: 20),
-                    _hotelPackage(1),
-                  ],
-                )
+                SingleChildScrollView(
+                  child: FutureBuilder<dynamic>(
+                    future: vendorInfoAPI.getVData(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.all(12),
+                            itemCount: snapshot.data['data'].length,
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              //_countryName(snapshot.data[index]),
+                              return Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    child: Container(
+                                      height: 115,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black12,
+                                            offset: Offset(0.0, 4.0),
+                                            blurRadius: 10.0,
+                                          )
+                                        ],
+                                      ),
+                                      child: Container(
+                                        height: 115,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.90,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10.0),
+                                            bottomLeft: Radius.circular(10.0),
+                                          ),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              height: 115,
+                                              width: 122,
+                                              child: Image(
+                                                image: AssetImage(
+                                                    'assets/images/homepage/6.jpg'),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      snapshot.data['data']
+                                                              [index]
+                                                              ['vendor_name']
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 15.0,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Text(
+                                                      snapshot.data['data']
+                                                              [index][
+                                                              'vendor_full_address']
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 11.0,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 5),
+                                                    Text(
+                                                      '15 %',
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: kPrimaryColor),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Text(
+                                                      snapshot.data['data']
+                                                              [index]
+                                                              ['vendor_phone']
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 11.0,
+                                                        color: kPrimaryColor,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                ),
               ],
             );
           } else {
@@ -476,142 +598,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-_hotelPackage(int index) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-    child: Container(
-      height: 130,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(0.0, 4.0),
-            blurRadius: 10.0,
-          )
-        ],
-      ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            child: Container(
-              height: 130,
-              width: 120,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                ),
-                image: DecorationImage(
-                  image: AssetImage(hotels[index].imageUrl),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 15,
-            right: 110,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  hotels[index].title,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  hotels[index].description,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  '\$${hotels[index].discount} %',
-                  style: TextStyle(fontSize: 16, color: kPrimaryColor),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.directions_car,
-                        color: kPrimaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.hot_tub,
-                        color: kPrimaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.local_bar,
-                        color: kPrimaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.wifi,
-                        color: kPrimaryColor,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 40,
-            left: 300,
-            child: Center(
-              child: Transform.rotate(
-                angle: 3.14159 / -2,
-                child: Container(
-                  height: 50,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: kPrimaryColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 15.0,
-                        offset: Offset(2.0, 4.4),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Claim Now',
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: .2),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
 }

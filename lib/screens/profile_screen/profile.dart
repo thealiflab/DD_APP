@@ -16,7 +16,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    apiData = userInfoAPI.getData();
+    apiData = userInfoAPI.getUData();
     super.initState();
   }
 
@@ -35,7 +35,7 @@ class _ProfileState extends State<Profile> {
         child: Padding(
           padding: const EdgeInsets.only(top: 25),
           child: FutureBuilder<dynamic>(
-            future: userInfoAPI.getData(),
+            future: userInfoAPI.getUData(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return Column(
