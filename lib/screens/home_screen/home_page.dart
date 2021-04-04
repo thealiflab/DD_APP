@@ -1,25 +1,19 @@
 import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:dd_app/screens/about_us.dart';
-import 'package:dd_app/screens/air_only.dart';
-import 'package:dd_app/screens/bus_only.dart';
-import 'package:dd_app/screens/aviation_only.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/login_register.dart';
-import 'package:dd_app/screens/category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/services.dart';
-import 'package:dd_app/utilities/popular_deals.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'drawer_per_user.dart';
-import 'package:dd_app/screens/share_your_location.dart';
 import 'open_qr_scanner.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/api/user_info_api.dart';
-import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'search_bar.dart';
 import 'vendor_card.dart';
+import 'categories_panels.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";

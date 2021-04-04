@@ -15,13 +15,6 @@ class _ViewAllVendorsState extends State<ViewAllVendors> {
   AllVendorsAPI allVendorsAPI = AllVendorsAPI();
 
   @override
-  void initState() {
-    allVendorsApiData = allVendorsAPI.getAVData();
-    // print("printing apiData $userApiData");
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

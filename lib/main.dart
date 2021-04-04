@@ -1,6 +1,3 @@
-import 'package:dd_app/screens/air_only.dart';
-import 'package:dd_app/screens/bus_only.dart';
-import 'package:dd_app/screens/aviation_only.dart';
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/login_screen.dart';
@@ -52,9 +49,6 @@ class MyApp extends StatelessWidget {
         Discounts.id: (context) => Discounts(),
         ViewAllVendors.id: (context) => ViewAllVendors(),
         CategoryPage.id: (context) => CategoryPage(),
-        BusOnly.id: (context) => BusOnly(),
-        AirOnly.id: (context) => AirOnly(),
-        HelicopterOnly.id: (context) => HelicopterOnly(),
         Profile.id: (context) => Profile(),
         AboutUs.id: (context) => AboutUs(),
       },

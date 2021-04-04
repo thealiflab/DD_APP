@@ -15,11 +15,6 @@ class _CategoryPageState extends State<CategoryPage> {
   CategoryVendorsAPI categoryVendorsAPI = CategoryVendorsAPI();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
