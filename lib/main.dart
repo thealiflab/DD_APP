@@ -2,7 +2,7 @@ import 'package:dd_app/screens/air_only.dart';
 import 'package:dd_app/screens/bus_only.dart';
 import 'package:dd_app/screens/aviation_only.dart';
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
-import 'package:dd_app/screens/hotel_only.dart';
+import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/login_screen.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:dd_app/screens/restaurant_only.dart';
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         HomePage.id: (context) => HomePage(),
         OpenQRScanner.id: (context) => OpenQRScanner(),
         Discounts.id: (context) => Discounts(),
-        HotelOnly.id: (context) => HotelOnly(),
+        ViewAllVendors.id: (context) => ViewAllVendors(),
         RestaurantOnly.id: (context) => RestaurantOnly(),
         BusOnly.id: (context) => BusOnly(),
         AirOnly.id: (context) => AirOnly(),

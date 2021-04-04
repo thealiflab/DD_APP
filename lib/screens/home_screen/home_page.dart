@@ -1,9 +1,9 @@
-import 'package:dd_app/api/vendor_info_api.dart';
+import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/air_only.dart';
 import 'package:dd_app/screens/bus_only.dart';
 import 'package:dd_app/screens/aviation_only.dart';
-import 'package:dd_app/screens/hotel_only.dart';
+import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/login_register.dart';
 import 'package:dd_app/screens/restaurant_only.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +16,10 @@ import 'package:dd_app/screens/share_your_location.dart';
 import 'open_qr_scanner.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/api/user_info_api.dart';
-import 'package:dd_app/api/vendor_info_api.dart';
+import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'search_bar.dart';
+import 'vendor_card.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -56,10 +57,10 @@ class _HomePageState extends State<HomePage> {
 
   //For API Call
   Future<dynamic> userApiData;
-  Future<dynamic> vendorApiData;
+  Future<dynamic> topVendorsApiData;
 
   UserInfoAPI userInfoAPI = UserInfoAPI();
-  VendorInfoAPI vendorInfoAPI = VendorInfoAPI();
+  TopVendorsAPI topVendorsAPI = TopVendorsAPI();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     userApiData = userInfoAPI.getUData();
-    vendorApiData = vendorInfoAPI.getVData();
+    topVendorsApiData = topVendorsAPI.getVData();
     print("printing apiData $userApiData");
     super.initState();
   }
@@ -221,8 +222,8 @@ class _HomePageState extends State<HomePage> {
             // ignore: missing_return
             return SmartRefresher(
               enablePullDown: true,
-              enablePullUp: true,
-              header: WaterDropHeader(),
+              enablePullUp: false,
+              header: WaterDropMaterialHeader(),
               footer: CustomFooter(
                 builder: (BuildContext context, LoadStatus mode) {
                   Widget body;
@@ -459,10 +460,18 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.w600),
                         ),
-                        Text(
-                          'view all',
-                          style:
-                              TextStyle(fontSize: 18.0, color: kPrimaryColor),
+                        TextButton(
+                          onPressed: () =>
+                              Navigator.pushNamed(context, ViewAllVendors.id),
+                          style: ButtonStyle(
+                            overlayColor:
+                                MaterialStateProperty.all(Colors.white),
+                          ),
+                          child: Text(
+                            'view all',
+                            style:
+                                TextStyle(fontSize: 18.0, color: kPrimaryColor),
+                          ),
                         )
                       ],
                     ),
@@ -479,7 +488,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SingleChildScrollView(
                     child: FutureBuilder<dynamic>(
-                      future: vendorInfoAPI.getVData(),
+                      future: topVendorsAPI.getVData(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.hasData) {
                           return ListView.builder(
@@ -490,130 +499,7 @@ class _HomePageState extends State<HomePage> {
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
                                 //_countryName(snapshot.data[index]),
-                                return Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      child: Container(
-                                        height: 115,
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black12,
-                                              offset: Offset(0.0, 4.0),
-                                              blurRadius: 10.0,
-                                            )
-                                          ],
-                                        ),
-                                        child: Container(
-                                          height: 115,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.90,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(10.0),
-                                              bottomLeft: Radius.circular(10.0),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                height: 115,
-                                                width: 122,
-                                                child: Image.network(
-                                                  baseUrl +
-                                                      "/" +
-                                                      snapshot.data['data']
-                                                              [index][
-                                                              'vendor_profile_image']
-                                                          .toString(),
-                                                  fit: BoxFit.contain,
-                                                  height: 115,
-                                                  width: 122,
-                                                ),
-                                                // Image(
-                                                //   image: AssetImage(
-                                                //       'assets/images/homepage/6.jpg'),
-                                                // ),
-                                              ),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        snapshot.data['data']
-                                                                [index]
-                                                                ['vendor_name']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontSize: 15.0,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Text(
-                                                        snapshot.data['data']
-                                                                [index][
-                                                                'vendor_full_address']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontSize: 11.0,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 5),
-                                                      Text(
-                                                        '15 %',
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            color:
-                                                                kPrimaryColor),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Text(
-                                                        snapshot.data['data']
-                                                                [index]
-                                                                ['vendor_phone']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontSize: 11.0,
-                                                          color: kPrimaryColor,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 2,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
-                                );
+                                return VendorCard(context, snapshot, index);
                               });
                         } else {
                           return Center(child: CircularProgressIndicator());
