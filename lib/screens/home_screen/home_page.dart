@@ -348,53 +348,68 @@ class _HomePageState extends State<HomePage> {
 
                             switch (onTapService) {
                               case 'Hotel':
-                                // {
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => HotelOnly()),
-                                //   );
-                                // }
+                                {
+                                  Navigator.pushNamed(
+                                    context,
+                                    RestaurantOnly.id,
+                                    arguments: {
+                                      'service_name': onTapService,
+                                      'id': '1'
+                                    },
+                                  );
+                                }
                                 break;
 
                               case 'Restaurant':
-                                // {
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => RestaurantOnly()),
-                                //   );
-                                // }
+                                {
+                                  Navigator.pushNamed(
+                                    context,
+                                    RestaurantOnly.id,
+                                    arguments: {
+                                      'service_name': onTapService,
+                                      'id': '2'
+                                    },
+                                  );
+                                }
                                 break;
 
                               case 'Air Ticket':
-                                // {
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => AirOnly()),
-                                //   );
-                                // }
+                                {
+                                  Navigator.pushNamed(
+                                    context,
+                                    RestaurantOnly.id,
+                                    arguments: {
+                                      'service_name': onTapService,
+                                      'id': '4'
+                                    },
+                                  );
+                                }
                                 break;
 
                               case 'Bus Ticket':
-                                // {
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => BusOnly()),
-                                //   );
-                                // }
+                                {
+                                  Navigator.pushNamed(
+                                    context,
+                                    RestaurantOnly.id,
+                                    arguments: {
+                                      'service_name': onTapService,
+                                      'id': '3'
+                                    },
+                                  );
+                                }
                                 break;
 
-                              case 'Helicopter':
-                                // {
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => HelicopterOnly()),
-                                //   );
-                                // }
+                              case 'Aviation':
+                                {
+                                  Navigator.pushNamed(
+                                    context,
+                                    RestaurantOnly.id,
+                                    arguments: {
+                                      'service_name': onTapService,
+                                      'id': '5'
+                                    },
+                                  );
+                                }
                                 break;
                             }
                           },

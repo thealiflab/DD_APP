@@ -1,6 +1,6 @@
+import 'package:dd_app/api/category_vendors_api.dart';
 import 'package:flutter/material.dart';
-import 'package:dd_app/utilities/popular_deals.dart';
-import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/screens/home_screen/vendor_card.dart';
 
 class RestaurantOnly extends StatefulWidget {
   static const String id = "restaurant_only";
@@ -10,13 +10,23 @@ class RestaurantOnly extends StatefulWidget {
 }
 
 class _RestaurantOnlyState extends State<RestaurantOnly> {
+  //For API Call
+  Future<dynamic> categoryVendorsApiData;
+  CategoryVendorsAPI categoryVendorsAPI = CategoryVendorsAPI();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'All Restaurants',
+          arguments['service_name'],
           style: TextStyle(
             color: Colors.white,
           ),
@@ -31,168 +41,43 @@ class _RestaurantOnlyState extends State<RestaurantOnly> {
           },
         ),
       ),
-      body: ListView(
-        children: <Widget>[
-          //popular hotel
-          SizedBox(
-            height: 30.0,
-          ),
-          Column(
-            children: <Widget>[
-              _hotelPackage(0),
-              SizedBox(height: 20),
-              _hotelPackage(1),
-              SizedBox(height: 20),
-              _hotelPackage(2),
-              SizedBox(height: 20),
-              _hotelPackage(4),
-              SizedBox(height: 20),
-              _hotelPackage(1),
-            ],
-          )
-        ],
+      body: SingleChildScrollView(
+        child: FutureBuilder<dynamic>(
+          future: categoryVendorsAPI.getAVData(arguments['id']),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data['status'].toString() == "true") {
+                return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.all(12),
+                  itemCount: snapshot.data['data'].length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return VendorCard(context, snapshot, index);
+                  },
+                );
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Text(
+                      "No Vendor Found",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                );
+              }
+            } else {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+          },
+        ),
       ),
     );
   }
-}
-
-_hotelPackage(int index) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-    child: Container(
-      height: 130,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(0.0, 4.0),
-            blurRadius: 10.0,
-          )
-        ],
-      ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            child: Container(
-              height: 130,
-              width: 120,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                ),
-                image: DecorationImage(
-                  image: AssetImage(hotels[index].imageUrl),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 15,
-            right: 110,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  hotels[index].title,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  hotels[index].description,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  '\$${hotels[index].discount} %',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: kPrimaryColor,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.directions_car,
-                        color: kPrimaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.hot_tub,
-                        color: kPrimaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.local_bar,
-                        color: kPrimaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.wifi,
-                        color: kPrimaryColor,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 40,
-            left: 300,
-            child: Center(
-              child: Transform.rotate(
-                angle: 3.14159 / -2,
-                child: Container(
-                  height: 50,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: kPrimaryColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 15.0,
-                        offset: Offset(2.0, 4.4),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Claim Now',
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: .2),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
 }
