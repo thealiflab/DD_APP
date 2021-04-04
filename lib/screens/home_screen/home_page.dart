@@ -5,10 +5,10 @@ import 'package:dd_app/screens/bus_only.dart';
 import 'package:dd_app/screens/aviation_only.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/login_register.dart';
-import 'package:dd_app/screens/restaurant_only.dart';
+import 'package:dd_app/screens/category_page.dart';
 import 'package:flutter/material.dart';
-import 'package:dd_app/utilities/popular_deals.dart';
 import 'package:dd_app/utilities/services.dart';
+import 'package:dd_app/utilities/popular_deals.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'drawer_per_user.dart';
@@ -342,122 +342,8 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                       itemCount: services.length,
                       itemBuilder: (BuildContext context, index) {
-                        return InkWell(
-                          onTap: () {
-                            var onTapService = services[index].title;
-
-                            switch (onTapService) {
-                              case 'Hotel':
-                                {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RestaurantOnly.id,
-                                    arguments: {
-                                      'service_name': onTapService,
-                                      'id': '1'
-                                    },
-                                  );
-                                }
-                                break;
-
-                              case 'Restaurant':
-                                {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RestaurantOnly.id,
-                                    arguments: {
-                                      'service_name': onTapService,
-                                      'id': '2'
-                                    },
-                                  );
-                                }
-                                break;
-
-                              case 'Air Ticket':
-                                {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RestaurantOnly.id,
-                                    arguments: {
-                                      'service_name': onTapService,
-                                      'id': '4'
-                                    },
-                                  );
-                                }
-                                break;
-
-                              case 'Bus Ticket':
-                                {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RestaurantOnly.id,
-                                    arguments: {
-                                      'service_name': onTapService,
-                                      'id': '3'
-                                    },
-                                  );
-                                }
-                                break;
-
-                              case 'Aviation':
-                                {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RestaurantOnly.id,
-                                    arguments: {
-                                      'service_name': onTapService,
-                                      'id': '5'
-                                    },
-                                  );
-                                }
-                                break;
-                            }
-                          },
-                          splashColor: kPrimaryColor,
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10.0),
-                            height: 50,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(22),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  offset: Offset(0.0, 4.0),
-                                  blurRadius: 10.0,
-                                )
-                              ],
-                            ),
-                            child: Center(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: Column(
-                                  children: <Widget>[
-                                    Center(
-                                      child: Icon(
-                                        services[index].icon,
-                                        color: kPrimaryColor,
-                                        size: 30.0,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Center(
-                                      child: Text(
-                                        services[index].title,
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                        return CategoriesPanels(
+                          indexNo: index,
                         );
                       },
                     ),

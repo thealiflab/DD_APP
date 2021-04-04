@@ -5,7 +5,7 @@ import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/login_screen.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
-import 'package:dd_app/screens/restaurant_only.dart';
+import 'package:dd_app/screens/category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/screens/enter_phone.dart';
 import 'package:dd_app/screens/otp_code.dart';
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         OpenQRScanner.id: (context) => OpenQRScanner(),
         Discounts.id: (context) => Discounts(),
         ViewAllVendors.id: (context) => ViewAllVendors(),
-        RestaurantOnly.id: (context) => RestaurantOnly(),
+        CategoryPage.id: (context) => CategoryPage(),
         BusOnly.id: (context) => BusOnly(),
         AirOnly.id: (context) => AirOnly(),
         HelicopterOnly.id: (context) => HelicopterOnly(),

@@ -2,14 +2,14 @@ import 'package:dd_app/api/category_vendors_api.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/screens/home_screen/vendor_card.dart';
 
-class RestaurantOnly extends StatefulWidget {
-  static const String id = "restaurant_only";
+class CategoryPage extends StatefulWidget {
+  static const String id = "category_page";
 
   @override
-  _RestaurantOnlyState createState() => _RestaurantOnlyState();
+  _CategoryPageState createState() => _CategoryPageState();
 }
 
-class _RestaurantOnlyState extends State<RestaurantOnly> {
+class _CategoryPageState extends State<CategoryPage> {
   //For API Call
   Future<dynamic> categoryVendorsApiData;
   CategoryVendorsAPI categoryVendorsAPI = CategoryVendorsAPI();
