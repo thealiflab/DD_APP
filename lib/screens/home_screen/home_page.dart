@@ -29,12 +29,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //Pull Down Refresher
-  List<String> items = ["1", "2", "3", "4", "5", "6", "7", "8"];
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
     // monitor network fetch
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => HomePage(),
+        transitionDuration: Duration(seconds: 0),
+      ),
+    );
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
@@ -44,7 +50,6 @@ class _HomePageState extends State<HomePage> {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
-    items.add((items.length + 1).toString());
     if (mounted) setState(() {});
     _refreshController.loadComplete();
   }
@@ -522,10 +527,21 @@ class _HomePageState extends State<HomePage> {
                                               Container(
                                                 height: 115,
                                                 width: 122,
-                                                child: Image(
-                                                  image: AssetImage(
-                                                      'assets/images/homepage/6.jpg'),
+                                                child: Image.network(
+                                                  baseUrl +
+                                                      "/" +
+                                                      snapshot.data['data']
+                                                              [index][
+                                                              'vendor_profile_image']
+                                                          .toString(),
+                                                  fit: BoxFit.contain,
+                                                  height: 115,
+                                                  width: 122,
                                                 ),
+                                                // Image(
+                                                //   image: AssetImage(
+                                                //       'assets/images/homepage/6.jpg'),
+                                                // ),
                                               ),
                                               Expanded(
                                                 child: Padding(

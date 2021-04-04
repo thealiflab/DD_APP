@@ -248,12 +248,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        value.error,
-                                        style: TextStyle(color: Colors.black),
+                                        "Login Details Incorrect!",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       duration:
-                                          const Duration(milliseconds: 1500),
-                                      width: 280.0, // Width of the SnackBar.
+                                          const Duration(milliseconds: 2000),
+                                      width: 280.0,
+                                      backgroundColor: Colors.white,
                                       padding: const EdgeInsets.symmetric(
                                         horizontal:
                                             8.0, // Inner padding for SnackBar content.
@@ -263,7 +267,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
-                                      backgroundColor: Colors.red,
                                     ),
                                   );
                                 }

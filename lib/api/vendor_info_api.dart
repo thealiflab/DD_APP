@@ -13,7 +13,7 @@ class VendorInfoAPI {
 
     try {
       http.Response response = await http.get(
-        "$baseUrl/api/v1/vendor/0",
+        "$baseUrl/api/v1/globals/topVendors",
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',
