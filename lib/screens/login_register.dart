@@ -3,7 +3,7 @@ import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
-import 'package:dd_app/utilities/app_join_button.dart';
+import 'package:dd_app/utilities/action_button.dart';
 import 'package:dd_app/utilities/skip_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,7 +49,7 @@ class _LoginRegisterState extends State<LoginRegister> {
               SizedBox(
                 height: 70,
               ),
-              AppJoinButton(
+              ActionButton(
                 buttonColor: Colors.transparent,
                 buttonText: "Registration",
                 onTap: () => Navigator.pushNamed(context, EnterPhone.id),
@@ -58,7 +58,7 @@ class _LoginRegisterState extends State<LoginRegister> {
               SizedBox(
                 height: 15,
               ),
-              AppJoinButton(
+              ActionButton(
                 buttonColor: Colors.white,
                 buttonText: "Login",
                 onTap: () => Navigator.pushNamed(context, LoginScreen.id),

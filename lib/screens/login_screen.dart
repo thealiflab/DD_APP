@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/skip_button.dart';
-import 'package:dd_app/utilities/app_join_button.dart';
+import 'package:dd_app/utilities/action_button.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.03,
                     ),
-                    AppJoinButton(
+                    ActionButton(
                         buttonColor: Colors.white,
                         buttonText: "Login",
                         onTap: () async {
@@ -275,16 +275,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         textColor: kPrimaryColor),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.20,
+                      height: MediaQuery.of(context).size.height * 0.14,
                     ),
-                    // Align(
-                    //   alignment: Alignment.bottomRight,
-                    //   child: SkipButton(
-                    //     onTap: () {
-                    //       //TODO
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 ),
               ],
