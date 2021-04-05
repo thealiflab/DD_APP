@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   //For Logout API Call
-  bool _isApiCallProcess = false;
+  bool showProgress = false;
   LogoutResponse logoutResponse;
   LogoutAPI apiService = LogoutAPI();
 
@@ -175,41 +175,29 @@ class _HomePageState extends State<HomePage> {
                         onTap: () async {
                           SharedPreferences localStorage =
                               await SharedPreferences.getInstance();
-                          localStorage.remove("phone");
-
-                          if (localStorage.getBool('phone') == null) {
-                            apiService
-                                .postLogoutResponse(logoutResponse)
-                                .then((value) {
-                              if (value.status) {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (BuildContext context,
-                                          Animation animation,
-                                          Animation secondaryAnimation) {
-                                        return LoginRegister();
-                                      },
-                                      transitionsBuilder: (BuildContext context,
-                                          Animation<double> animation,
-                                          Animation<double> secondaryAnimation,
-                                          Widget child) {
-                                        return new SlideTransition(
-                                          position: new Tween<Offset>(
-                                            begin: const Offset(1.0, 0.0),
-                                            end: Offset.zero,
-                                          ).animate(animation),
-                                          child: child,
-                                        );
-                                      },
-                                    ),
-                                    (Route route) => false);
-                              } else {
-                                print('Logout API not called properly');
-                                print(value.message);
-                              }
+                          setState(() {
+                            showProgress = true;
+                          });
+                          apiService
+                              .postLogoutResponse(logoutResponse)
+                              .then((value) {
+                            setState(() {
+                              showProgress = false;
                             });
-                          }
+                            localStorage.remove("phone");
+                            if (value.status) {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      LoginRegister(),
+                                ),
+                                (Route route) => false,
+                              );
+                            } else {
+                              print('Logout API not called properly');
+                              print(value.message);
+                            }
+                          });
                         },
                       ),
                     ],
@@ -245,209 +233,218 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: FutureBuilder<dynamic>(
-        future: userInfoAPI.getUData(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            print("this is snapshot values below");
-            print(snapshot.data['data']['user_fullname'].toString());
-            // ignore: missing_return
-            return SmartRefresher(
-              enablePullDown: true,
-              enablePullUp: false,
-              header: WaterDropMaterialHeader(),
-              footer: CustomFooter(
-                builder: (BuildContext context, LoadStatus mode) {
-                  Widget body;
-                  if (mode == LoadStatus.idle) {
-                    body = Text("pull up load");
-                  } else if (mode == LoadStatus.loading) {
-                    body = CircularProgressIndicator();
-                  } else if (mode == LoadStatus.failed) {
-                    body = Text("Load Failed!Click retry!");
-                  } else if (mode == LoadStatus.canLoading) {
-                    body = Text("release to load more");
-                  } else {
-                    body = Text("No more Data");
-                  }
-                  return Container(
-                    height: 55.0,
-                    child: Center(child: body),
-                  );
-                },
-              ),
-              controller: _refreshController,
-              onRefresh: _onRefresh,
-              onLoading: _onLoading,
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              'Hello,',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 5.0),
-                            Text(
-                              snapshot.data['data']['user_fullname']
-                                      .toString() ??
-                                  "Guest User",
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: kPrimaryColor),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black54,
-                                  offset: Offset(0.0, 4),
-                                  blurRadius: 10.0)
-                            ],
-                          ),
-                          child: CircleAvatar(
-                            backgroundImage: snapshot.data['data']
-                                            ['user_profile_image']
-                                        .toString() !=
-                                    null
-                                ? NetworkImage(
-                                    baseUrl +
-                                        "/" +
-                                        snapshot.data['data']
-                                                ['user_profile_image']
-                                            .toString(),
-                                  )
-                                : AssetImage(
-                                    'assets/images/homepage/profile.jpg'),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 3.0),
-//window for search
-                  SearchBar(),
-//popular hotel
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      'Categories',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 20.0),
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.black,
-                    height: 20,
-                    thickness: 2,
-                    indent: 22,
-                    endIndent: 50,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    height: 120,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: services.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return CategoriesPanels(
-                          indexNo: index,
+      body: showProgress
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : FutureBuilder<dynamic>(
+              future: userInfoAPI.getUData(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  print("this is snapshot values below");
+                  print(snapshot.data['data']['user_fullname'].toString());
+                  // ignore: missing_return
+                  return SmartRefresher(
+                    enablePullDown: true,
+                    enablePullUp: false,
+                    header: WaterDropMaterialHeader(),
+                    footer: CustomFooter(
+                      builder: (BuildContext context, LoadStatus mode) {
+                        Widget body;
+                        if (mode == LoadStatus.idle) {
+                          body = Text("pull up load");
+                        } else if (mode == LoadStatus.loading) {
+                          body = CircularProgressIndicator();
+                        } else if (mode == LoadStatus.failed) {
+                          body = Text("Load Failed!Click retry!");
+                        } else if (mode == LoadStatus.canLoading) {
+                          body = Text("release to load more");
+                        } else {
+                          body = Text("No more Data");
+                        }
+                        return Container(
+                          height: 55.0,
+                          child: Center(child: body),
                         );
                       },
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    controller: _refreshController,
+                    onRefresh: _onRefresh,
+                    onLoading: _onLoading,
+                    child: ListView(
                       children: <Widget>[
-                        Text(
-                          'Popular Discount Deals',
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.w600),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 40),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  Text(
+                                    'Hello,',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 5.0),
+                                  Text(
+                                    snapshot.data['data']['user_fullname']
+                                            .toString() ??
+                                        "Guest User",
+                                    style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: kPrimaryColor),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black54,
+                                        offset: Offset(0.0, 4),
+                                        blurRadius: 10.0)
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  backgroundImage: snapshot.data['data']
+                                                  ['user_profile_image']
+                                              .toString() !=
+                                          null
+                                      ? NetworkImage(
+                                          baseUrl +
+                                              "/" +
+                                              snapshot.data['data']
+                                                      ['user_profile_image']
+                                                  .toString(),
+                                        )
+                                      : AssetImage(
+                                          'assets/images/homepage/profile.jpg'),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                        TextButton(
-                          onPressed: () =>
-                              Navigator.pushNamed(context, ViewAllVendors.id),
-                          style: ButtonStyle(
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.white),
-                          ),
+                        SizedBox(height: 3.0),
+//window for search
+                        SearchBar(),
+//popular hotel
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                            'view all',
-                            style:
-                                TextStyle(fontSize: 18.0, color: kPrimaryColor),
+                            'Categories',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 20.0),
                           ),
-                        )
+                        ),
+                        Divider(
+                          color: Colors.black,
+                          height: 20,
+                          thickness: 2,
+                          indent: 22,
+                          endIndent: 50,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          height: 120,
+                          width: double.infinity,
+                          child: ListView.builder(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 7),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: services.length,
+                            itemBuilder: (BuildContext context, index) {
+                              return CategoriesPanels(
+                                indexNo: index,
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Popular Discount Deals',
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pushNamed(
+                                    context, ViewAllVendors.id),
+                                style: ButtonStyle(
+                                  overlayColor:
+                                      MaterialStateProperty.all(Colors.white),
+                                ),
+                                child: Text(
+                                  'view all',
+                                  style: TextStyle(
+                                      fontSize: 18.0, color: kPrimaryColor),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Divider(
+                          color: Colors.black,
+                          height: 20,
+                          thickness: 2,
+                          indent: 22,
+                          endIndent: 50,
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        SingleChildScrollView(
+                          child: FutureBuilder<dynamic>(
+                            future: topVendorsAPI.getVData(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.all(12),
+                                    itemCount: snapshot.data['data'].length,
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      //_countryName(snapshot.data[index]),
+                                      return VendorCard(
+                                          context, snapshot, index);
+                                    });
+                              } else {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              }
+                            },
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                  Divider(
-                    color: Colors.black,
-                    height: 20,
-                    thickness: 2,
-                    indent: 22,
-                    endIndent: 50,
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  SingleChildScrollView(
-                    child: FutureBuilder<dynamic>(
-                      future: topVendorsAPI.getVData(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.all(12),
-                              itemCount: snapshot.data['data'].length,
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) {
-                                //_countryName(snapshot.data[index]),
-                                return VendorCard(context, snapshot, index);
-                              });
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
     );
   }
 }
