@@ -14,6 +14,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'search_bar.dart';
 import 'vendor_card.dart';
 import 'categories_panels.dart';
+import 'package:dd_app/api/logout_api.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -61,6 +62,11 @@ class _HomePageState extends State<HomePage> {
   void _openEndDrawer() {
     _scaffoldKey.currentState.openEndDrawer();
   }
+
+  //For Logout API Call
+  bool _isApiCallProcess = false;
+  LogoutResponse logoutResponse;
+  LogoutAPI apiService = LogoutAPI();
 
   int _bottomNavigationBarIndex = 0;
 
@@ -165,13 +171,45 @@ class _HomePageState extends State<HomePage> {
                         leading: Icon(
                           Icons.logout,
                         ),
-                        //TODO Logout api call from here
                         title: Text('Logout'),
                         onTap: () async {
                           SharedPreferences localStorage =
                               await SharedPreferences.getInstance();
                           localStorage.remove("phone");
-                          Navigator.pushNamed(context, LoginRegister.id);
+
+                          if (localStorage.getBool('phone') == null) {
+                            apiService
+                                .postLogoutResponse(logoutResponse)
+                                .then((value) {
+                              if (value.status) {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (BuildContext context,
+                                          Animation animation,
+                                          Animation secondaryAnimation) {
+                                        return LoginRegister();
+                                      },
+                                      transitionsBuilder: (BuildContext context,
+                                          Animation<double> animation,
+                                          Animation<double> secondaryAnimation,
+                                          Widget child) {
+                                        return new SlideTransition(
+                                          position: new Tween<Offset>(
+                                            begin: const Offset(1.0, 0.0),
+                                            end: Offset.zero,
+                                          ).animate(animation),
+                                          child: child,
+                                        );
+                                      },
+                                    ),
+                                    (Route route) => false);
+                              } else {
+                                print('Logout API not called properly');
+                                print(value.message);
+                              }
+                            });
+                          }
                         },
                       ),
                     ],
