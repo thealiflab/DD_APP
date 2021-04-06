@@ -4,7 +4,6 @@ import 'package:dd_app/screens/login_register.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dd_app/screens/login_register.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 
 SharedPreferences localStorage;
@@ -46,7 +45,7 @@ class _OpeningScreenState extends State<OpeningScreen> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xFF34d3ae),
+            kLightPrimaryColor,
             kPrimaryColor,
           ],
         ),

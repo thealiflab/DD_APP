@@ -5,21 +5,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences localStorage;
 
-class EnterPhoneApi {
-  Future<EnterPhoneResponse> login(PhoneRequest requestModel) async {
+class EnterOTPApi {
+  Future<EnterOTPResponse> login(OTPRequest requestModel) async {
     localStorage = await SharedPreferences.getInstance();
     try {
       if (localStorage.getBool("resetPassword")) {
         final response = await http.post(
           "$baseUrl/api/v1/forgotPassword",
           headers: <String, String>{
-            'State': 'First',
+            'State': 'Second',
           },
           body: requestModel.toJson(),
         );
 
         if (response.statusCode == 200 || response.statusCode == 400) {
-          return EnterPhoneResponse.fromJson(json.decode(response.body));
+          return EnterOTPResponse.fromJson(json.decode(response.body));
         } else {
           throw Exception('Failed to load Data, API calling Failed!');
         }
@@ -27,13 +27,13 @@ class EnterPhoneApi {
         final response = await http.post(
           "$baseUrl/api/v1/customer/register",
           headers: <String, String>{
-            'State': 'First',
+            'State': 'Second',
           },
           body: requestModel.toJson(),
         );
 
         if (response.statusCode == 200 || response.statusCode == 400) {
-          return EnterPhoneResponse.fromJson(json.decode(response.body));
+          return EnterOTPResponse.fromJson(json.decode(response.body));
         } else {
           throw Exception('Failed to load Data, API calling Failed!');
         }
@@ -44,34 +44,38 @@ class EnterPhoneApi {
   }
 }
 
-//to get data from server through api
-class EnterPhoneResponse {
-  final bool status;
+class EnterOTPResponse {
+  final String token;
+  final String CI;
   final String message;
+  final bool status;
 
-  EnterPhoneResponse({
+  EnterOTPResponse({
+    this.token,
+    this.CI,
     this.message,
     this.status,
   });
-  factory EnterPhoneResponse.fromJson(Map<String, dynamic> json) {
-    return EnterPhoneResponse(
+  factory EnterOTPResponse.fromJson(Map<String, dynamic> json) {
+    return EnterOTPResponse(
+      token: json["token"] != null ? json["token"] : "",
+      CI: json["Customer-ID"] != null ? json["Customer-ID"] : "",
       message: json["message"] != null ? json["message"] : "",
       status: json["status"] != null ? json["status"] : "",
     );
   }
 }
 
-//to send data to the server
-class PhoneRequest {
+class OTPRequest {
   String phone;
+  String otp;
 
-  PhoneRequest({
-    this.phone,
-  });
+  OTPRequest({this.phone, this.otp});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'phone': phone.trim(),
+      'phone': phone,
+      'OTP': otp,
     };
     return map;
   }

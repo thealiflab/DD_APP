@@ -15,6 +15,7 @@ import 'package:dd_app/utilities/constants.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:dd_app/screens/opening_screen.dart';
+import 'package:dd_app/screens/authentication/reset_password.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         EnterPhone.id: (context) => EnterPhone(),
         OTPCode.id: (context) => OTPCode(),
-        RegistrationNewUser.id: (context) => RegistrationNewUser(),
+        RegisterUserDetails.id: (context) => RegisterUserDetails(),
+        ResetPassword.id: (context) => ResetPassword(),
         HomePage.id: (context) => HomePage(),
         OpenQRScanner.id: (context) => OpenQRScanner(),
         Discounts.id: (context) => Discounts(),

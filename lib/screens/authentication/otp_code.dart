@@ -1,12 +1,17 @@
-import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/authentication/registration_details.dart';
+import 'package:dd_app/screens/authentication/registration_details.dart';
+import 'package:dd_app/screens/authentication/reset_password.dart';
 import 'package:dd_app/utilities/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
-import 'package:dd_app/model/register_second_otp.dart';
-import 'package:dd_app/api/reg_second_api.dart';
+import 'package:dd_app/api/enter_otp_api.dart';
 import 'package:dd_app/progressHUD.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
+import 'package:dd_app/utilities/snack_bar_message.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+//SharedPreferences
+SharedPreferences localStorage;
 
 class OTPCode extends StatefulWidget {
   static const String id = "verification_code";
@@ -20,7 +25,11 @@ class _OTPCodeState extends State<OTPCode> {
 
   String _OTP = "";
 
-  RegisterSecondRequestModel requestModel;
+  Future sharedPrefFunc() async {
+    localStorage = await SharedPreferences.getInstance();
+  }
+
+  OTPRequest requestModel;
 
   final TextEditingController _pinPutController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
@@ -30,20 +39,20 @@ class _OTPCodeState extends State<OTPCode> {
   @override
   void initState() {
     super.initState();
-    requestModel = new RegisterSecondRequestModel();
+    sharedPrefFunc();
+    requestModel = new OTPRequest();
   }
 
   @override
   Widget build(BuildContext context) {
     return ProgressHUD(
-      child: _UISetup(context),
+      child: _uiSetup(context),
       inAsyncCall: _isApiCallProcess,
       opacity: 0.3,
     );
   }
 
-  @override
-  Widget _UISetup(BuildContext context) {
+  Widget _uiSetup(BuildContext context) {
     Map<String, Object> receivedData =
         ModalRoute.of(context).settings.arguments;
     return Scaffold(
@@ -172,38 +181,45 @@ class _OTPCodeState extends State<OTPCode> {
                         buttonColor: Colors.white,
                         buttonText: "Confirm",
                         onTap: () {
-                          requestModel.otp = _OTP;
-                          requestModel.phone = receivedData['phone'];
-
                           if (validateAndSave()) {
                             setState(() {
                               _isApiCallProcess = true;
                             });
+                            requestModel.otp = _OTP;
+                            requestModel.phone = receivedData['phone'];
 
-                            RegisterServiceSecond apiServices =
-                                RegisterServiceSecond();
+                            EnterOTPApi apiServices = EnterOTPApi();
                             apiServices.login(requestModel).then((value) {
                               setState(() {
                                 _isApiCallProcess = false;
                               });
 
-                              //TODO change this and handle this with state management
-                              print(value.CI);
+                              localStorage.setString(
+                                  "Authorization", value.token.toString());
+                              localStorage.setString(
+                                  "Customer-ID", value.CI.toString());
 
-                              print(value.token);
-
-                              if (value.token.isNotEmpty) {
-                                Navigator.pushNamed(
-                                  context,
-                                  RegistrationNewUser.id,
-                                );
+                              if (value.status) {
+                                if (localStorage.getBool("resetPassword")) {
+                                  Navigator.pushNamed(
+                                    context,
+                                    ResetPassword.id,
+                                  );
+                                } else {
+                                  Navigator.pushNamed(
+                                    context,
+                                    RegisterUserDetails.id,
+                                  );
+                                }
                               } else {
-                                print(value.error);
-                                print('API not called properly');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBarMessage(
+                                    value.message.toString(),
+                                    false,
+                                  ),
+                                );
                               }
                             });
-
-                            print(requestModel.toJson());
                           }
                         },
                         textColor: kPrimaryColor),

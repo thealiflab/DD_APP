@@ -1,19 +1,13 @@
-import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/authentication/enter_phone.dart';
+import 'package:dd_app/screens/authentication/enter_phone.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
-import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/authentication/login_screen.dart';
+import 'package:dd_app/screens/authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/action_button.dart';
 import 'package:dd_app/utilities/skip_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String loggedInEmail;
-
-Future userLoggedInOrNot() async {
-  final SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
-  loggedInEmail = sharedPreferences.get('phone');
-}
+SharedPreferences localStorage;
 
 class LoginRegister extends StatefulWidget {
   static const String id = "login_register";
@@ -52,7 +46,14 @@ class _LoginRegisterState extends State<LoginRegister> {
               ActionButton(
                 buttonColor: Colors.transparent,
                 buttonText: "Registration",
-                onTap: () => Navigator.pushNamed(context, EnterPhone.id),
+                onTap: () async {
+                  localStorage = await SharedPreferences.getInstance();
+                  localStorage.setBool("resetPassword", false);
+                  Navigator.pushNamed(
+                    context,
+                    EnterPhone.id,
+                  );
+                },
                 textColor: Colors.white,
               ),
               SizedBox(

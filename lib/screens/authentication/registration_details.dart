@@ -2,22 +2,22 @@ import 'package:dd_app/utilities/action_button.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/progressHUD.dart';
-import 'package:dd_app/model/register_third_details_update.dart';
-import 'package:dd_app/api/reg_third_api.dart';
+import 'package:dd_app/api/user_details_update_api.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
 import 'package:dd_app/screens/authentication/login_screen.dart';
+import 'package:dd_app/utilities/snack_bar_message.dart';
 
-class RegistrationNewUser extends StatefulWidget {
+class RegisterUserDetails extends StatefulWidget {
   static const String id = "registration_new_user";
 
   @override
-  _RegistrationNewUserState createState() => _RegistrationNewUserState();
+  _RegisterUserDetailsState createState() => _RegisterUserDetailsState();
 }
 
-class _RegistrationNewUserState extends State<RegistrationNewUser> {
+class _RegisterUserDetailsState extends State<RegisterUserDetails> {
   GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
-  RegisterThirdRequestModel requestModel;
+
   bool _hidePassword = true;
   bool _isApiCallProcess = false;
 
@@ -25,25 +25,24 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  UpdateDetailsRequest requestModel;
+
   @override
   void initState() {
     super.initState();
-    requestModel = new RegisterThirdRequestModel();
+    requestModel = new UpdateDetailsRequest();
   }
 
   @override
   Widget build(BuildContext context) {
     return ProgressHUD(
-      child: _UISetup(context),
+      child: _uiSetup(context),
       inAsyncCall: _isApiCallProcess,
       opacity: 0.3,
     );
   }
 
-  @override
-  Widget _UISetup(BuildContext context) {
-    Map<String, Object> receivedData =
-        ModalRoute.of(context).settings.arguments;
+  Widget _uiSetup(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -94,9 +93,6 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                         decoration: kLoginInputDecoration
                                             .copyWith(hintText: "Full Name"),
                                         keyboardType: TextInputType.text,
-                                        onSaved: (value) {
-                                          requestModel.name = value.trim();
-                                        },
                                         validator: (input) => input.isEmpty
                                             ? "Enter valid name"
                                             : null,
@@ -104,15 +100,12 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                     ),
                                     TextFieldContainer(
                                       textField: TextFormField(
+                                        controller: emailController,
                                         textAlign: TextAlign.center,
                                         decoration: kLoginInputDecoration
                                             .copyWith(hintText: "Email"),
-                                        style: TextStyle(),
                                         keyboardType:
                                             TextInputType.emailAddress,
-                                        onSaved: (value) {
-                                          requestModel.email = value.trim();
-                                        },
                                         validator: (value) {
                                           Pattern pattern =
                                               r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
@@ -129,6 +122,7 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                     ),
                                     TextFieldContainer(
                                       textField: TextFormField(
+                                        controller: passwordController,
                                         textAlign: TextAlign.center,
                                         decoration:
                                             kLoginInputDecoration.copyWith(
@@ -149,12 +143,9 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                                         ),
                                         autofocus: false,
                                         obscureText: _hidePassword,
-                                        style: TextStyle(),
                                         keyboardType:
                                             TextInputType.visiblePassword,
                                         maxLength: 50,
-                                        onSaved: (input) =>
-                                            requestModel.password = input,
                                         validator: (input) => input.length <
                                                     6 ||
                                                 input.isEmpty
@@ -205,25 +196,41 @@ class _RegistrationNewUserState extends State<RegistrationNewUser> {
                               _isApiCallProcess = true;
                             });
 
-                            RegisterServiceThird apiService =
-                                new RegisterServiceThird();
+                            requestModel.name =
+                                fullNameController.text.toString();
+                            requestModel.email =
+                                emailController.text.toString();
+                            requestModel.password =
+                                passwordController.text.toString();
+
+                            UserDetailsUpdate apiService =
+                                new UserDetailsUpdate();
                             apiService.login(requestModel).then((value) {
                               setState(() {
                                 _isApiCallProcess = false;
                               });
 
-                              if (value.message.isNotEmpty) {
-                                print(value.message);
+                              if (value.status) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBarMessage(
+                                    "Registration Success!",
+                                    true,
+                                  ),
+                                );
+
                                 Navigator.pushNamed(
                                   context,
                                   LoginScreen.id,
                                 );
                               } else {
-                                print(value.message);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBarMessage(
+                                    value.message.toString(),
+                                    false,
+                                  ),
+                                );
                               }
                             });
-
-                            print(requestModel.toJson());
                           }
                         },
                         textColor: kPrimaryColor),

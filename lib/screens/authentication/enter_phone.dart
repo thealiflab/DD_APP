@@ -6,6 +6,7 @@ import 'package:dd_app/api/enter_phone_api.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
+import 'package:dd_app/utilities/snack_bar_message.dart';
 
 class EnterPhone extends StatefulWidget {
   static const String id = "enter_your_phone";
@@ -16,27 +17,32 @@ class EnterPhone extends StatefulWidget {
 
 class _EnterPhoneState extends State<EnterPhone> {
   GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
-  EnterPhoneRequest requestModel;
+  PhoneRequest requestModel;
   bool _isApiCallProcess = false;
   TextEditingController phoneController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    requestModel = new EnterPhoneRequest();
+    requestModel = new PhoneRequest();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return ProgressHUD(
-      child: _UISetup(context),
+      child: _uiSetup(context),
       inAsyncCall: _isApiCallProcess,
       opacity: 0.3,
     );
   }
 
-  @override
-  Widget _UISetup(BuildContext context) {
+  Widget _uiSetup(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -134,29 +140,32 @@ class _EnterPhoneState extends State<EnterPhone> {
                         _isApiCallProcess = true;
                       });
 
+                      //phone number send to api
+                      requestModel.phone = phoneController.text.toString();
+
                       EnterPhoneApi apiService = new EnterPhoneApi();
                       apiService.login(requestModel).then((value) {
                         setState(() {
                           _isApiCallProcess = false;
                         });
 
-                        //phone number send to api
-                        requestModel.phone = phoneController.text.toString();
-
                         if (value.status) {
                           Navigator.pushNamed(
                             context,
                             OTPCode.id,
                             arguments: {
-                              "phone": phoneController.text.toString(),
+                              "phone": requestModel.phone,
                             },
                           );
                         } else {
-                          print('API is not called properly');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            snackBarMessage(
+                              value.message.toString(),
+                              false,
+                            ),
+                          );
                         }
                       });
-
-                      print(requestModel.toJson());
                     }
                   },
                   textColor: kPrimaryColor,

@@ -28,7 +28,7 @@ class LogoutAPI {
         throw Exception('Failed to load Data');
       }
     } catch (e) {
-      print("Exception Caught which is " + e);
+      throw Exception("Exception Caught which is " + e);
     }
   }
 }
