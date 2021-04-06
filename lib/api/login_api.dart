@@ -19,19 +19,22 @@ class LoginService {
 
 class LoginResponseModel {
   final String token;
-  final String error;
   final String CI;
+  final String message;
+  final bool status;
 
   LoginResponseModel({
     this.token,
-    this.error,
     this.CI,
+    this.message,
+    this.status,
   });
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginResponseModel(
       token: json["token"] != null ? json["token"] : "",
-      error: json["error"] != null ? json["error"] : "",
       CI: json["Customer-ID"] != null ? json["Customer-ID"] : "",
+      message: json["message"] != null ? json["message"] : "",
+      status: json["status"] != null ? json["status"] : "",
     );
   }
 }

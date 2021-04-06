@@ -1,9 +1,8 @@
-import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/authentication/otp_code.dart';
+import 'package:dd_app/screens/authentication/otp_code.dart';
 import 'package:dd_app/utilities/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/progressHUD.dart';
-import 'package:dd_app/model/register_first_phone.dart';
-import 'package:dd_app/api/reg_first_api.dart';
+import 'package:dd_app/api/enter_phone_api.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
@@ -17,13 +16,14 @@ class EnterPhone extends StatefulWidget {
 
 class _EnterPhoneState extends State<EnterPhone> {
   GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
-  RegisterFirstRequestModel requestModel;
+  EnterPhoneRequest requestModel;
   bool _isApiCallProcess = false;
+  TextEditingController phoneController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    requestModel = new RegisterFirstRequestModel();
+    requestModel = new EnterPhoneRequest();
   }
 
   @override
@@ -80,12 +80,11 @@ class _EnterPhoneState extends State<EnterPhone> {
                                 ),
                                 TextFieldContainer(
                                   textField: TextFormField(
+                                    controller: phoneController,
                                     textAlign: TextAlign.center,
                                     decoration: kLoginInputDecoration,
                                     keyboardType: TextInputType.phone,
                                     maxLength: 11,
-                                    onSaved: (input) =>
-                                        requestModel.phone = input,
                                     validator: (input) =>
                                         input.length < 11 || input.isEmpty
                                             ? "Phone Number should be valid"
@@ -135,26 +134,25 @@ class _EnterPhoneState extends State<EnterPhone> {
                         _isApiCallProcess = true;
                       });
 
-                      RegisterServiceFirst apiService =
-                          new RegisterServiceFirst();
+                      EnterPhoneApi apiService = new EnterPhoneApi();
                       apiService.login(requestModel).then((value) {
                         setState(() {
                           _isApiCallProcess = false;
                         });
 
-                        print(value.message);
+                        //phone number send to api
+                        requestModel.phone = phoneController.text.toString();
 
                         if (value.status) {
                           Navigator.pushNamed(
                             context,
                             OTPCode.id,
                             arguments: {
-                              "phone": requestModel.phone,
+                              "phone": phoneController.text.toString(),
                             },
                           );
                         } else {
-                          print('API not called properly');
-                          print(value.error);
+                          print('API is not called properly');
                         }
                       });
 

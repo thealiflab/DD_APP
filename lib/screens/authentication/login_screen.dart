@@ -7,6 +7,7 @@ import 'package:dd_app/utilities/action_button.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
+import 'package:dd_app/utilities/snack_bar_message.dart';
 
 //SharedPreferences
 SharedPreferences localStorage;
@@ -214,47 +215,32 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 //Will print received data from web-server through api
                                 print("Below data is got from api");
+                                print(value.status);
                                 print(value.CI);
                                 print(value.token);
 
-                                //To store data in local storage
-                                localStorage.setString(
-                                    'phone', phoneController.text.toString());
-                                localStorage.setString('Customer-ID', value.CI);
-                                localStorage.setString(
-                                    'Authorization', value.token);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBarMessage(
+                                    "Login Success!",
+                                    true,
+                                  ),
+                                );
 
-                                if (value.token.isNotEmpty &&
-                                    localStorage != null) {
-                                  print(
-                                      "Below data is printed from local storage");
-                                  print(localStorage.get('phone'));
-                                  print(localStorage.get('Customer-ID'));
-                                  print(localStorage.get('Authorization'));
+                                if (value.status) {
+                                  //To store data in local storage
+                                  localStorage.setString(
+                                      'phone', phoneController.text.toString());
+                                  localStorage.setString(
+                                      'Customer-ID', value.CI);
+                                  localStorage.setString(
+                                      'Authorization', value.token);
+
                                   Navigator.pushNamed(context, HomePage.id);
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "Login Details Incorrect!",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      duration:
-                                          const Duration(milliseconds: 2000),
-                                      width: 280.0,
-                                      backgroundColor: Colors.white,
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal:
-                                            8.0, // Inner padding for SnackBar content.
-                                      ),
-                                      behavior: SnackBarBehavior.floating,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
+                                    snackBarMessage(
+                                      value.message.toString(),
+                                      false,
                                     ),
                                   );
                                 }
