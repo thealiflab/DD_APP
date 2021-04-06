@@ -1,10 +1,10 @@
-import 'package:dd_app/screens/registration_details.dart';
+import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/authentication/registration_details.dart';
+import 'package:dd_app/utilities/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:dd_app/model/register_second_otp.dart';
 import 'package:dd_app/api/reg_second_api.dart';
 import 'package:dd_app/progressHUD.dart';
-import 'package:dd_app/api/global_ref_values.dart' as ref;
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
 
@@ -66,12 +66,7 @@ class _OTPCodeState extends State<OTPCode> {
                     Stack(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(
-                            left: 10,
-                            top: 20,
-                            right: 10,
-                            bottom: 10,
-                          ),
+                          padding: kCardPadding,
                           child: Card(
                             elevation: 5,
                             color: Colors.white,
@@ -79,10 +74,7 @@ class _OTPCodeState extends State<OTPCode> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 58,
-                                bottom: 10,
-                              ),
+                              padding: kFormPadding,
                               child: Form(
                                 key: _globalFormKey,
                                 child: Column(
@@ -110,7 +102,7 @@ class _OTPCodeState extends State<OTPCode> {
                                         ),
                                         selectedFieldDecoration: BoxDecoration(
                                           border: Border.all(
-                                            color: Color(0xFF34d3ae),
+                                            color: kLightPrimaryColor,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(12.0),
@@ -129,19 +121,19 @@ class _OTPCodeState extends State<OTPCode> {
                                             : null,
                                       ),
                                     ),
-                                    Text(
-                                      "Didn't receive a code?",
-                                      style: TextStyle(
-                                        color: Colors.black38,
-                                      ),
-                                    ),
-                                    FlatButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Resend',
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    )
+                                    // Text(
+                                    //   "Didn't receive a code?",
+                                    //   style: TextStyle(
+                                    //     color: Colors.black38,
+                                    //   ),
+                                    // ),
+                                    // FlatButton(
+                                    //   onPressed: () {},
+                                    //   child: Text(
+                                    //     'Resend',
+                                    //     style: TextStyle(fontSize: 18),
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               ),
@@ -168,6 +160,7 @@ class _OTPCodeState extends State<OTPCode> {
                           child: Image(
                             image: AssetImage('assets/icons/otpicon.png'),
                             height: 35,
+                            width: 35,
                           ),
                         ),
                       ],
@@ -175,99 +168,48 @@ class _OTPCodeState extends State<OTPCode> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.03,
                     ),
-                    FlatButton(
-                      color: Colors.white,
-                      textColor: Colors.black,
-                      padding: EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 50,
-                      ),
-                      splashColor: Colors.blueAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          50.0,
-                        ),
-                      ),
-                      onPressed: () {
-                        requestModel.otp = _OTP;
-                        requestModel.phone = receivedData['phone'];
+                    ActionButton(
+                        buttonColor: Colors.white,
+                        buttonText: "Confirm",
+                        onTap: () {
+                          requestModel.otp = _OTP;
+                          requestModel.phone = receivedData['phone'];
 
-                        if (validateAndSave()) {
-                          setState(() {
-                            _isApiCallProcess = true;
-                          });
-
-                          RegisterServiceSecond apiServices =
-                              RegisterServiceSecond();
-                          apiServices.login(requestModel).then((value) {
+                          if (validateAndSave()) {
                             setState(() {
-                              _isApiCallProcess = false;
+                              _isApiCallProcess = true;
                             });
 
-                            //TODO change this and handle this with state management
-                            print(value.CI);
-                            ref.CI = value.CI;
-                            print(value.token);
-                            ref.token = value.token;
+                            RegisterServiceSecond apiServices =
+                                RegisterServiceSecond();
+                            apiServices.login(requestModel).then((value) {
+                              setState(() {
+                                _isApiCallProcess = false;
+                              });
 
-                            if (value.token.isNotEmpty) {
-                              Navigator.pushNamed(
-                                context,
-                                RegistrationNewUser.id,
-                              );
-                            } else {
-                              print(value.error);
-                              print('API not called properly');
-                            }
-                          });
+                              //TODO change this and handle this with state management
+                              print(value.CI);
 
-                          print(requestModel.toJson());
-                        }
-                      },
-                      child: Text(
-                        "Confirm",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
+                              print(value.token);
+
+                              if (value.token.isNotEmpty) {
+                                Navigator.pushNamed(
+                                  context,
+                                  RegistrationNewUser.id,
+                                );
+                              } else {
+                                print(value.error);
+                                print('API not called properly');
+                              }
+                            });
+
+                            print(requestModel.toJson());
+                          }
+                        },
+                        textColor: kPrimaryColor),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.13,
                     ),
-                    // SizedBox(
-                    //   height: MediaQuery.of(context).size.height * 0.05,
-                    // ),
-                    // Align(
-                    //   alignment: Alignment.bottomRight,
-                    //   child: FlatButton(
-                    //     color: Colors.transparent,
-                    //     textColor: Colors.white,
-                    //     padding: EdgeInsets.symmetric(
-                    //       vertical: 10,
-                    //       horizontal: 20,
-                    //     ),
-                    //     splashColor: Colors.blueAccent,
-                    //     shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(
-                    //         50.0,
-                    //       ),
-                    //       side: BorderSide(
-                    //         color: Colors.white,
-                    //       ),
-                    //     ),
-                    //     onPressed: () {
-                    //       Navigator.pushNamed(context, RegistrationNewUser.id);
-                    //     },
-                    //     child: Text(
-                    //       "Skip >",
-                    //       style: TextStyle(
-                    //         fontSize: 20.0,
-                    //         color: Colors.white,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ],

@@ -1,3 +1,4 @@
+import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/authentication/enter_phone.dart';
 import 'package:flutter/material.dart';
 
 //API Constants
@@ -34,4 +35,16 @@ const kLoginInputDecoration = InputDecoration(
     color: Colors.grey,
   ),
   hintText: "Phone",
+);
+
+//LoginScreen, EnterPhone, OTPCode, RegistrationDetails
+const kCardPadding = EdgeInsets.only(
+  left: 10,
+  top: 20,
+  right: 10,
+);
+
+const kFormPadding = EdgeInsets.only(
+  top: 58,
+  bottom: 10,
 );

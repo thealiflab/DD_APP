@@ -3,10 +3,10 @@ import 'package:dd_app/progressHUD.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/utilities/constants.dart';
-import 'package:dd_app/utilities/skip_button.dart';
 import 'package:dd_app/utilities/action_button.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dd_app/utilities/text_field_container.dart';
 
 //SharedPreferences
 SharedPreferences localStorage;
@@ -72,19 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 JoinNowHeading(),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.08,
+                  height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 Column(
                   children: <Widget>[
                     Stack(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(
-                            left: 10,
-                            top: 20,
-                            right: 10,
-                            bottom: 5,
-                          ),
+                          padding: kCardPadding,
                           child: Card(
                             elevation: 5,
                             color: Colors.white,
@@ -92,10 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 55,
-                                bottom: 10,
-                              ),
+                              padding: kFormPadding,
                               child: Form(
                                 key: _globalFormKey,
                                 child: Column(
@@ -108,67 +100,62 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 14,
+                                      height: 10,
                                     ),
-                                    Container(
-                                      width: 400,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 30,
-                                        ),
-                                        child: TextFormField(
-                                          controller: phoneController,
-                                          textAlign: TextAlign.center,
-                                          decoration: kLoginInputDecoration,
-                                          keyboardType: TextInputType.phone,
-                                          maxLength: 11,
-                                          validator: (input) => input.length <
-                                                      11 ||
-                                                  input.isEmpty
-                                              ? "Phone Number should be valid"
-                                              : null,
-                                        ),
+                                    TextFieldContainer(
+                                      textField: TextFormField(
+                                        controller: phoneController,
+                                        textAlign: TextAlign.center,
+                                        decoration: kLoginInputDecoration,
+                                        keyboardType: TextInputType.phone,
+                                        maxLength: 11,
+                                        validator: (input) =>
+                                            input.length < 11 || input.isEmpty
+                                                ? "Phone Number should be valid"
+                                                : null,
                                       ),
                                     ),
-                                    Container(
-                                      width: 400,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 2,
-                                          horizontal: 30,
-                                        ),
-                                        child: TextFormField(
-                                          controller: passwordController,
-                                          textAlign: TextAlign.center,
-                                          decoration:
-                                              kLoginInputDecoration.copyWith(
-                                            hintText: "Password",
-                                            suffixIcon: IconButton(
-                                              icon: Icon(_hidePassword
-                                                  ? Icons.visibility_off
-                                                  : Icons.visibility),
-                                              onPressed: () {
-                                                setState(
-                                                  () {
-                                                    _hidePassword =
-                                                        !_hidePassword;
-                                                  },
-                                                );
-                                              },
-                                            ),
+                                    TextFieldContainer(
+                                      textField: TextFormField(
+                                        controller: passwordController,
+                                        textAlign: TextAlign.center,
+                                        decoration:
+                                            kLoginInputDecoration.copyWith(
+                                          hintText: "Password",
+                                          suffixIcon: IconButton(
+                                            icon: Icon(_hidePassword
+                                                ? Icons.visibility_off
+                                                : Icons.visibility),
+                                            onPressed: () {
+                                              setState(
+                                                () {
+                                                  _hidePassword =
+                                                      !_hidePassword;
+                                                },
+                                              );
+                                            },
                                           ),
-                                          obscureText: _hidePassword,
-                                          keyboardType:
-                                              TextInputType.visiblePassword,
-                                          maxLength: 50,
-                                          validator: (input) => input.length <
-                                                      6 ||
-                                                  input.isEmpty
-                                              ? "Password should be at least 6 character long"
-                                              : null,
                                         ),
+                                        obscureText: _hidePassword,
+                                        keyboardType:
+                                            TextInputType.visiblePassword,
+                                        maxLength: 50,
+                                        validator: (input) => input.length <
+                                                    6 ||
+                                                input.isEmpty
+                                            ? "Password should be at least 6 character long"
+                                            : null,
                                       ),
-                                    )
+                                    ),
+                                    Text(
+                                      "Forgotten Password?",
+                                      style: TextStyle(
+                                        color: kPrimaryColor,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -195,6 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Image(
                             image: AssetImage('assets/icons/login.png'),
                             height: 35,
+                            width: 35,
                           ),
                         ),
                       ],
@@ -278,7 +266,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         textColor: kPrimaryColor),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.14,
+                      height: MediaQuery.of(context).size.height * 0.10,
                     ),
                   ],
                 ),

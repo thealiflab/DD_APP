@@ -1,12 +1,12 @@
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
-import 'package:dd_app/screens/login_screen.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:dd_app/screens/category_page.dart';
 import 'package:flutter/material.dart';
-import 'package:dd_app/screens/enter_phone.dart';
-import 'package:dd_app/screens/otp_code.dart';
-import 'package:dd_app/screens/registration_details.dart';
+import 'package:dd_app/screens/authentication/login_screen.dart';
+import 'package:dd_app/screens/authentication/enter_phone.dart';
+import 'package:dd_app/screens/authentication/otp_code.dart';
+import 'package:dd_app/screens/authentication/registration_details.dart';
 import 'package:dd_app/screens/login_register.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';

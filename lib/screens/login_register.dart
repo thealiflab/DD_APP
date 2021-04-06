@@ -1,6 +1,6 @@
-import 'package:dd_app/screens/enter_phone.dart';
+import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/authentication/enter_phone.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
-import 'package:dd_app/screens/login_screen.dart';
+import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/action_button.dart';
