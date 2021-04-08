@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'profile_pic.dart';
 import 'profile_info_panel.dart';
 import 'package:dd_app/api/user_info_api.dart';
+import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/home_screen/claim_now.dart';
 
 class Profile extends StatefulWidget {
   static const String id = "profile";

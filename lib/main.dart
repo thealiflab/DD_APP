@@ -1,4 +1,5 @@
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
+import 'package:dd_app/screens/subscription.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:dd_app/screens/category_page.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         ViewAllVendors.id: (context) => ViewAllVendors(),
         CategoryPage.id: (context) => CategoryPage(),
         Profile.id: (context) => Profile(),
+        Subscription.id: (context) => Subscription(),
         AboutUs.id: (context) => AboutUs(),
       },
     );

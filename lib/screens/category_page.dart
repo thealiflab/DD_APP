@@ -1,6 +1,7 @@
 import 'package:dd_app/api/category_vendors_api.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/screens/home_screen/vendor_card.dart';
+import 'package:dd_app/screens/home_screen/claim_now.dart';
 
 class CategoryPage extends StatefulWidget {
   static const String id = "category_page";
@@ -11,7 +12,6 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   //For API Call
-  Future<dynamic> categoryVendorsApiData;
   CategoryVendorsAPI categoryVendorsAPI = CategoryVendorsAPI();
 
   @override
@@ -49,7 +49,45 @@ class _CategoryPageState extends State<CategoryPage> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    return VendorCard(context, snapshot, index);
+                    return GestureDetector(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    "Discount Claim",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  content: claimNow(snapshot, index),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        "Claim Now",
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              });
+                        },
+                        child: vendorCard(context, snapshot, index));
                   },
                 );
               } else {
