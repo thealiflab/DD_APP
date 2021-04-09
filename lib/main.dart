@@ -1,4 +1,5 @@
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
+import 'package:dd_app/screens/home_screen/search_bar_page.dart';
 import 'package:dd_app/screens/subscription.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         RegisterUserDetails.id: (context) => RegisterUserDetails(),
         ResetPassword.id: (context) => ResetPassword(),
         HomePage.id: (context) => HomePage(),
+        SearchBarPage.id: (context) => SearchBarPage(),
         OpenQRScanner.id: (context) => OpenQRScanner(),
         Discounts.id: (context) => Discounts(),
         ViewAllVendors.id: (context) => ViewAllVendors(),

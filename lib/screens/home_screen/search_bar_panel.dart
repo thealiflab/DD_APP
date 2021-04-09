@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SearchBar extends StatelessWidget {
+class SearchBarPanel extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,28 +21,29 @@ class SearchBar extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Icon(
-                Icons.search,
-                size: 30.0,
-                color: Colors.grey,
-              ),
-            ),
             Expanded(
               child: Container(
                 height: 50.0,
                 width: MediaQuery.of(context).size.width * 0.79,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Search Your Deals',
-                    hintStyle: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16.0,
-                      color: Colors.grey.withOpacity(0.8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 15,
                     ),
-                  ),
+                    Icon(Icons.search),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text(
+                      'Search your Deals',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14.0,
+                        color: Colors.grey.withOpacity(0.7),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

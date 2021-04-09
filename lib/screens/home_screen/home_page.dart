@@ -1,5 +1,6 @@
 import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:dd_app/screens/about_us.dart';
+import 'package:dd_app/screens/home_screen/search_bar_panel.dart';
 import 'package:dd_app/screens/subscription.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/login_register.dart';
@@ -12,13 +13,10 @@ import 'open_qr_scanner.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/api/user_info_api.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'search_bar.dart';
+import 'search_bar_page.dart';
 import 'vendor_card.dart';
 import 'categories_panels.dart';
 import 'package:dd_app/api/logout_api.dart';
-import 'package:dd_app/screens/home_screen/claim_now.dart';
-import 'package:dd_app/api/claim_discount_api.dart';
-import 'package:dd_app/utilities/snack_bar_message.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -339,7 +337,13 @@ class _HomePageState extends State<HomePage> {
                           ),
                           SizedBox(height: 3.0),
 //window for search
-                          SearchBar(),
+
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, SearchBarPage.id);
+                            },
+                            child: SearchBarPanel(),
+                          ),
 //popular hotel
                           SizedBox(
                             height: 20.0,
