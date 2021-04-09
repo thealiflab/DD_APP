@@ -19,13 +19,13 @@ class ClaimDiscountApi {
         body: claimDiscountRequest.toJson(),
       );
 
-      if (response.statusCode == 200 || response.statusCode == 400) {
+      if (response.body != null) {
         return ClaimDiscountResponse.fromJson(json.decode(response.body));
       } else {
         throw Exception('Failed to load Data');
       }
     } catch (e) {
-      throw Exception("Exception Caught which is " + e);
+      print(e);
     }
   }
 }
@@ -55,7 +55,7 @@ class ClaimDiscountRequest {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'vendorUniqueId': vendorUniqueId.trim(),
+      'vendorUniqueId': vendorUniqueId,
     };
     return map;
   }

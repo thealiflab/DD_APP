@@ -15,6 +15,8 @@ class _SubscriptionState extends State<Subscription> {
 
   int monthNumber = 1;
   int feeAmount = 100;
+  var fee;
+  bool isButtonNotPressed = true;
 
   @override
   Widget build(BuildContext context) {
@@ -38,57 +40,79 @@ class _SubscriptionState extends State<Subscription> {
             },
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Card(
-              child: Row(
+        body: isButtonNotPressed
+            ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        monthNumber--;
-                      });
-                    },
-                    icon: Icon(Icons.remove),
+                  Card(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              monthNumber--;
+                            });
+                          },
+                          icon: Icon(Icons.remove),
+                        ),
+                        Text("$monthNumber month"),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              monthNumber++;
+                            });
+                          },
+                          icon: Icon(Icons.add),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text("$monthNumber month"),
-                  IconButton(
+                  TextButton(
                     onPressed: () {
+                      fee = monthNumber * feeAmount;
+                      renewSubAPI.getData("$monthNumber", "bkash", "$fee");
                       setState(() {
-                        monthNumber++;
+                        isButtonNotPressed = !isButtonNotPressed;
                       });
                     },
-                    icon: Icon(Icons.add),
+                    child: Text('Pay Amount'),
+                  ),
+                ],
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      child: FutureBuilder<dynamic>(
+                          future: renewSubAPI.getData(
+                              "$monthNumber", "bkash", "$fee"),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data['status'].toString() ==
+                                  "true") {
+                                print(snapshot.data['message'].toString());
+                                return Text(
+                                  snapshot.data['message'].toString(),
+                                  style: TextStyle(fontSize: 18),
+                                );
+                              } else {
+                                print(snapshot.data['message'].toString());
+                                return Text(
+                                  snapshot.data['message'].toString(),
+                                );
+                              }
+                            } else {
+                              return Text("No Data Found!");
+                            }
+                          }),
+                    ),
                   ),
                 ],
               ),
-            ),
-            TextButton(
-              onPressed: () {
-                var fee = monthNumber * feeAmount;
-                FutureBuilder<dynamic>(
-                    future:
-                        renewSubAPI.getData("$monthNumber", "bkash", "$fee"),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data['status'].toString() == "true") {
-                          print(snapshot.data['message'].toString());
-                          return Text(snapshot.data['message'].toString());
-                        } else {
-                          print(snapshot.data['message'].toString());
-                          return Text(snapshot.data['message'].toString());
-                        }
-                      } else {
-                        return Text("No Data Found!");
-                      }
-                    });
-              },
-              child: Text('Pay Amount'),
-            ),
-          ],
-        ),
       ),
     );
   }

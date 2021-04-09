@@ -7,10 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 ClaimDiscountRequest claimDiscountRequest;
 
-Future apiCall() async {
-  claimDiscountRequest = ClaimDiscountRequest();
-}
-
 AlertDialog claimNowAlertDialog(
     AsyncSnapshot<dynamic> snapshot, int index, BuildContext context) {
   _dial(String phoneNumber) async {
@@ -133,13 +129,16 @@ AlertDialog claimNowAlertDialog(
     actions: [
       TextButton(
         onPressed: () async {
+          claimDiscountRequest = ClaimDiscountRequest();
           claimDiscountRequest.vendorUniqueId =
               snapshot.data['data'][index]['vendor_unique_id'].toString();
+
+          print(snapshot.data['data'][index]['vendor_unique_id']);
 
           print(claimDiscountRequest.vendorUniqueId);
 
           //apiService object is created for getting data from web-server through api
-          ClaimDiscountApi apiCL = new ClaimDiscountApi();
+          ClaimDiscountApi apiCL = ClaimDiscountApi();
           apiCL.login(claimDiscountRequest).then((value) {
             if (value.status) {
               Navigator.pop(context);
