@@ -8,6 +8,11 @@ const baseUrl = "https://apps.dd.limited";
 const kPrimaryColor = Color(0xFF24b5c4);
 const kLightPrimaryColor = Color(0xFF34d3ae);
 
+//home_screen
+const bottomNavigationBarButtonLabelStyle = TextStyle(
+  color: kPrimaryColor,
+);
+
 //login_screen
 const kPageBackgroundGradientEffect = BoxDecoration(
   gradient: LinearGradient(

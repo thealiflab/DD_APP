@@ -89,7 +89,9 @@ class _HomePageState extends State<HomePage> {
         key: _scaffoldKey,
         endDrawer: ClipRRect(
           borderRadius: BorderRadius.only(
-              topRight: Radius.circular(35), bottomLeft: Radius.circular(35)),
+            topRight: Radius.circular(35),
+            bottomLeft: Radius.circular(35),
+          ),
           child: Drawer(
             child: FutureBuilder<dynamic>(
                 future: userInfoAPI.getUData(),
@@ -104,10 +106,11 @@ class _HomePageState extends State<HomePage> {
                           name: snapshot.data['data']['user_fullname']
                                   .toString() ??
                               'Guest User',
-                        ),
+                        ), //DrawerHeader
                         ListTile(
                           leading: Icon(
                             Icons.person,
+                            color: kPrimaryColor,
                           ),
                           title: Text('Profile'),
                           onTap: () {
@@ -122,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                         ListTile(
                           leading: Icon(
                             Icons.description,
+                            color: kPrimaryColor,
                           ),
                           title: Text('Blog'),
                           onTap: () {
@@ -131,6 +135,7 @@ class _HomePageState extends State<HomePage> {
                         ListTile(
                           leading: Icon(
                             Icons.payments,
+                            color: kPrimaryColor,
                           ),
                           title: Text('Payment'),
                           onTap: () {
@@ -140,6 +145,7 @@ class _HomePageState extends State<HomePage> {
                         ListTile(
                           leading: Icon(
                             Icons.history,
+                            color: kPrimaryColor,
                           ),
                           title: Text('Payment History'),
                           onTap: () {
@@ -149,6 +155,7 @@ class _HomePageState extends State<HomePage> {
                         ListTile(
                           leading: Icon(
                             Icons.redeem,
+                            color: kPrimaryColor,
                           ),
                           title: Text('Discount History'),
                           onTap: () {
@@ -158,6 +165,7 @@ class _HomePageState extends State<HomePage> {
                         ListTile(
                           leading: Icon(
                             Icons.help_outline,
+                            color: kPrimaryColor,
                           ),
                           title: Text('About Us'),
                           onTap: () {
@@ -171,6 +179,7 @@ class _HomePageState extends State<HomePage> {
                         ListTile(
                           leading: Icon(
                             Icons.logout,
+                            color: kPrimaryColor,
                           ),
                           title: Text('Logout'),
                           onTap: () async {
@@ -210,6 +219,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          selectedLabelStyle: bottomNavigationBarButtonLabelStyle,
+          unselectedLabelStyle: bottomNavigationBarButtonLabelStyle,
           currentIndex: _bottomNavigationBarIndex,
           onTap: (value) {
             if (value == 2) {
@@ -221,15 +232,24 @@ class _HomePageState extends State<HomePage> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(
+                Icons.home,
+                color: kPrimaryColor,
+              ),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.camera),
+              icon: Icon(
+                Icons.camera,
+                color: kPrimaryColor,
+              ),
               label: 'Scan',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
+              icon: Icon(
+                Icons.menu,
+                color: kPrimaryColor,
+              ),
               label: 'Menu',
             ),
           ],

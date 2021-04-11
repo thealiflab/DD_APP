@@ -9,17 +9,16 @@ class DrawerPerUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25)),
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10),
       child: DrawerHeader(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF34d3ae),
-              Color(0xFF24b5c4),
+              kLightPrimaryColor,
+              kPrimaryColor,
             ],
           ),
         ),
@@ -33,7 +32,8 @@ class DrawerPerUser extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50.0),
                   image: DecorationImage(
                     image: imageURL == null
-                    ? AssetImage('assets/images/homepage/profile.jpg') : NetworkImage(baseUrl + "/" + imageURL),
+                        ? AssetImage('assets/images/homepage/profile.jpg')
+                        : NetworkImage(baseUrl + "/" + imageURL),
                     fit: BoxFit.cover,
                   ),
                 ),
