@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/api/renew_subscription_api.dart';
 
-class Subscription extends StatefulWidget {
-  static const String id = "subscription";
+class Payment extends StatefulWidget {
+  static const String id = "payment";
   @override
-  _SubscriptionState createState() => _SubscriptionState();
+  _PaymentState createState() => _PaymentState();
 }
 
-class _SubscriptionState extends State<Subscription> {
+class _PaymentState extends State<Payment> {
   //For API Call
   Future<dynamic> renewSubApiData;
   RenewSubAPI renewSubAPI = RenewSubAPI();

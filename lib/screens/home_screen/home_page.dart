@@ -1,7 +1,9 @@
 import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:dd_app/screens/about_us.dart';
+import 'package:dd_app/screens/discount_history.dart';
 import 'package:dd_app/screens/home_screen/search_bar_panel.dart';
-import 'package:dd_app/screens/subscription.dart';
+import 'package:dd_app/screens/payment_history.dart';
+import 'package:dd_app/screens/payment_screen.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/login_register.dart';
 import 'package:flutter/material.dart';
@@ -130,9 +132,9 @@ class _HomePageState extends State<HomePage> {
                           leading: Icon(
                             Icons.payments,
                           ),
-                          title: Text('Subscription'),
+                          title: Text('Payment'),
                           onTap: () {
-                            Navigator.pushNamed(context, Subscription.id);
+                            Navigator.pushNamed(context, Payment.id);
                           },
                         ),
                         ListTile(
@@ -141,20 +143,16 @@ class _HomePageState extends State<HomePage> {
                           ),
                           title: Text('Payment History'),
                           onTap: () {
-// Navigator.pushNamed(context, '/transactionsList');
+                            Navigator.pushNamed(context, PaymentHistory.id);
                           },
                         ),
                         ListTile(
                           leading: Icon(
                             Icons.redeem,
                           ),
-                          title: Text('Discounts'),
+                          title: Text('Discount History'),
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        OpenQRScanner()));
+                            Navigator.pushNamed(context, DiscountHistory.id);
                           },
                         ),
                         ListTile(

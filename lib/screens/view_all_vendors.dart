@@ -11,7 +11,6 @@ class ViewAllVendors extends StatefulWidget {
 
 class _ViewAllVendorsState extends State<ViewAllVendors> {
   //For API Call
-  Future<dynamic> allVendorsApiData;
   AllVendorsAPI allVendorsAPI = AllVendorsAPI();
 
   @override

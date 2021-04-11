@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class Discounts extends StatefulWidget {
-  static const String id = "discounts";
+class ScannedData extends StatefulWidget {
+  static const String id = "scanned_data";
   @override
-  _DiscountsState createState() => _DiscountsState();
+  _ScannedDataState createState() => _ScannedDataState();
 }
 
-class _DiscountsState extends State<Discounts> {
+class _ScannedDataState extends State<ScannedData> {
   @override
   Widget build(BuildContext context) {
     final ReceiveDataClass receivedData =
@@ -16,7 +15,22 @@ class _DiscountsState extends State<Discounts> {
     //final ScreenArguments args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Discounts'),
+        centerTitle: true,
+        title: Text(
+          "Scanned Data",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, HomePage.id);
+          },
+        ),
       ),
       body: Center(
         child: Column(

@@ -1,4 +1,4 @@
-import 'package:dd_app/screens/discounts.dart';
+import 'package:dd_app/screens/scanned_data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -37,7 +37,7 @@ class _OpenQRScannerState extends State<OpenQRScanner> {
                     _controller.dispose();
                     Navigator.pushNamed(
                       context,
-                      Discounts.id,
+                      ScannedData.id,
                       arguments: ReceiveDataClass(scanData.code),
                     );
                   }

@@ -1,6 +1,6 @@
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
 import 'package:dd_app/screens/home_screen/search_bar_page.dart';
-import 'package:dd_app/screens/subscription.dart';
+import 'package:dd_app/screens/payment_screen.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:dd_app/screens/category_page.dart';
@@ -12,12 +12,14 @@ import 'package:dd_app/screens/authentication/registration_details.dart';
 import 'package:dd_app/screens/login_register.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
-import 'package:dd_app/screens/discounts.dart';
+import 'package:dd_app/screens/scanned_data_screen.dart';
+import 'package:dd_app/screens/discount_history.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:dd_app/screens/opening_screen.dart';
 import 'package:dd_app/screens/authentication/reset_password.dart';
+import 'package:dd_app/screens/payment_history.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -51,11 +53,13 @@ class MyApp extends StatelessWidget {
         HomePage.id: (context) => HomePage(),
         SearchBarPage.id: (context) => SearchBarPage(),
         OpenQRScanner.id: (context) => OpenQRScanner(),
-        Discounts.id: (context) => Discounts(),
+        ScannedData.id: (context) => ScannedData(),
         ViewAllVendors.id: (context) => ViewAllVendors(),
         CategoryPage.id: (context) => CategoryPage(),
         Profile.id: (context) => Profile(),
-        Subscription.id: (context) => Subscription(),
+        Payment.id: (context) => Payment(),
+        DiscountHistory.id: (context) => DiscountHistory(),
+        PaymentHistory.id: (context) => PaymentHistory(),
         AboutUs.id: (context) => AboutUs(),
       },
     );
