@@ -1,6 +1,6 @@
 import 'package:dd_app/api/all_vendors_api.dart';
 import 'package:flutter/material.dart';
-import 'package:dd_app/screens/home_screen/vendor_card.dart';
+import 'package:dd_app/utilities/vendor_card.dart';
 
 class ViewAllVendors extends StatefulWidget {
   static const String id = "view_all_vendors";
@@ -47,10 +47,14 @@ class _ViewAllVendorsState extends State<ViewAllVendors> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    return vendorCard(context, snapshot, index);
+                    return VendorDetails(
+                        context: context, snapshot: snapshot, index: index);
                   });
             } else {
-              return Center(child: CircularProgressIndicator());
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Center(child: CircularProgressIndicator()),
+              );
             }
           },
         ),

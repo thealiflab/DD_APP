@@ -14,9 +14,9 @@ import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/api/user_info_api.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'search_bar_page.dart';
-import 'vendor_card.dart';
 import 'categories_panels.dart';
 import 'package:dd_app/api/logout_api.dart';
+import 'package:dd_app/utilities/vendor_card.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -418,9 +418,6 @@ class _HomePageState extends State<HomePage> {
                             indent: 22,
                             endIndent: 50,
                           ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
                           SingleChildScrollView(
                             child: FutureBuilder<dynamic>(
                               future: topVendorsAPI.getVData(),
@@ -436,8 +433,10 @@ class _HomePageState extends State<HomePage> {
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         //_countryName(snapshot.data[index]),
-                                        return vendorCard(
-                                            context, snapshot, index);
+                                        return VendorDetails(
+                                            context: context,
+                                            snapshot: snapshot,
+                                            index: index);
                                       });
                                 } else {
                                   return Center(

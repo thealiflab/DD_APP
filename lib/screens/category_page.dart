@@ -1,6 +1,6 @@
 import 'package:dd_app/api/category_vendors_api.dart';
 import 'package:flutter/material.dart';
-import 'package:dd_app/screens/home_screen/vendor_card.dart';
+import 'package:dd_app/utilities/vendor_card.dart';
 
 class CategoryPage extends StatefulWidget {
   static const String id = "category_page";
@@ -48,7 +48,8 @@ class _CategoryPageState extends State<CategoryPage> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    return vendorCard(context, snapshot, index);
+                    return VendorDetails(
+                        context: context, snapshot: snapshot, index: index);
                   },
                 );
               } else {
