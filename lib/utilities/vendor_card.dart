@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:dd_app/screens/home_screen/claim_now_alert_dialog.dart';
+import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/utilities/claim_now_alert_dialog.dart';
 
 class VendorDetails extends StatelessWidget {
   final BuildContext context;

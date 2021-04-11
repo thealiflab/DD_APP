@@ -1,7 +1,7 @@
 import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/discount_history.dart';
-import 'package:dd_app/screens/home_screen/search_bar_panel.dart';
+import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/search/search_bar_panel.dart';
 import 'package:dd_app/screens/payment_history.dart';
 import 'package:dd_app/screens/payment_screen.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
@@ -15,7 +15,7 @@ import 'open_qr_scanner.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/api/user_info_api.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'search_bar_page.dart';
+import '../search/search_bar_page.dart';
 import 'categories_panels.dart';
 import 'package:dd_app/api/logout_api.dart';
 import 'package:dd_app/utilities/vendor_card.dart';

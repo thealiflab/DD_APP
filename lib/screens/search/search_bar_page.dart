@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dd_app/api/all_vendors_api.dart';
-import 'claim_now_alert_dialog.dart';
+import '../../utilities/claim_now_alert_dialog.dart';
 
 SharedPreferences localStorage;
 var dataFromAPI;
@@ -117,32 +117,6 @@ class _SearchBarPageState extends State<SearchBarPage> {
           }
         });
   }
-
-  // Widget _buildList() {
-  //   if ((_searchText.isNotEmpty)) {
-  //     List tempList = [];
-  //     for (int i = 0; i < filteredNames.length; i++) {
-  //       if (filteredNames[i]
-  //           .toLowerCase()
-  //           .contains(_searchText.toLowerCase())) {
-  //         tempList.add(filteredNames[i]);
-  //       }
-  //     }
-  //     filteredNames = tempList;
-  //   }
-  //   return ListView.builder(
-  //     itemCount: names == null ? 0 : filteredNames.length,
-  //     itemBuilder: (BuildContext context, int index) {
-  //       return ListTile(
-  //         title: Text(filteredNames[index]),
-  //         leading: Icon(Icons.house),
-  //         onTap: () {
-  //           print(filteredNames);
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
 
   void _searchPressed() {
     setState(() {

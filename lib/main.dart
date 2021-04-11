@@ -1,5 +1,5 @@
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
-import 'package:dd_app/screens/home_screen/search_bar_page.dart';
+import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/search/search_bar_page.dart';
 import 'package:dd_app/screens/payment_screen.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
