@@ -100,7 +100,6 @@ class _PaymentState extends State<Payment> {
                                   style: TextStyle(fontSize: 18),
                                 );
                               } else {
-                                print(snapshot.data['message'].toString());
                                 return Text(
                                   snapshot.data['message'].toString(),
                                 );

@@ -18,7 +18,6 @@ class RenewSubAPI {
         },
       );
 
-      print(json.decode(response.body));
       return json.decode(response.body);
     } catch (e) {
       print("Exception Caught which is " + e);

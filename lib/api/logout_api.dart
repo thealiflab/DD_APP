@@ -21,7 +21,6 @@ class LogoutAPI {
         },
       );
 
-      print(json.decode(response.body));
       if (response.statusCode == 200 || response.statusCode == 400) {
         return LogoutResponse.fromJson(json.decode(response.body));
       } else {

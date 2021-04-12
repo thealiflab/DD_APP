@@ -12,7 +12,6 @@ class OpenQRScanner extends StatefulWidget {
 class _OpenQRScannerState extends State<OpenQRScanner> {
   final GlobalKey qrKey = GlobalKey();
   Barcode qrText;
-  //var qrText = "";
   QRViewController _controller;
 
   @override

@@ -78,7 +78,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     userApiData = userInfoAPI.getUData();
     topVendorsApiData = topVendorsAPI.getVData();
-    print("printing apiData $userApiData");
     super.initState();
   }
 
@@ -262,8 +261,6 @@ class _HomePageState extends State<HomePage> {
                 future: userInfoAPI.getUData(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    print("this is snapshot values below");
-                    print(snapshot.data['data']['user_fullname'].toString());
                     // ignore: missing_return
                     return SmartRefresher(
                       enablePullDown: true,

@@ -205,8 +205,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                             requestModel.password =
                                 passwordController.text.toString();
 
-                            print("This is =>>> " + requestModel.password);
-
                             UserDetailsUpdate apiService =
                                 new UserDetailsUpdate();
                             apiService.login(requestModel).then((value) {

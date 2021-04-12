@@ -15,7 +15,7 @@ Future userLoggedInOrNot() async {
 }
 
 class OpeningScreen extends StatefulWidget {
-  static const String id = "openning_screen";
+  static const String id = "opening_screen";
 
   @override
   _OpeningScreenState createState() => _OpeningScreenState();
