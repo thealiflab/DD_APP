@@ -1,7 +1,7 @@
 import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/discount_history.dart';
-import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/search/search_bar_panel.dart';
+import 'package:dd_app/screens/search/search_bar_panel.dart';
 import 'package:dd_app/screens/payment_history.dart';
 import 'package:dd_app/screens/payment_screen.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
@@ -448,7 +448,7 @@ class _HomePageState extends State<HomePage> {
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         //_countryName(snapshot.data[index]),
-                                        return VendorDetails(
+                                        return VendorCard(
                                             context: context,
                                             snapshot: snapshot,
                                             index: index);

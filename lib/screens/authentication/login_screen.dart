@@ -204,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.09,
+                      height: MediaQuery.of(context).size.height * 0.04,
                     ),
                     ActionButton(
                         buttonColor: Colors.white,

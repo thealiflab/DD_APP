@@ -46,7 +46,7 @@ class _ViewAllVendorsState extends State<ViewAllVendors> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    return VendorDetails(
+                    return VendorCard(
                         context: context, snapshot: snapshot, index: index);
                   });
             } else {

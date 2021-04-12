@@ -4,13 +4,13 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/utilities/claim_now_alert_dialog.dart';
+import 'package:dd_app/utilities/claim_now_alert_dialog.dart';
 
-class VendorDetails extends StatelessWidget {
+class VendorCard extends StatelessWidget {
   final BuildContext context;
   final AsyncSnapshot<dynamic> snapshot;
   final int index;
-  const VendorDetails(
+  const VendorCard(
       {@required this.context, @required this.snapshot, @required this.index});
 
   //URL Launcher functions

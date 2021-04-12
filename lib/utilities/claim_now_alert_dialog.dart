@@ -17,7 +17,7 @@ AlertDialog claimNowAlertDialog(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          height: MediaQuery.of(context).size.height * 0.22,
+          height: MediaQuery.of(context).size.height * 0.30,
           width: 122,
           child:
               snapshot.data['data'][index]['vendor_profile_image'].toString() !=

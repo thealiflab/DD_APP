@@ -48,7 +48,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    return VendorDetails(
+                    return VendorCard(
                         context: context, snapshot: snapshot, index: index);
                   },
                 );

@@ -21,6 +21,7 @@ class _SearchBarPageState extends State<SearchBarPage> {
   String _searchText = "";
   List names = [];
   List filteredNames = [];
+  int selectedSearchIndex;
   Widget _searchBarTitle = Text(
     'Search your Deals',
     style: TextStyle(
@@ -88,6 +89,7 @@ class _SearchBarPageState extends State<SearchBarPage> {
             .toLowerCase()
             .contains(_searchText.toLowerCase())) {
           tempList.add(filteredNames[i]);
+          selectedSearchIndex = i;
         }
       }
       filteredNames = tempList;
@@ -156,7 +158,6 @@ class _SearchBarPageState extends State<SearchBarPage> {
     print(tempList);
     setState(() {
       names = tempList;
-      names.shuffle();
       filteredNames = names;
     });
   }
