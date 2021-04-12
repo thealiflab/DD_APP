@@ -1,4 +1,3 @@
-import 'file:///D:/PROJECTS/AndroidStudioProjects/dd_app/lib/screens/authentication/enter_phone.dart';
 import 'package:flutter/material.dart';
 
 //API Constants
@@ -41,6 +40,7 @@ const kLoginInputDecoration = InputDecoration(
   ),
   hintText: "Phone",
 );
+const String kCredit = "Developed by Alif";
 
 //LoginScreen, EnterPhone, OTPCode, RegistrationDetails
 const kCardPadding = EdgeInsets.only(

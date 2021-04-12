@@ -49,9 +49,13 @@ class _ResetPasswordState extends State<ResetPassword> {
           alignment: Alignment.center,
           decoration: kPageBackgroundGradientEffect,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+              top: 50,
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 JoinNowHeading(),
                 SizedBox(
@@ -187,7 +191,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
+                      height: MediaQuery.of(context).size.height * 0.09,
                     ),
                     ActionButton(
                         buttonColor: Colors.white,
@@ -234,9 +238,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                           }
                         },
                         textColor: kPrimaryColor),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                    ),
                   ],
                 ),
               ],

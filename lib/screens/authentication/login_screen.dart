@@ -71,10 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.only(
               left: 15,
               right: 15,
-              bottom: 10,
+              top: 50,
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 JoinNowHeading(),
                 SizedBox(
@@ -204,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
+                      height: MediaQuery.of(context).size.height * 0.09,
                     ),
                     ActionButton(
                         buttonColor: Colors.white,
@@ -265,9 +265,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                         textColor: kPrimaryColor),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                    ),
                   ],
                 ),
               ],

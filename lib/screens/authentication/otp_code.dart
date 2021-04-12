@@ -62,13 +62,17 @@ class _OTPCodeState extends State<OTPCode> {
           alignment: Alignment.center,
           decoration: kPageBackgroundGradientEffect,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+              top: 50,
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 JoinNowHeading(),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.08,
+                  height: MediaQuery.of(context).size.height * 0.15,
                 ),
                 Column(
                   children: <Widget>[
@@ -175,7 +179,7 @@ class _OTPCodeState extends State<OTPCode> {
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
+                      height: MediaQuery.of(context).size.height * 0.11,
                     ),
                     ActionButton(
                         buttonColor: Colors.white,
@@ -223,9 +227,6 @@ class _OTPCodeState extends State<OTPCode> {
                           }
                         },
                         textColor: kPrimaryColor),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.13,
-                    ),
                   ],
                 ),
               ],

@@ -50,9 +50,13 @@ class _RegisterUserDetailsState extends State<RegisterUserDetails> {
           alignment: Alignment.center,
           decoration: kPageBackgroundGradientEffect,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+              top: 50,
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 JoinNowHeading(),
                 SizedBox(
