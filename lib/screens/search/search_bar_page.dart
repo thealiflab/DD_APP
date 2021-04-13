@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dd_app/api/all_vendors_api.dart';
-import '../../utilities/claim_now_alert_dialog.dart';
 
 SharedPreferences localStorage;
 var dataFromAPI;
@@ -23,6 +22,8 @@ class _SearchBarPageState extends State<SearchBarPage> {
   String _searchText = "";
   List names = [];
   List filteredNames = [];
+  List filteredLocation = [];
+  List filteredCategory = [];
   bool isSearchedDataFound = false;
   List searchItemList = [];
   Widget _searchBarTitle = Text(
@@ -89,14 +90,19 @@ class _SearchBarPageState extends State<SearchBarPage> {
       List tempList = [];
       for (int i = 0; i < filteredNames.length; i++) {
         if (filteredNames[i]
-            .toLowerCase()
-            .contains(_searchText.toLowerCase())) {
+                .toLowerCase()
+                .contains(_searchText.toLowerCase()) ||
+            filteredLocation[i]
+                .toLowerCase()
+                .contains(_searchText.toLowerCase()) ||
+            filteredCategory[i]
+                .toLowerCase()
+                .contains(_searchText.toLowerCase())) {
           tempList.add(i);
           isSearchedDataFound = true;
         }
       }
       searchItemList = tempList;
-      //filteredNames = tempList;
     }
     return FutureBuilder<dynamic>(
         future: allVendorsAPI.getAVData(),
@@ -123,18 +129,6 @@ class _SearchBarPageState extends State<SearchBarPage> {
                       snapshot: snapshot,
                       index: searchItemList[index]);
                 }
-
-                //   ListTile(
-                //   title: Text(filteredNames[index]),
-                //   leading: Icon(Icons.house),
-                //   onTap: () {
-                //     showDialog(
-                //         context: context,
-                //         builder: (BuildContext context) {
-                //           return claimNowAlertDialog(snapshot, index, context);
-                //         });
-                //   },
-                // );
               },
             );
           } else {
@@ -173,15 +167,22 @@ class _SearchBarPageState extends State<SearchBarPage> {
       },
     );
     dataFromAPI = json.decode(response.body);
-    print(dataFromAPI['data'][1]['vendor_name']);
-    List tempList = [];
+
+    List tempListName = [];
+    List tempListLocation = [];
+    List tempListCategory = [];
     for (int i = 0; i < dataFromAPI['data'].length; i++) {
-      tempList.add(dataFromAPI['data'][i]['vendor_name']);
+      tempListName.add(dataFromAPI['data'][i]['vendor_name']);
+      tempListLocation.add(dataFromAPI['data'][i]['location_name']);
+      tempListCategory.add(dataFromAPI['data'][i]['category_name']);
     }
-    print(tempList);
+    print(tempListName);
+    print(tempListLocation);
     setState(() {
-      names = tempList;
+      names = tempListName;
       filteredNames = names;
+      filteredLocation = tempListLocation;
+      filteredCategory = tempListCategory;
     });
   }
 }
