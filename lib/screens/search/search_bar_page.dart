@@ -1,3 +1,5 @@
+import 'package:dd_app/utilities/vendor_card.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +23,8 @@ class _SearchBarPageState extends State<SearchBarPage> {
   String _searchText = "";
   List names = [];
   List filteredNames = [];
-  int selectedSearchIndex;
+  bool isSearchedDataFound = false;
+  List searchItemList = [];
   Widget _searchBarTitle = Text(
     'Search your Deals',
     style: TextStyle(
@@ -88,30 +91,50 @@ class _SearchBarPageState extends State<SearchBarPage> {
         if (filteredNames[i]
             .toLowerCase()
             .contains(_searchText.toLowerCase())) {
-          tempList.add(filteredNames[i]);
-          selectedSearchIndex = i;
+          tempList.add(i);
+          isSearchedDataFound = true;
         }
       }
-      filteredNames = tempList;
+      searchItemList = tempList;
+      //filteredNames = tempList;
     }
     return FutureBuilder<dynamic>(
         future: allVendorsAPI.getAVData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: names == null ? 0 : filteredNames.length,
+              itemCount: isSearchedDataFound ? searchItemList.length : 1,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(filteredNames[index]),
-                  leading: Icon(Icons.house),
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return claimNowAlertDialog(snapshot, index, context);
-                        });
-                  },
-                );
+                if (isSearchedDataFound == false) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        "No Data Found",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return VendorCard(
+                      context: context,
+                      snapshot: snapshot,
+                      index: searchItemList[index]);
+                }
+
+                //   ListTile(
+                //   title: Text(filteredNames[index]),
+                //   leading: Icon(Icons.house),
+                //   onTap: () {
+                //     showDialog(
+                //         context: context,
+                //         builder: (BuildContext context) {
+                //           return claimNowAlertDialog(snapshot, index, context);
+                //         });
+                //   },
+                // );
               },
             );
           } else {
