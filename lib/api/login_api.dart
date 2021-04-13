@@ -5,7 +5,7 @@ import 'package:dd_app/utilities/constants.dart';
 class LoginService {
   Future<LoginResponseModel> login(LoginRequestModel requestModel) async {
     final response = await http.post(
-      "$baseUrl/api/v1/login",
+      Uri.parse("$baseUrl/api/v1/login"),
       body: requestModel.toJson(),
     );
 

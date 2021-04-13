@@ -11,7 +11,8 @@ class RenewSubAPI {
 
     try {
       http.Response response = await http.get(
-        "$baseUrl/api/v1/customer/renewSubscription?subscription_limit=$month&transaction_id=$tID&subscription_fee=$fee",
+        Uri.parse(
+            "$baseUrl/api/v1/customer/renewSubscription?subscription_limit=$month&transaction_id=$tID&subscription_fee=$fee"),
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',

@@ -1,7 +1,14 @@
+import 'package:dd_app/screens/home_screen/home_page.dart';
+import 'package:dd_app/screens/profile_screen/profile_edit_screen.dart';
+import 'package:dd_app/utilities/action_button.dart';
+import 'package:dd_app/utilities/constants.dart';
 import "package:flutter/material.dart";
 import 'profile_pic.dart';
 import 'profile_info_panel.dart';
 import 'package:dd_app/api/user_info_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+SharedPreferences localStorage;
 
 class Profile extends StatefulWidget {
   static const String id = "profile";
@@ -14,9 +21,14 @@ class _ProfileState extends State<Profile> {
   Future<dynamic> apiData;
   UserInfoAPI userInfoAPI = new UserInfoAPI();
 
+  Future sharedPrefFunc() async {
+    localStorage = await SharedPreferences.getInstance();
+  }
+
   @override
   void initState() {
     apiData = userInfoAPI.getUData();
+    sharedPrefFunc();
     super.initState();
   }
 
@@ -27,7 +39,7 @@ class _ProfileState extends State<Profile> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.pushNamed(context, HomePage.id),
         ),
         title: Text("Profile"),
       ),
@@ -67,13 +79,17 @@ class _ProfileState extends State<Profile> {
                       info: snapshot.data['data']['user_email'].toString() ??
                           "No Data",
                     ),
-                    ProfileInfoPanel(
-                      textIcon: Icons.security,
-                      info: "Change Password",
-                    ),
                     SizedBox(
-                      height: 40,
+                      height: MediaQuery.of(context).size.height * 0.05,
                     ),
+                    ActionButton(
+                        buttonColor: kPrimaryColor,
+                        buttonText: "Update Info",
+                        onTap: () {
+                          localStorage.setBool("resetPassword", false);
+                          Navigator.pushNamed(context, ProfileEdit.id);
+                        },
+                        textColor: Colors.white),
                   ],
                 );
               } else {

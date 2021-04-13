@@ -20,6 +20,7 @@ import 'package:flutter/foundation.dart';
 import 'package:dd_app/screens/opening_screen.dart';
 import 'package:dd_app/screens/authentication/reset_password.dart';
 import 'package:dd_app/screens/payment_history.dart';
+import 'package:dd_app/screens/profile_screen/profile_edit_screen.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         ViewAllVendors.id: (context) => ViewAllVendors(),
         CategoryPage.id: (context) => CategoryPage(),
         Profile.id: (context) => Profile(),
+        ProfileEdit.id: (context) => ProfileEdit(),
         Payment.id: (context) => Payment(),
         DiscountHistory.id: (context) => DiscountHistory(),
         PaymentHistory.id: (context) => PaymentHistory(),

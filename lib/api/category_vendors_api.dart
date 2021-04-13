@@ -13,7 +13,7 @@ class CategoryVendorsAPI {
 
     try {
       http.Response response = await http.get(
-        "$baseUrl/api/v1/vendor/where/categoryId/$id",
+        Uri.parse("$baseUrl/api/v1/vendor/where/categoryId/$id"),
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',

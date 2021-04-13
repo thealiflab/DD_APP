@@ -13,7 +13,7 @@ class UserInfoAPI {
 
     try {
       http.Response response = await http.get(
-        "$baseUrl/api/v1/customer",
+        Uri.parse("$baseUrl/api/v1/customer"),
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',

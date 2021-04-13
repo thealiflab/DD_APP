@@ -11,7 +11,7 @@ class EnterPhoneApi {
     try {
       if (localStorage.getBool("resetPassword")) {
         final response = await http.post(
-          "$baseUrl/api/v1/forgotPassword",
+          Uri.parse("$baseUrl/api/v1/forgotPassword"),
           headers: <String, String>{
             'State': 'First',
           },
@@ -25,7 +25,7 @@ class EnterPhoneApi {
         }
       } else {
         final response = await http.post(
-          "$baseUrl/api/v1/customer/register",
+          Uri.parse("$baseUrl/api/v1/customer/register"),
           headers: <String, String>{
             'State': 'First',
           },

@@ -11,7 +11,7 @@ class ClaimDiscountApi {
     localStorage = await SharedPreferences.getInstance();
     try {
       final response = await http.post(
-        "$baseUrl/api/v1/customer/claimDiscount",
+        Uri.parse("$baseUrl/api/v1/customer/claimDiscount"),
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',

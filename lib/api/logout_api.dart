@@ -14,7 +14,7 @@ class LogoutAPI {
 
     try {
       http.Response response = await http.post(
-        "$baseUrl/api/v1/logout",
+        Uri.parse("$baseUrl/api/v1/logout"),
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',
