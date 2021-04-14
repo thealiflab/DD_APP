@@ -194,7 +194,6 @@ class _HomePageState extends State<HomePage> {
                           onTap: () async {
                             SharedPreferences localStorage =
                                 await SharedPreferences.getInstance();
-                            Navigator.pop(context);
                             setState(() {
                               showProgress = true;
                             });

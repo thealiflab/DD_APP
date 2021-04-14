@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class SkipButton extends StatelessWidget {
+class GuestLoginButton extends StatelessWidget {
   final Function onTap;
 
-  SkipButton({@required this.onTap});
+  GuestLoginButton({@required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class SkipButton extends StatelessWidget {
       ),
       onPressed: onTap,
       child: Text(
-        "Skip >",
+        "Guest Login >",
         style: TextStyle(
           fontSize: 20.0,
           color: Colors.white,

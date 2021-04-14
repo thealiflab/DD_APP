@@ -68,12 +68,12 @@ class _LoginRegisterState extends State<LoginRegister> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.15,
               ),
-              // Align(
-              //   alignment: Alignment.bottomRight,
-              //   child: SkipButton(
-              //     onTap: () => Navigator.pushNamed(context, HomePage.id),
-              //   ),
-              // ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: GuestLoginButton(
+                  onTap: () => Navigator.pushNamed(context, HomePage.id),
+                ),
+              ),
             ],
           ),
         ),
