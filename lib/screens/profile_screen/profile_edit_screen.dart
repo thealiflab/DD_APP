@@ -1,7 +1,6 @@
 import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import "package:flutter/material.dart";
-import 'profile_info_panel.dart';
 import 'package:dd_app/api/user_info_api.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
 import 'package:dd_app/utilities/constants.dart';
@@ -16,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:flutter_svg/svg.dart';
 import 'package:dd_app/globals.dart' as global;
+// ignore: implementation_imports
+import 'package:flutter/src/painting/binding.dart';
 
 SharedPreferences localStorage;
 
@@ -35,7 +36,20 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   bool _isApiCallProcess = false;
 
+  //http client
   Dio dio = new Dio();
+
+  //refresh indicator
+  // var _refreshProfileKey = GlobalKey<RefreshIndicatorState>();
+  // Future<Null> refreshProfile() async {
+  //   _refreshProfileKey.currentState?.show(atTop: false);
+  //   await Future.delayed(Duration(seconds: 1));
+  //   setState(() {
+  //     imageCache.clear();
+  //     imageCache.clearLiveImages();
+  //   });
+  //   return null;
+  // }
 
   @override
   void initState() {
@@ -52,6 +66,7 @@ class _ProfileEditState extends State<ProfileEdit> {
   //Image pic and upload
   File _image;
   final picker = ImagePicker();
+  bool isImageLoading = false;
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
@@ -59,7 +74,6 @@ class _ProfileEditState extends State<ProfileEdit> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        uploadImage(_image);
         global.isNewImageUploaded = true;
       } else {
         print('No image selected.');
@@ -84,7 +98,7 @@ class _ProfileEditState extends State<ProfileEdit> {
       print(
           "status of the resutl: ${json.decode(response.toString())['status']} <--");
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return json.decode(response.data);
+        return response.data;
       }
     } on DioError catch (e) {
       return Exception(e);
@@ -140,15 +154,12 @@ class _ProfileEditState extends State<ProfileEdit> {
                           clipBehavior: Clip.none,
                           children: [
                             CircleAvatar(
-                              backgroundImage: _image == null
-                                  ? NetworkImage(baseUrl +
+                              backgroundImage: NetworkImage(baseUrl +
                                       "/" +
                                       snapshot.data['data']
                                               ['user_profile_image']
-                                          .toString())
-                                  : FileImage(
-                                      File(_image.path),
-                                    ),
+                                          .toString()) ??
+                                  "",
                             ),
                             Positioned(
                               bottom: 0,
@@ -158,7 +169,29 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 width: 46,
                                 child: TextButton(
                                   onPressed: () {
-                                    getImage();
+                                    getImage().then((value) {
+                                      setState(() {
+                                        isImageLoading = true;
+                                      });
+                                      uploadImage(_image).then((value) {
+                                        setState(() {
+                                          isImageLoading = false;
+                                        });
+                                        if (value['status'] == true) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            snackBarMessage(
+                                              "Image Upload Successfully",
+                                              true,
+                                            ),
+                                          );
+                                          setState(() {
+                                            imageCache.clear();
+                                            imageCache.clearLiveImages();
+                                          });
+                                        }
+                                      });
+                                    });
                                   },
                                   style: ButtonStyle(
                                     shape: MaterialStateProperty.all<
@@ -173,8 +206,10 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     backgroundColor:
                                         MaterialStateProperty.all(Colors.white),
                                   ),
-                                  child: SvgPicture.asset(
-                                      "assets/icons/camera.svg"),
+                                  child: isImageLoading == false
+                                      ? SvgPicture.asset(
+                                          "assets/icons/camera.svg")
+                                      : CircularProgressIndicator(),
                                 ),
                               ),
                             ),

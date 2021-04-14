@@ -65,7 +65,7 @@ class _RegisterUserDetailsState extends State<RegisterUserDetails> {
               children: <Widget>[
                 JoinNowHeading(),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.08,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 Column(
                   children: <Widget>[
@@ -243,9 +243,6 @@ class _RegisterUserDetailsState extends State<RegisterUserDetails> {
                           }
                         },
                         textColor: kPrimaryColor),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                    ),
                   ],
                 ),
               ],
