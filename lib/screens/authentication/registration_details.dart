@@ -34,6 +34,11 @@ class _RegisterUserDetailsState extends State<RegisterUserDetails> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ProgressHUD(
       child: _uiSetup(context),

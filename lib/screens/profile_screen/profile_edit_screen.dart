@@ -1,6 +1,6 @@
+import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import "package:flutter/material.dart";
-import 'profile_pic.dart';
 import 'profile_info_panel.dart';
 import 'package:dd_app/api/user_info_api.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
@@ -11,6 +11,13 @@ import 'dart:io';
 import 'package:dd_app/api/user_details_update_api.dart';
 import 'package:dd_app/utilities/snack_bar_message.dart';
 import 'package:dd_app/progressHUD.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:flutter_svg/svg.dart';
+import 'package:dd_app/globals.dart' as global;
+
+SharedPreferences localStorage;
 
 class ProfileEdit extends StatefulWidget {
   static const String id = "profile_edit";
@@ -28,6 +35,8 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   bool _isApiCallProcess = false;
 
+  Dio dio = new Dio();
+
   @override
   void initState() {
     apiData = userInfoAPI.getUData();
@@ -35,22 +44,52 @@ class _ProfileEditState extends State<ProfileEdit> {
     super.initState();
   }
 
-  //TODO image upload
-  // File _image;
-  // final picker = ImagePicker();
-  // final basename = ImagePicker();
-  //
-  // Future getImage() async {
-  //   final pickedFile = await picker.getImage(source: ImageSource.camera);
-  //
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       _image = File(pickedFile.path);
-  //     } else {
-  //       print('No image selected.');
-  //     }
-  //   });
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  //Image pic and upload
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        uploadImage(_image);
+        global.isNewImageUploaded = true;
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future uploadImage(File imageFile) async {
+    localStorage = await SharedPreferences.getInstance();
+    try {
+      dio.options.headers = {
+        'Authorization': "Bearer ${localStorage.get('Authorization')}",
+        'Customer-ID': "${localStorage.get('Customer-ID')}",
+      };
+
+      FormData formData = FormData.fromMap(
+          {"profileImage": await MultipartFile.fromFile(imageFile.path)});
+
+      final response =
+          await dio.post("$baseUrl/api/v1/customer/update", data: formData);
+      print("upload image response data ${response.data}");
+      print(
+          "status of the resutl: ${json.decode(response.toString())['status']} <--");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return json.decode(response.data);
+      }
+    } on DioError catch (e) {
+      return Exception(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +107,7 @@ class _ProfileEditState extends State<ProfileEdit> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.pushNamed(context, HomePage.id),
         ),
         title: Text("Profile Update"),
       ),
@@ -89,17 +128,59 @@ class _ProfileEditState extends State<ProfileEdit> {
                         "No Data");
                 TextEditingController passwordController =
                     TextEditingController();
-                TextEditingController resetPasswordController =
-                    TextEditingController();
                 return Form(
                   key: _globalFormKey,
                   child: Column(
                     children: [
-                      // ProfilePic(
-                      //   imageURL: snapshot.data['data']['user_profile_image']
-                      //           .toString() ??
-                      //       null,
-                      // ),
+                      SizedBox(
+                        height: 115,
+                        width: 115,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          clipBehavior: Clip.none,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: _image == null
+                                  ? NetworkImage(baseUrl +
+                                      "/" +
+                                      snapshot.data['data']
+                                              ['user_profile_image']
+                                          .toString())
+                                  : FileImage(
+                                      File(_image.path),
+                                    ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: -12,
+                              child: SizedBox(
+                                height: 46,
+                                width: 46,
+                                child: TextButton(
+                                  onPressed: () {
+                                    getImage();
+                                  },
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(50),
+                                        side: BorderSide(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.white),
+                                  ),
+                                  child: SvgPicture.asset(
+                                      "assets/icons/camera.svg"),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(height: 20),
                       TextFieldContainer(
                         textField: TextFormField(
@@ -181,10 +262,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     ),
                                   );
 
-                                  Navigator.pushNamed(
-                                    context,
-                                    Profile.id,
-                                  );
+                                  Navigator.pushNamed(context, HomePage.id);
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     snackBarMessage(

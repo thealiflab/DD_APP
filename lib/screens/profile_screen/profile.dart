@@ -3,12 +3,11 @@ import 'package:dd_app/screens/profile_screen/profile_edit_screen.dart';
 import 'package:dd_app/utilities/action_button.dart';
 import 'package:dd_app/utilities/constants.dart';
 import "package:flutter/material.dart";
-import 'profile_pic.dart';
 import 'profile_info_panel.dart';
 import 'package:dd_app/api/user_info_api.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-SharedPreferences localStorage;
+import 'package:dd_app/globals.dart' as global;
+// ignore: implementation_imports
+import 'package:flutter/src/painting/binding.dart';
 
 class Profile extends StatefulWidget {
   static const String id = "profile";
@@ -21,14 +20,16 @@ class _ProfileState extends State<Profile> {
   Future<dynamic> apiData;
   UserInfoAPI userInfoAPI = new UserInfoAPI();
 
-  Future sharedPrefFunc() async {
-    localStorage = await SharedPreferences.getInstance();
-  }
-
   @override
   void initState() {
+    if (global.isNewImageUploaded) {
+      imageCache.clear();
+      imageCache.clearLiveImages();
+    } else {
+      global.isNewImageUploaded = false;
+    }
+
     apiData = userInfoAPI.getUData();
-    sharedPrefFunc();
     super.initState();
   }
 
@@ -52,10 +53,15 @@ class _ProfileState extends State<Profile> {
               if (snapshot.hasData) {
                 return Column(
                   children: [
-                    ProfilePic(
-                      imageURL: snapshot.data['data']['user_profile_image']
-                              .toString() ??
-                          null,
+                    SizedBox(
+                      height: 115,
+                      width: 115,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(baseUrl +
+                            "/" +
+                            snapshot.data['data']['user_profile_image']
+                                .toString()),
+                      ),
                     ),
                     SizedBox(height: 20),
                     ProfileInfoPanel(
@@ -86,7 +92,6 @@ class _ProfileState extends State<Profile> {
                         buttonColor: kPrimaryColor,
                         buttonText: "Update Info",
                         onTap: () {
-                          localStorage.setBool("resetPassword", false);
                           Navigator.pushNamed(context, ProfileEdit.id);
                         },
                         textColor: Colors.white),

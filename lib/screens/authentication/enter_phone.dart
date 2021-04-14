@@ -29,7 +29,6 @@ class _EnterPhoneState extends State<EnterPhone> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     super.dispose();
   }
 

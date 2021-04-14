@@ -19,6 +19,9 @@ import '../search/search_bar_page.dart';
 import 'categories_panels.dart';
 import 'package:dd_app/api/logout_api.dart';
 import 'package:dd_app/utilities/vendor_card.dart';
+import 'package:dd_app/globals.dart' as global;
+// ignore: implementation_imports
+import 'package:flutter/src/painting/binding.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -76,6 +79,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    if (global.isNewImageUploaded) {
+      imageCache.clear();
+      imageCache.clearLiveImages();
+    } else {
+      global.isNewImageUploaded = false;
+    }
+
     userApiData = userInfoAPI.getUData();
     topVendorsApiData = topVendorsAPI.getVData();
     super.initState();

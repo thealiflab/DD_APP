@@ -33,6 +33,11 @@ class _ResetPasswordState extends State<ResetPassword> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ProgressHUD(
       child: _uiSetup(context),
