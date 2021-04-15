@@ -282,9 +282,11 @@ class _ProfileEditState extends State<ProfileEdit> {
                               requestModel.password =
                                   passwordController.text.toString();
 
-                              UserDetailsUpdate apiService =
-                                  new UserDetailsUpdate();
-                              apiService.login(requestModel).then((value) {
+                              UserDetailsUpdate userDetailsUpdate =
+                                  UserDetailsUpdate();
+                              userDetailsUpdate
+                                  .login(requestModel)
+                                  .then((value) {
                                 setState(() {
                                   _isApiCallProcess = false;
                                 });

@@ -24,7 +24,7 @@ class UserDetailsUpdate {
         throw Exception('Failed to load Data, API calling Failed!');
       }
     } catch (e) {
-      throw Exception("Exception Caught which is " + e);
+      throw AssertionError([print(e)]);
     }
   }
 }
