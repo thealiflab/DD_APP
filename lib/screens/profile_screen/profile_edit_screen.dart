@@ -177,7 +177,8 @@ class _ProfileEditState extends State<ProfileEdit> {
                                         setState(() {
                                           isImageLoading = false;
                                         });
-                                        if (value['status'] == true) {
+                                        if (value['status'].toString() ==
+                                            "true") {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             snackBarMessage(
@@ -256,8 +257,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                             hintText: "New Password",
                           ),
                           autofocus: false,
-                          obscureText: false,
-                          keyboardType: TextInputType.visiblePassword,
+                          keyboardType: TextInputType.text,
                           maxLength: 50,
                           validator: (input) => input.length < 6 ||
                                   input.isEmpty
@@ -291,7 +291,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                   _isApiCallProcess = false;
                                 });
 
-                                if (value.status) {
+                                if (value.status.toString() == "true") {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     snackBarMessage(
                                       "Profile Update Success!",
