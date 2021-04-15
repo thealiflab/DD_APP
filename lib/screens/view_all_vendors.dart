@@ -15,6 +15,7 @@ class _ViewAllVendorsState extends State<ViewAllVendors> {
 
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -47,7 +48,11 @@ class _ViewAllVendorsState extends State<ViewAllVendors> {
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return VendorCard(
-                        context: context, snapshot: snapshot, index: index);
+                      context: context,
+                      snapshot: snapshot,
+                      index: index,
+                      accountType: arguments['accountType'],
+                    );
                   });
             } else {
               return Padding(

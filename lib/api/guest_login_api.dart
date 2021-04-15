@@ -5,15 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences localStorage;
 
-class UserInfoAPI {
-  Future<dynamic> getUData() async {
-    localStorage = await SharedPreferences.getInstance();
+class GuestLoginAPI {
+  Future<dynamic> getGData() async {
     try {
       http.Response response = await http.get(
-        Uri.parse("$baseUrl/api/v1/customer"),
+        Uri.parse("$baseUrl/api/v1/guest/login"),
         headers: <String, String>{
-          'Authorization': 'Bearer ${localStorage.get('Authorization')}',
-          'Customer-ID': '${localStorage.get('Customer-ID')}',
+          'X-Guest': 'guestLogin',
         },
       );
 

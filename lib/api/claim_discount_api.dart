@@ -25,7 +25,7 @@ class ClaimDiscountApi {
         throw Exception('Failed to load Data');
       }
     } catch (e) {
-      print(e);
+      throw Exception('Failed to load Data');
     }
   }
 }

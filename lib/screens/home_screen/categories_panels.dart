@@ -5,7 +5,8 @@ import 'package:dd_app/screens/category_page.dart';
 
 class CategoriesPanels extends StatelessWidget {
   final int indexNo;
-  CategoriesPanels({@required this.indexNo});
+  final String accountType;
+  CategoriesPanels({@required this.indexNo, @required this.accountType});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,11 @@ class CategoriesPanels extends StatelessWidget {
               Navigator.pushNamed(
                 context,
                 CategoryPage.id,
-                arguments: {'service_name': onTapService, 'id': '1'},
+                arguments: {
+                  'service_name': onTapService,
+                  'id': '1',
+                  'accountType': accountType
+                },
               );
             }
             break;
@@ -29,7 +34,11 @@ class CategoriesPanels extends StatelessWidget {
               Navigator.pushNamed(
                 context,
                 CategoryPage.id,
-                arguments: {'service_name': onTapService, 'id': '2'},
+                arguments: {
+                  'service_name': onTapService,
+                  'id': '2',
+                  'accountType': accountType
+                },
               );
             }
             break;
@@ -39,7 +48,11 @@ class CategoriesPanels extends StatelessWidget {
               Navigator.pushNamed(
                 context,
                 CategoryPage.id,
-                arguments: {'service_name': onTapService, 'id': '4'},
+                arguments: {
+                  'service_name': onTapService,
+                  'id': '4',
+                  'accountType': accountType
+                },
               );
             }
             break;
@@ -49,7 +62,11 @@ class CategoriesPanels extends StatelessWidget {
               Navigator.pushNamed(
                 context,
                 CategoryPage.id,
-                arguments: {'service_name': onTapService, 'id': '3'},
+                arguments: {
+                  'service_name': onTapService,
+                  'id': '3',
+                  'accountType': accountType
+                },
               );
             }
             break;
@@ -59,7 +76,11 @@ class CategoriesPanels extends StatelessWidget {
               Navigator.pushNamed(
                 context,
                 CategoryPage.id,
-                arguments: {'service_name': onTapService, 'id': '5'},
+                arguments: {
+                  'service_name': onTapService,
+                  'id': '5',
+                  'accountType': accountType
+                },
               );
             }
             break;

@@ -49,7 +49,11 @@ class _CategoryPageState extends State<CategoryPage> {
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return VendorCard(
-                        context: context, snapshot: snapshot, index: index);
+                      context: context,
+                      snapshot: snapshot,
+                      index: index,
+                      accountType: arguments['accountType'],
+                    );
                   },
                 );
               } else {

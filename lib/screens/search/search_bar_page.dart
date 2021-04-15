@@ -26,6 +26,7 @@ class _SearchBarPageState extends State<SearchBarPage> {
   List filteredCategory = [];
   bool isSearchedDataFound = false;
   List searchItemList = [];
+  String accountType;
   Widget _searchBarTitle = Text(
     'Search your Deals',
     style: TextStyle(
@@ -63,6 +64,11 @@ class _SearchBarPageState extends State<SearchBarPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -86,6 +92,7 @@ class _SearchBarPageState extends State<SearchBarPage> {
   }
 
   Widget _buildList() {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     if ((_searchText.isNotEmpty)) {
       List tempList = [];
       for (int i = 0; i < filteredNames.length; i++) {
@@ -125,9 +132,11 @@ class _SearchBarPageState extends State<SearchBarPage> {
                   );
                 } else {
                   return VendorCard(
-                      context: context,
-                      snapshot: snapshot,
-                      index: searchItemList[index]);
+                    context: context,
+                    snapshot: snapshot,
+                    index: searchItemList[index],
+                    accountType: arguments['accountType'],
+                  );
                 }
               },
             );

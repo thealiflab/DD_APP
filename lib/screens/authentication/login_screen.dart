@@ -247,8 +247,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                       'Customer-ID', value.CI);
                                   localStorage.setString(
                                       'Authorization', value.token);
+                                  localStorage.setString('accountType', "User");
 
-                                  Navigator.pushNamed(context, HomePage.id);
+                                  Navigator.pushNamed(
+                                    context,
+                                    HomePage.id,
+                                  );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     snackBarMessage(

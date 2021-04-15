@@ -4,8 +4,10 @@ import 'package:dd_app/screens/authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/action_button.dart';
-import 'package:dd_app/utilities/skip_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dd_app/progressHUD.dart';
+import 'package:dd_app/api/guest_login_api.dart';
+import 'package:dd_app/utilities/snack_bar_message.dart';
 
 SharedPreferences localStorage;
 
@@ -17,8 +19,35 @@ class LoginRegister extends StatefulWidget {
 }
 
 class _LoginRegisterState extends State<LoginRegister> {
+  GuestLoginAPI guestLoginAPI;
+  bool _isApiCallProcess = false;
+
+  Future sharedPrefFunc() async {
+    localStorage = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    sharedPrefFunc();
+    guestLoginAPI = GuestLoginAPI();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return ProgressHUD(
+      child: _uiSetup(context),
+      inAsyncCall: _isApiCallProcess,
+      opacity: 0.3,
+    );
+  }
+
+  Widget _uiSetup(BuildContext context) {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
@@ -26,8 +55,11 @@ class _LoginRegisterState extends State<LoginRegister> {
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.10,
+              ),
               Image(
                 image: AssetImage('assets/images/ddlogow.png'),
                 height: MediaQuery.of(context).size.width * 0.45,
@@ -66,12 +98,85 @@ class _LoginRegisterState extends State<LoginRegister> {
                 textColor: kPrimaryColor,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.12,
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                child: GuestLoginButton(
-                  onTap: () => Navigator.pushNamed(context, HomePage.id),
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.transparent),
+                    textStyle: MaterialStateProperty.all(
+                      TextStyle(color: Colors.white),
+                    ),
+                    padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                    ),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          50.0,
+                        ),
+                        side: BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    overlayColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.white),
+                  ),
+                  child: Text(
+                    "Guest Login >",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isApiCallProcess = true;
+                    });
+
+                    guestLoginAPI.getGData().then((value) {
+                      setState(() {
+                        _isApiCallProcess = false;
+                      });
+
+                      if (value['status'].toString() == "true") {
+                        print("Below data is got from guest api");
+                        print(value['Customer-ID']);
+                        print(value['token']);
+                        print(value['AccountType']);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          snackBarMessage(
+                            "Guest Login Success!",
+                            true,
+                          ),
+                        );
+                        //To store data in local storage
+                        localStorage.setString(
+                            'Customer-ID', value['Customer-ID'].toString());
+                        localStorage.setString(
+                            'Authorization', value['token'].toString());
+                        localStorage.setString('accountType', "Guest");
+
+                        Navigator.pushNamed(
+                          context,
+                          HomePage.id,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          snackBarMessage(
+                            "Guest Login Failed",
+                            false,
+                          ),
+                        );
+                      }
+                    });
+                  },
                 ),
               ),
             ],

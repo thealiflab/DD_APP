@@ -10,8 +10,12 @@ class VendorCard extends StatelessWidget {
   final BuildContext context;
   final AsyncSnapshot<dynamic> snapshot;
   final int index;
+  final String accountType;
   const VendorCard(
-      {@required this.context, @required this.snapshot, @required this.index});
+      {@required this.context,
+      @required this.snapshot,
+      @required this.index,
+      @required this.accountType});
 
   //URL Launcher functions
   _dial(String phoneNumber) async {
@@ -187,46 +191,51 @@ class VendorCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return claimNowAlertDialog(
-                                snapshot, index, context);
-                          });
-                    },
-                    splashColor: Colors.white,
-                    highlightColor: Colors.white,
-                    child: Transform.rotate(
-                      angle: pi / -2,
-                      child: Container(
-                        height: 40,
-                        width: 80,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: kPrimaryColor,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 15.0,
-                              offset: Offset(2.0, 4.4),
+                  accountType == "Guest"
+                      ? Container(
+                          height: 40,
+                          width: 80,
+                        )
+                      : InkWell(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return claimNowAlertDialog(
+                                      snapshot, index, context);
+                                });
+                          },
+                          splashColor: Colors.white,
+                          highlightColor: Colors.white,
+                          child: Transform.rotate(
+                            angle: pi / -2,
+                            child: Container(
+                              height: 40,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: kPrimaryColor,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 15.0,
+                                    offset: Offset(2.0, 4.4),
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Claim',
+                                  style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: .2),
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Claim',
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: .2),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
