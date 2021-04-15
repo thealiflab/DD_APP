@@ -99,6 +99,7 @@ AlertDialog claimNowAlertDialog(
                 ),
               );
             } else {
+              Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 snackBarMessage(
                   value.message.toString(),

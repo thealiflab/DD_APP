@@ -19,6 +19,7 @@ class SearchBarPage extends StatefulWidget {
 
 class _SearchBarPageState extends State<SearchBarPage> {
   final TextEditingController _filter = TextEditingController();
+  FocusNode focusNode;
   String _searchText = "";
   List names = [];
   List filteredNames = [];
@@ -154,6 +155,8 @@ class _SearchBarPageState extends State<SearchBarPage> {
           color: Colors.white,
         );
         this._searchBarTitle = TextField(
+          focusNode: focusNode,
+          autofocus: true,
           controller: _filter,
           decoration: InputDecoration(hintText: 'Search...'),
         );
