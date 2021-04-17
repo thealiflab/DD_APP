@@ -131,7 +131,6 @@ class _HomePageState extends State<HomePage> {
             key: _scaffoldKey,
             endDrawer: ClipRRect(
               borderRadius: BorderRadius.only(
-                topRight: Radius.circular(35),
                 bottomLeft: Radius.circular(35),
               ),
               child: Drawer(
@@ -158,10 +157,11 @@ class _HomePageState extends State<HomePage> {
                             title: Text('About Us'),
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          AboutUs()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) => AboutUs(),
+                                ),
+                              );
                             },
                           ),
                           ListTile(
