@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SearchBarPanel extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,7 +32,7 @@ class SearchBarPanel extends StatelessWidget {
                     ),
                     Icon(Icons.search),
                     SizedBox(
-                      width: 60,
+                      width: MediaQuery.of(context).size.width / 4,
                     ),
                     Text(
                       'Search your Deals',
