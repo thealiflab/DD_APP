@@ -69,3 +69,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+//To build apk without errors, run -> flutter build apk --no-tree-shake-icons
+//for play store run ->
