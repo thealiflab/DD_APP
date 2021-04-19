@@ -70,6 +70,5 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//TODO 2: Blog Page = NO Data
 //TODO 3: Categories api integration
 //TODO 4: font awesome install
