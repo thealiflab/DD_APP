@@ -8,7 +8,6 @@ import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/login_register.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/screens/blog.dart';
-import 'package:dd_app/utilities/services.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'drawer_per_user.dart';
@@ -20,6 +19,7 @@ import '../search/search_bar_page.dart';
 import 'categories_panels.dart';
 import 'package:dd_app/api/logout_api.dart';
 import 'package:dd_app/utilities/vendor_card.dart';
+import 'package:dd_app/api/all_category_api.dart';
 import 'package:dd_app/globals.dart' as global;
 import 'package:flutter/services.dart';
 // ignore: implementation_imports
@@ -65,6 +65,7 @@ class _HomePageState extends State<HomePage> {
   //For API Call object initialize
   UserInfoAPI userInfoAPI;
   TopVendorsAPI topVendorsAPI;
+  AllCategoryAPI allCategoryAPI;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -112,6 +113,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     userInfoAPI = UserInfoAPI();
     topVendorsAPI = TopVendorsAPI();
+    allCategoryAPI = AllCategoryAPI();
     if (global.isNewImageUploaded) {
       imageCache.clear();
       imageCache.clearLiveImages();
@@ -451,15 +453,31 @@ class _HomePageState extends State<HomePage> {
         Container(
           height: 120,
           width: double.infinity,
-          child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-            scrollDirection: Axis.horizontal,
-            itemCount: services.length,
-            itemBuilder: (BuildContext context, index) {
-              return CategoriesPanels(
-                indexNo: index,
-                accountType: _accountType,
-              );
+          child: FutureBuilder<dynamic>(
+            future: allCategoryAPI.getCategories(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: snapshot.data['data'].length,
+                  itemBuilder: (BuildContext context, index) {
+                    return CategoriesPanels(
+                      serviceName: snapshot.data['data'][index]
+                          ['category_name'],
+                      serviceID: snapshot.data['data'][index]['id'],
+                      iconUnicode: snapshot.data['data'][index]
+                              ['icon_unicode'] ??
+                          "f128", //Question Mark code
+                      accountType: _accountType,
+                    );
+                  },
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             },
           ),
         ),

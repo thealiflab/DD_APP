@@ -1,90 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:dd_app/utilities/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/screens/category_page.dart';
 
 class CategoriesPanels extends StatelessWidget {
-  final int indexNo;
+  final String serviceName;
+  final String serviceID;
+  final String iconUnicode;
   final String accountType;
-  CategoriesPanels({@required this.indexNo, @required this.accountType});
+  CategoriesPanels(
+      {@required this.serviceName,
+      @required this.serviceID,
+      @required this.iconUnicode,
+      @required this.accountType});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        var onTapService = services[indexNo].title;
-
-        switch (onTapService) {
-          case 'Hotel':
-            {
-              Navigator.pushNamed(
-                context,
-                CategoryPage.id,
-                arguments: {
-                  'service_name': onTapService,
-                  'id': '1',
-                  'accountType': accountType
-                },
-              );
-            }
-            break;
-
-          case 'Restaurant':
-            {
-              Navigator.pushNamed(
-                context,
-                CategoryPage.id,
-                arguments: {
-                  'service_name': onTapService,
-                  'id': '2',
-                  'accountType': accountType
-                },
-              );
-            }
-            break;
-
-          case 'Air Ticket':
-            {
-              Navigator.pushNamed(
-                context,
-                CategoryPage.id,
-                arguments: {
-                  'service_name': onTapService,
-                  'id': '4',
-                  'accountType': accountType
-                },
-              );
-            }
-            break;
-
-          case 'Bus Ticket':
-            {
-              Navigator.pushNamed(
-                context,
-                CategoryPage.id,
-                arguments: {
-                  'service_name': onTapService,
-                  'id': '3',
-                  'accountType': accountType
-                },
-              );
-            }
-            break;
-
-          case 'Aviation':
-            {
-              Navigator.pushNamed(
-                context,
-                CategoryPage.id,
-                arguments: {
-                  'service_name': onTapService,
-                  'id': '5',
-                  'accountType': accountType
-                },
-              );
-            }
-            break;
-        }
+        Navigator.pushNamed(
+          context,
+          CategoryPage.id,
+          arguments: {
+            'service_name': serviceName,
+            'id': serviceID,
+            'accountType': accountType
+          },
+        );
       },
       splashColor: kPrimaryColor,
       child: Container(
@@ -106,22 +48,29 @@ class CategoriesPanels extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Center(
-                  child: Icon(
-                    services[indexNo].icon,
-                    color: kPrimaryColor,
-                    size: 30.0,
+                Expanded(
+                  child: Center(
+                    child: Icon(
+                      IconDataSolid(
+                        int.parse('0x$iconUnicode'),
+                      ),
+                      color: kPrimaryColor,
+                      size: 25,
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 5,
                 ),
-                Center(
-                  child: Text(
-                    services[indexNo].title,
-                    style: TextStyle(
-                      fontSize: 16.0,
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      serviceName,
+                      style: TextStyle(
+                        fontSize: 15.0,
+                      ),
                     ),
                   ),
                 ),
