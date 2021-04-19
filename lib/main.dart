@@ -69,6 +69,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-//TODO 3: Categories api integration
-//TODO 4: font awesome install
