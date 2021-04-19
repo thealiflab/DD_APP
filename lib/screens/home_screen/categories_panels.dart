@@ -53,8 +53,10 @@ class CategoriesPanels extends StatelessWidget {
                 Expanded(
                   child: Center(
                     child: Icon(
-                      IconDataSolid(
+                      IconData(
                         int.parse('0x$iconUnicode'),
+                        fontFamily: 'FontAwesomeSolid',
+                        fontPackage: 'font_awesome_flutter',
                       ),
                       color: kPrimaryColor,
                       size: 25,
