@@ -1,3 +1,4 @@
+import 'package:dd_app/screens/blog.dart';
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
 import 'package:dd_app/screens/search/search_bar_page.dart';
 import 'package:dd_app/screens/payment_screen.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
         CategoryPage.id: (context) => CategoryPage(),
         Profile.id: (context) => Profile(),
         ProfileEdit.id: (context) => ProfileEdit(),
+        Blog.id: (context) => Blog(),
         Payment.id: (context) => Payment(),
         DiscountHistory.id: (context) => DiscountHistory(),
         PaymentHistory.id: (context) => PaymentHistory(),
@@ -68,7 +70,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//TODO 1: CyberJatra Splash screen remove
 //TODO 2: Blog Page = NO Data
 //TODO 3: Categories api integration
 //TODO 4: font awesome install

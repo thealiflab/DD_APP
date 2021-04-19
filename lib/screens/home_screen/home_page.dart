@@ -7,6 +7,7 @@ import 'package:dd_app/screens/payment_screen.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
 import 'package:dd_app/screens/login_register.dart';
 import 'package:flutter/material.dart';
+import 'package:dd_app/screens/blog.dart';
 import 'package:dd_app/utilities/services.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -529,7 +530,9 @@ class _HomePageState extends State<HomePage> {
             color: kPrimaryColor,
           ),
           title: Text('Blog'),
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, Blog.id);
+          },
         ),
         ListTile(
           leading: Icon(
@@ -538,12 +541,7 @@ class _HomePageState extends State<HomePage> {
           ),
           title: Text('About Us'),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => AboutUs(),
-              ),
-            );
+            Navigator.pushNamed(context, AboutUs.id);
           },
         ),
         ListTile(
@@ -600,7 +598,9 @@ class _HomePageState extends State<HomePage> {
                     color: kPrimaryColor,
                   ),
                   title: Text('Blog'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Blog.id);
+                  },
                 ),
                 ListTile(
                   leading: Icon(
@@ -639,10 +639,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   title: Text('About Us'),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => AboutUs()));
+                    Navigator.pushNamed(context, AboutUs.id);
                   },
                 ),
                 ListTile(

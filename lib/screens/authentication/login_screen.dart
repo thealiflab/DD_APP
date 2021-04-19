@@ -248,6 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   localStorage.setString(
                                       'Authorization', value.token);
                                   localStorage.setString('accountType', "User");
+                                  localStorage.setBool("resetPassword", false);
 
                                   Navigator.pushNamed(
                                     context,
