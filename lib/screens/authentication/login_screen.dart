@@ -6,6 +6,7 @@ import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/action_button.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:password_strength/password_strength.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
 import 'package:dd_app/utilities/snack_bar_message.dart';
@@ -28,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginRequestModel requestModel;
   bool _isApiCallProcess = false;
   String phoneNumber = "";
+
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 

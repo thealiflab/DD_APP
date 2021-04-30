@@ -25,6 +25,7 @@ const kPageBackgroundGradientEffect = BoxDecoration(
 );
 
 const kLoginInputDecoration = InputDecoration(
+  counterText: "",
   border: OutlineInputBorder(
     borderSide: BorderSide(
       color: Colors.white,
