@@ -60,13 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _uiSetup(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context)
-              .size
-              .height, //TODO this for all similar page
-          alignment: Alignment.center,
-          decoration: kPageBackgroundGradientEffect,
+      body: Container(
+        height:
+            MediaQuery.of(context).size.height, //TODO this for all similar page
+        alignment: Alignment.center,
+        decoration: kPageBackgroundGradientEffect,
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(
               left: 15,
