@@ -5,6 +5,7 @@ import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/action_button.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
 import 'package:dd_app/utilities/snack_bar_message.dart';
@@ -26,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _hidePassword = true;
   LoginRequestModel requestModel;
   bool _isApiCallProcess = false;
-
+  String phoneNumber = "";
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -108,18 +109,52 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height: 10,
                                     ),
                                     TextFieldContainer(
-                                      textField: TextFormField(
-                                        controller: phoneController,
-                                        textAlign: TextAlign.center,
-                                        decoration: kLoginInputDecoration,
-                                        keyboardType: TextInputType.phone,
-                                        maxLength: 11,
-                                        validator: (input) =>
-                                            input.length < 11 || input.isEmpty
-                                                ? "Phone Number should be valid"
-                                                : null,
+                                      textField: InternationalPhoneNumberInput(
+                                        onInputChanged: (PhoneNumber number) {
+                                          print(number.phoneNumber);
+                                          setState(() {
+                                            requestModel.phone =
+                                                number.phoneNumber;
+                                            phoneNumber = number.phoneNumber;
+                                          });
+                                        },
+                                        validator: (input) => input.isEmpty
+                                            ? "Mobile is Empty"
+                                            : null,
+
+                                        // onInputValidated: (bool value) {
+                                        //   print(value);
+                                        // },
+                                        selectorConfig: SelectorConfig(
+                                          selectorType: PhoneInputSelectorType
+                                              .BOTTOM_SHEET,
+                                        ),
+                                        ignoreBlank: true,
+                                        selectorTextStyle:
+                                            TextStyle(color: Colors.black),
+                                        formatInput: false,
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                signed: true, decimal: false),
+                                        inputBorder: OutlineInputBorder(),
+                                        onSaved: (PhoneNumber number) {
+                                          print('On Saved: $number');
+                                        },
                                       ),
                                     ),
+                                    // TextFieldContainer(
+                                    //   textField: TextFormField(
+                                    //     controller: phoneController,
+                                    //     textAlign: TextAlign.center,
+                                    //     decoration: kLoginInputDecoration,
+                                    //     keyboardType: TextInputType.phone,
+                                    //     maxLength: 11,
+                                    //     validator: (input) =>
+                                    //         input.length < 11 || input.isEmpty
+                                    //             ? "Phone Number should be valid"
+                                    //             : null,
+                                    //   ),
+                                    // ),
                                     TextFieldContainer(
                                       textField: TextFormField(
                                         controller: passwordController,
@@ -214,8 +249,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               _isApiCallProcess = true;
                             });
 
-                            requestModel.phone =
-                                phoneController.text.toString();
+                            // requestModel.phone =
+                            //     phoneController.text.toString();
                             requestModel.password =
                                 passwordController.text.toString();
 
@@ -241,8 +276,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   );
                                   //To store data in local storage
-                                  localStorage.setString(
-                                      'phone', phoneController.text.toString());
+                                  localStorage.setString('phone', phoneNumber);
                                   localStorage.setString(
                                       'Customer-ID', value.CI);
                                   localStorage.setString(

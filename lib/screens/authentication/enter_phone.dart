@@ -7,6 +7,7 @@ import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
 import 'package:dd_app/utilities/snack_bar_message.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class EnterPhone extends StatefulWidget {
   static const String id = "enter_your_phone";
@@ -20,7 +21,7 @@ class _EnterPhoneState extends State<EnterPhone> {
   PhoneRequest requestModel;
   bool _isApiCallProcess = false;
   TextEditingController phoneController = TextEditingController();
-
+  String phoneNumber = "";
   @override
   void initState() {
     super.initState();
@@ -88,18 +89,51 @@ class _EnterPhoneState extends State<EnterPhone> {
                                   height: 10,
                                 ),
                                 TextFieldContainer(
-                                  textField: TextFormField(
-                                    controller: phoneController,
-                                    textAlign: TextAlign.center,
-                                    decoration: kLoginInputDecoration,
-                                    keyboardType: TextInputType.phone,
-                                    maxLength: 11,
-                                    validator: (input) =>
-                                        input.length < 11 || input.isEmpty
-                                            ? "Phone Number should be valid"
-                                            : null,
+                                  textField: InternationalPhoneNumberInput(
+                                    onInputChanged: (PhoneNumber number) {
+                                      print(number.phoneNumber);
+                                      setState(() {
+                                        requestModel.phone = number.phoneNumber;
+                                        phoneNumber = number.phoneNumber;
+                                      });
+                                    },
+                                    validator: (input) => input.isEmpty
+                                        ? "Mobile is Empty"
+                                        : null,
+
+                                    // onInputValidated: (bool value) {
+                                    //   print(value);
+                                    // },
+                                    selectorConfig: SelectorConfig(
+                                      selectorType:
+                                          PhoneInputSelectorType.BOTTOM_SHEET,
+                                    ),
+                                    ignoreBlank: true,
+                                    selectorTextStyle:
+                                        TextStyle(color: Colors.black),
+                                    formatInput: false,
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            signed: true, decimal: false),
+                                    inputBorder: OutlineInputBorder(),
+                                    onSaved: (PhoneNumber number) {
+                                      print('On Saved: $number');
+                                    },
                                   ),
                                 ),
+                                // TextFieldContainer(
+                                //   textField: TextFormField(
+                                //     controller: phoneController,
+                                //     textAlign: TextAlign.center,
+                                //     decoration: kLoginInputDecoration,
+                                //     keyboardType: TextInputType.phone,
+                                //     maxLength: 11,
+                                //     validator: (input) =>
+                                //         input.length < 11 || input.isEmpty
+                                //             ? "Phone Number should be valid"
+                                //             : null,
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -144,7 +178,7 @@ class _EnterPhoneState extends State<EnterPhone> {
                       });
 
                       //phone number send to api
-                      requestModel.phone = phoneController.text.toString();
+                      // requestModel.phone =phoneNumber;
 
                       EnterPhoneApi apiService = new EnterPhoneApi();
                       apiService.login(requestModel).then((value) {
