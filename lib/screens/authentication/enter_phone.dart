@@ -8,6 +8,7 @@ import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
 import 'package:dd_app/utilities/snack_bar_message.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class EnterPhone extends StatefulWidget {
   static const String id = "enter_your_phone";
@@ -181,12 +182,14 @@ class _EnterPhoneState extends State<EnterPhone> {
                       // requestModel.phone =phoneNumber;
 
                       EnterPhoneApi apiService = new EnterPhoneApi();
-                      apiService.login(requestModel).then((value) {
+                      apiService.login(requestModel).then((value) async {
                         setState(() {
                           _isApiCallProcess = false;
                         });
 
                         if (value.status) {
+                          final signCode = await SmsAutoFill().getAppSignature;
+                          print("App Signature $signCode");
                           Navigator.pushNamed(
                             context,
                             OTPCode.id,

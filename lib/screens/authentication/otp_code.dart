@@ -9,6 +9,7 @@ import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/join_now_heading.dart';
 import 'package:dd_app/utilities/snack_bar_message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 //SharedPreferences
 SharedPreferences localStorage;
@@ -22,7 +23,8 @@ class OTPCode extends StatefulWidget {
 
 class _OTPCodeState extends State<OTPCode> {
   GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
-
+  String _code = "";
+  String signature = "{{ app signature }}";
   String _OTP = "";
 
   Future sharedPrefFunc() async {
@@ -32,6 +34,7 @@ class _OTPCodeState extends State<OTPCode> {
   OTPRequest requestModel;
 
   final TextEditingController _pinPutController = TextEditingController();
+  final TextEditingController smsAutoFilController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
 
   bool _isApiCallProcess = false;
@@ -40,11 +43,18 @@ class _OTPCodeState extends State<OTPCode> {
   void initState() {
     super.initState();
     sharedPrefFunc();
+
+    smsCheck();
     requestModel = new OTPRequest();
+  }
+
+  smsCheck() async {
+    await SmsAutoFill().listenForCode;
   }
 
   @override
   void dispose() {
+    SmsAutoFill().unregisterListener();
     super.dispose();
   }
 
@@ -79,160 +89,189 @@ class _OTPCodeState extends State<OTPCode> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.15,
                 ),
-                Column(
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Padding(
-                          padding: kCardPadding,
-                          child: Card(
-                            elevation: 5,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Padding(
-                              padding: kFormPadding,
-                              child: Form(
-                                key: _globalFormKey,
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      'Enter the verification code',
-                                      style: TextStyle(
-                                        fontSize: 18,
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: kCardPadding,
+                            child: Card(
+                              elevation: 5,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: kFormPadding,
+                                child: Form(
+                                  key: _globalFormKey,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                        'Enter the verification code',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 60),
-                                      child: PinPut(
-                                        fieldsCount: 4,
-                                        onSubmit: (String otp) {
-                                          _OTP = otp;
-                                        },
-                                        followingFieldDecoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: kPrimaryColor,
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15, horizontal: 60),
+                                        child: PinFieldAutoFill(
+                                          controller: smsAutoFilController,
+                                          codeLength: 4,
+                                          decoration: UnderlineDecoration(
+                                            textStyle: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.black),
+                                            colorBuilder: FixedColorBuilder(
+                                                Colors.black.withOpacity(0.3)),
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
+                                          currentCode: _code,
+                                          onCodeSubmitted: (code) {},
+                                          onCodeChanged: (code) {
+                                            if (code.length == 6) {
+                                              FocusScope.of(context)
+                                                  .requestFocus(FocusNode());
+                                            }
+                                          },
                                         ),
-                                        selectedFieldDecoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: kLightPrimaryColor,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        submittedFieldDecoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: kPrimaryColor,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        focusNode: _pinPutFocusNode,
-                                        controller: _pinPutController,
-                                        validator: (input) => input.isEmpty
-                                            ? "Enter OTP Code correctly"
-                                            : null,
                                       ),
-                                    ),
-                                    // Text(
-                                    //   "Didn't receive a code?",
-                                    //   style: TextStyle(
-                                    //     color: Colors.black38,
-                                    //   ),
-                                    // ),
-                                    // FlatButton(
-                                    //   onPressed: () {},
-                                    //   child: Text(
-                                    //     'Resend',
-                                    //     style: TextStyle(fontSize: 18),
-                                    //   ),
-                                    // )
-                                  ],
+                                      // Padding(
+                                      //   padding: const EdgeInsets.symmetric(
+                                      //       vertical: 15, horizontal: 60),
+                                      //   child: PinPut(
+                                      //     checkClipboard: true,
+                                      //     fieldsCount: 4,
+                                      //     onSubmit: (String otp) {
+                                      //       _OTP = otp;
+                                      //     },
+                                      //     followingFieldDecoration:
+                                      //         BoxDecoration(
+                                      //       border: Border.all(
+                                      //         color: kPrimaryColor,
+                                      //       ),
+                                      //       borderRadius:
+                                      //           BorderRadius.circular(12.0),
+                                      //     ),
+                                      //     selectedFieldDecoration:
+                                      //         BoxDecoration(
+                                      //       border: Border.all(
+                                      //         color: kLightPrimaryColor,
+                                      //       ),
+                                      //       borderRadius:
+                                      //           BorderRadius.circular(12.0),
+                                      //     ),
+                                      //     submittedFieldDecoration:
+                                      //         BoxDecoration(
+                                      //       border: Border.all(
+                                      //         color: kPrimaryColor,
+                                      //       ),
+                                      //       borderRadius:
+                                      //           BorderRadius.circular(12.0),
+                                      //     ),
+                                      //     focusNode: _pinPutFocusNode,
+                                      //     controller: _pinPutController,
+                                      //     validator: (input) => input.isEmpty
+                                      //         ? "Enter OTP Code correctly"
+                                      //         : null,
+                                      //   ),
+                                      // ),
+                                      // Text(
+                                      //   "Didn't receive a code?",
+                                      //   style: TextStyle(
+                                      //     color: Colors.black38,
+                                      //   ),
+                                      // ),
+                                      // FlatButton(
+                                      //   onPressed: () {},
+                                      //   child: Text(
+                                      //     'Resend',
+                                      //     style: TextStyle(fontSize: 18),
+                                      //   ),
+                                      // )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Positioned(
-                          left: 50,
-                          right: 50,
-                          top: 12,
-                          child: Container(
-                            width: 52,
-                            height: 52,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
+                          Positioned(
+                            left: 50,
+                            right: 50,
+                            top: 12,
+                            child: Container(
+                              width: 52,
+                              height: 52,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
                             ),
                           ),
-                        ),
-                        Positioned(
-                          left: 50,
-                          right: 50,
-                          top: 18,
-                          child: Image(
-                            image: AssetImage('assets/icons/otpicon.png'),
-                            height: 35,
-                            width: 35,
+                          Positioned(
+                            left: 50,
+                            right: 50,
+                            top: 18,
+                            child: Image(
+                              image: AssetImage('assets/icons/otpicon.png'),
+                              height: 35,
+                              width: 35,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.11,
-                    ),
-                    ActionButton(
-                        buttonColor: Colors.white,
-                        buttonText: "Confirm",
-                        onTap: () {
-                          if (validateAndSave()) {
-                            setState(() {
-                              _isApiCallProcess = true;
-                            });
-                            requestModel.otp = _OTP;
-                            requestModel.phone = receivedData['phone'];
-
-                            EnterOTPApi apiServices = EnterOTPApi();
-                            apiServices.login(requestModel).then((value) {
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.11,
+                      ),
+                      ActionButton(
+                          buttonColor: Colors.white,
+                          buttonText: "Confirm",
+                          onTap: () {
+                            if (validateAndSave()) {
                               setState(() {
-                                _isApiCallProcess = false;
+                                _isApiCallProcess = true;
                               });
+                              requestModel.otp = smsAutoFilController.text;
+                              requestModel.phone = receivedData['phone'];
 
-                              localStorage.setString(
-                                  "Authorization", value.token.toString());
-                              localStorage.setString(
-                                  "Customer-ID", value.CI.toString());
+                              EnterOTPApi apiServices = EnterOTPApi();
+                              apiServices.login(requestModel).then((value) {
+                                setState(() {
+                                  _isApiCallProcess = false;
+                                });
 
-                              if (value.status) {
-                                if (localStorage.getBool("resetPassword")) {
-                                  Navigator.pushNamed(
-                                    context,
-                                    ResetPassword.id,
-                                  );
+                                localStorage.setString(
+                                    "Authorization", value.token.toString());
+                                localStorage.setString(
+                                    "Customer-ID", value.CI.toString());
+
+                                if (value.status) {
+                                  if (localStorage.getBool("resetPassword")) {
+                                    Navigator.pushNamed(
+                                      context,
+                                      ResetPassword.id,
+                                    );
+                                  } else {
+                                    Navigator.pushNamed(
+                                      context,
+                                      RegisterUserDetails.id,
+                                    );
+                                  }
                                 } else {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RegisterUserDetails.id,
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBarMessage(
+                                      value.message.toString(),
+                                      false,
+                                    ),
                                   );
                                 }
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  snackBarMessage(
-                                    value.message.toString(),
-                                    false,
-                                  ),
-                                );
-                              }
-                            });
-                          }
-                        },
-                        textColor: kPrimaryColor),
-                  ],
+                              });
+                            }
+                          },
+                          textColor: kPrimaryColor),
+                    ],
+                  ),
                 ),
               ],
             ),
