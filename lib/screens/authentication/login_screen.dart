@@ -250,10 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   localStorage.setString('accountType', "User");
                                   localStorage.setBool("resetPassword", false);
 
-                                  Navigator.pushNamed(
-                                    context,
-                                    HomePage.id,
-                                  );
+                                  Navigator.pushNamed(context, HomePage.id);
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     snackBarMessage(

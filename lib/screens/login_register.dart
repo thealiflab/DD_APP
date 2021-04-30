@@ -154,7 +154,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                           (states) => Colors.white),
                     ),
                     child: Text(
-                      "Guest Login >",
+                      "Skip >",
                       style: TextStyle(
                         fontSize: 20.0,
                         color: Colors.white,

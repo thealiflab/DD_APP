@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  void _openEndDrawer() {
+  void openEndDrawer() {
     _scaffoldKey.currentState.openEndDrawer();
   }
 
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
   LogoutResponse logoutResponse;
   LogoutAPI apiService = LogoutAPI();
 
-  int _bottomNavigationBarIndex = 0;
+  int bottomNavigationBarIndex = 0;
 
   String _accountType;
 
@@ -133,7 +133,10 @@ class _HomePageState extends State<HomePage> {
           child: Scaffold(
             key: _scaffoldKey,
             endDrawer: appEndDrawer(context),
-            bottomNavigationBar: bottomNavigationBar(context),
+            bottomNavigationBar: CustomBottomNavigationBar(
+              bottomNavigationBarIndex: bottomNavigationBarIndex,
+              openDrawer: openEndDrawer,
+            ),
             body: showProgress
                 ? Center(
                     child: CircularProgressIndicator(),
@@ -244,45 +247,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<Individual Methods>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-  BottomNavigationBar bottomNavigationBar(BuildContext context) {
-    return BottomNavigationBar(
-      selectedLabelStyle: bottomNavigationBarButtonLabelStyle,
-      unselectedLabelStyle: bottomNavigationBarButtonLabelStyle,
-      currentIndex: _bottomNavigationBarIndex,
-      onTap: (value) {
-        if (value == 2) {
-          _openEndDrawer(); // To open right side drawer
-        }
-        if (value == 1) {
-          Navigator.pushNamed(context, OpenQRScanner.id);
-        }
-      },
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-            color: kPrimaryColor,
-          ),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.camera,
-            color: kPrimaryColor,
-          ),
-          label: 'Scan',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.menu,
-            color: kPrimaryColor,
-          ),
-          label: 'Menu',
-        ),
-      ],
-    );
-  }
 
   Padding guestHeaderSection() {
     return Padding(
@@ -695,5 +659,53 @@ class _HomePageState extends State<HomePage> {
             return Center(child: CircularProgressIndicator());
           }
         });
+  }
+}
+
+class CustomBottomNavigationBar extends StatelessWidget {
+  final int bottomNavigationBarIndex;
+  final void Function() openDrawer;
+
+  const CustomBottomNavigationBar(
+      {Key key, this.bottomNavigationBarIndex, this.openDrawer})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      selectedLabelStyle: bottomNavigationBarButtonLabelStyle,
+      unselectedLabelStyle: bottomNavigationBarButtonLabelStyle,
+      currentIndex: bottomNavigationBarIndex,
+      onTap: (value) {
+        if (value == 2) {
+          openDrawer(); // To open right side drawer
+        }
+        if (value == 1) {
+          Navigator.pushNamed(context, OpenQRScanner.id);
+        }
+      },
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.home,
+            color: kPrimaryColor,
+          ),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.camera,
+            color: kPrimaryColor,
+          ),
+          label: 'Scan',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.menu,
+            color: kPrimaryColor,
+          ),
+          label: 'Menu',
+        ),
+      ],
+    );
   }
 }

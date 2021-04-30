@@ -13,68 +13,70 @@ AlertDialog claimNowAlertDialog(
       "Discount Claim",
       textAlign: TextAlign.center,
     ),
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.30,
-          width: 122,
-          child:
-              snapshot.data['data'][index]['vendor_profile_image'].toString() !=
-                      null
-                  ? Image.network(
-                      baseUrl +
-                          "/" +
-                          snapshot.data['data'][index]['vendor_profile_image']
-                              .toString(),
-                      fit: BoxFit.contain,
-                      height: 115,
-                      width: 122,
-                    )
-                  : Image.asset(
-                      "assets/images/homepage/1.jpg",
-                      fit: BoxFit.contain,
-                      height: 115,
-                      width: 122,
-                    ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Center(
-          child: Text(
-            snapshot.data['data'][index]['vendor_name'].toString(),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
+    content: SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.30,
+            width: 122,
+            child: snapshot.data['data'][index]['vendor_profile_image']
+                        .toString() !=
+                    null
+                ? Image.network(
+                    baseUrl +
+                        "/" +
+                        snapshot.data['data'][index]['vendor_profile_image']
+                            .toString(),
+                    fit: BoxFit.contain,
+                    height: 115,
+                    width: 122,
+                  )
+                : Image.asset(
+                    "assets/images/homepage/1.jpg",
+                    fit: BoxFit.contain,
+                    height: 115,
+                    width: 122,
+                  ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: Text(
+              snapshot.data['data'][index]['vendor_name'].toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Center(
-          child: Text(
-            snapshot.data['data'][index]['vendor_description'].toString(),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 11.0,
-              color: Colors.grey,
+          SizedBox(
+            height: 5,
+          ),
+          Center(
+            child: Text(
+              snapshot.data['data'][index]['vendor_description'].toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11.0,
+                color: Colors.grey,
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Text(
-          snapshot.data['data'][index]['discount_amount'].toString() + "%",
-          style: TextStyle(
-            fontSize: 26,
-            color: kPrimaryColor,
+          SizedBox(
+            height: 20,
           ),
-        ),
-      ],
+          Text(
+            snapshot.data['data'][index]['discount_amount'].toString() + "%",
+            style: TextStyle(
+              fontSize: 26,
+              color: kPrimaryColor,
+            ),
+          ),
+        ],
+      ),
     ),
     actions: [
       TextButton(

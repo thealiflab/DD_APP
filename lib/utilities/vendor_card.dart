@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:dd_app/screens/login_register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
@@ -191,51 +192,50 @@ class VendorCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  accountType == "Guest"
-                      ? Container(
-                          height: 40,
-                          width: 80,
-                        )
-                      : InkWell(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return claimNowAlertDialog(
-                                      snapshot, index, context);
-                                });
-                          },
-                          splashColor: Colors.white,
-                          highlightColor: Colors.white,
-                          child: Transform.rotate(
-                            angle: pi / -2,
-                            child: Container(
-                              height: 40,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: kPrimaryColor,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 15.0,
-                                    offset: Offset(2.0, 4.4),
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Claim',
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: .2),
-                                ),
-                              ),
+                  InkWell(
+                    onTap: () {
+                      if (accountType == "Guest") {
+                        Navigator.pushNamed(context, LoginRegister.id);
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return claimNowAlertDialog(
+                                  snapshot, index, context);
+                            });
+                      }
+                    },
+                    splashColor: Colors.white,
+                    highlightColor: Colors.white,
+                    child: Transform.rotate(
+                      angle: pi / -2,
+                      child: Container(
+                        height: 40,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: kPrimaryColor,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 15.0,
+                              offset: Offset(2.0, 4.4),
                             ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Claim',
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: .2),
                           ),
                         ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
