@@ -48,11 +48,11 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   Widget _uiSetup(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          alignment: Alignment.center,
-          decoration: kPageBackgroundGradientEffect,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        alignment: Alignment.center,
+        decoration: kPageBackgroundGradientEffect,
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(
               left: 15,
