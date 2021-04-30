@@ -334,16 +334,22 @@ class _HomePageState extends State<HomePage> {
                     blurRadius: 10.0)
               ],
             ),
-            child: CircleAvatar(
-              backgroundImage:
-                  snapshot.data['data']['user_profile_image'].toString() != null
-                      ? NetworkImage(
-                          baseUrl +
-                              "/" +
-                              snapshot.data['data']['user_profile_image']
-                                  .toString(),
-                        )
-                      : AssetImage('assets/images/homepage/profile.jpg'),
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, Profile.id);
+              },
+              child: CircleAvatar(
+                backgroundImage:
+                    snapshot.data['data']['user_profile_image'].toString() !=
+                            null
+                        ? NetworkImage(
+                            baseUrl +
+                                "/" +
+                                snapshot.data['data']['user_profile_image']
+                                    .toString(),
+                          )
+                        : AssetImage('assets/images/homepage/profile.jpg'),
+              ),
             ),
           )
         ],
