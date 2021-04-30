@@ -68,8 +68,8 @@ class _ProfileEditState extends State<ProfileEdit> {
   final picker = ImagePicker();
   bool isImageLoading = false;
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+  Future getImage(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source);
 
     setState(() {
       if (pickedFile != null) {
@@ -103,6 +103,80 @@ class _ProfileEditState extends State<ProfileEdit> {
     } on DioError catch (e) {
       return Exception(e);
     }
+  }
+
+  imageGetAndUpload(ImageSource source) {
+    getImage(source).then((value) {
+      setState(() {
+        isImageLoading = true;
+      });
+      uploadImage(_image).then((value) {
+        setState(() {
+          isImageLoading = false;
+        });
+        if (value['status'].toString() == "true") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            snackBarMessage(
+              "Image Upload Successfully",
+              true,
+            ),
+          );
+          setState(() {
+            imageCache.clear();
+            imageCache.clearLiveImages();
+          });
+        }
+      }).whenComplete(() => {
+            setState(() {
+              isImageLoading = false;
+            })
+          });
+    });
+  }
+
+  Future<bool> showCameraOptionPopUp(context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              backgroundColor: Colors.white,
+              title: Text("Choose One",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold)),
+              content: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButton(
+                        icon: Icon(
+                          Icons.photo_camera,
+                          size: 64,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          imageGetAndUpload(ImageSource.camera);
+                        }),
+                    IconButton(
+                        icon: Icon(
+                          Icons.camera,
+                          size: 64,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          imageGetAndUpload(ImageSource.gallery);
+                        }),
+                  ],
+                ),
+              ),
+            );
+          });
+        });
   }
 
   @override
@@ -169,30 +243,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 width: 46,
                                 child: TextButton(
                                   onPressed: () {
-                                    getImage().then((value) {
-                                      setState(() {
-                                        isImageLoading = true;
-                                      });
-                                      uploadImage(_image).then((value) {
-                                        setState(() {
-                                          isImageLoading = false;
-                                        });
-                                        if (value['status'].toString() ==
-                                            "true") {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            snackBarMessage(
-                                              "Image Upload Successfully",
-                                              true,
-                                            ),
-                                          );
-                                          setState(() {
-                                            imageCache.clear();
-                                            imageCache.clearLiveImages();
-                                          });
-                                        }
-                                      });
-                                    });
+                                    showCameraOptionPopUp(context);
                                   },
                                   style: ButtonStyle(
                                     shape: MaterialStateProperty.all<
