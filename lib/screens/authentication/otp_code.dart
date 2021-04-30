@@ -61,11 +61,11 @@ class _OTPCodeState extends State<OTPCode> {
     Map<String, Object> receivedData =
         ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          alignment: Alignment.center,
-          decoration: kPageBackgroundGradientEffect,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        alignment: Alignment.center,
+        decoration: kPageBackgroundGradientEffect,
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(
               left: 15,
