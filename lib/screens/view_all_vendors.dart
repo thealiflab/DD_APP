@@ -5,9 +5,9 @@ import 'package:dd_app/utilities/vendor_card.dart';
 class ViewAllVendors extends StatefulWidget {
   static const String id = "view_all_vendors";
 
-  final String accountType;
+  // final String accountType;
 
-  const ViewAllVendors({Key key, this.accountType}) : super(key: key);
+  // const ViewAllVendors({Key key, this.accountType}) : super(key: key);
 
   @override
   _ViewAllVendorsState createState() => _ViewAllVendorsState();
@@ -19,8 +19,7 @@ class _ViewAllVendorsState extends State<ViewAllVendors> {
 
   @override
   Widget build(BuildContext context) {
-    final ViewAllVendors arguments =
-        ModalRoute.of(context).settings.arguments as ViewAllVendors;
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -56,7 +55,7 @@ class _ViewAllVendorsState extends State<ViewAllVendors> {
                       context: context,
                       snapshot: snapshot,
                       index: index,
-                      accountType: arguments.accountType,
+                      accountType: arguments["accountType"],
                     );
                   });
             } else {
