@@ -321,46 +321,42 @@ class _ProfileEditState extends State<ProfileEdit> {
                           buttonColor: kPrimaryColor,
                           buttonText: "Update",
                           onTap: () {
-                            if (validateAndSave()) {
+                            setState(() {
+                              _isApiCallProcess = true;
+                            });
+
+                            requestModel.name =
+                                fullNameController.text.toString();
+                            requestModel.email =
+                                emailController.text.toString();
+                            requestModel.password =
+                                passwordController.text.toString();
+
+                            UserDetailsUpdate userDetailsUpdate =
+                                UserDetailsUpdate();
+                            userDetailsUpdate.login(requestModel).then((value) {
                               setState(() {
-                                _isApiCallProcess = true;
+                                _isApiCallProcess = false;
                               });
 
-                              requestModel.name =
-                                  fullNameController.text.toString();
-                              requestModel.email =
-                                  emailController.text.toString();
-                              requestModel.password =
-                                  passwordController.text.toString();
+                              if (value.status.toString() == "true") {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBarMessage(
+                                    "Profile Update Success!",
+                                    true,
+                                  ),
+                                );
 
-                              UserDetailsUpdate userDetailsUpdate =
-                                  UserDetailsUpdate();
-                              userDetailsUpdate
-                                  .login(requestModel)
-                                  .then((value) {
-                                setState(() {
-                                  _isApiCallProcess = false;
-                                });
-
-                                if (value.status.toString() == "true") {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    snackBarMessage(
-                                      "Profile Update Success!",
-                                      true,
-                                    ),
-                                  );
-
-                                  Navigator.pushNamed(context, HomePage.id);
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    snackBarMessage(
-                                      value.message.toString(),
-                                      false,
-                                    ),
-                                  );
-                                }
-                              });
-                            }
+                                Navigator.pushNamed(context, HomePage.id);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBarMessage(
+                                    value.message.toString(),
+                                    false,
+                                  ),
+                                );
+                              }
+                            });
                           },
                           textColor: Colors.white),
                     ],
