@@ -29,7 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginRequestModel requestModel;
   bool _isApiCallProcess = false;
   String phoneNumber = "";
-
+  String initialCountry = 'BD';
+  PhoneNumber number = PhoneNumber(isoCode: 'BD');
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -63,8 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
-        height:
-            MediaQuery.of(context).size.height, //TODO this for all similar page
+        height: MediaQuery.of(context).size.height,
         alignment: Alignment.center,
         decoration: kPageBackgroundGradientEffect,
         child: SingleChildScrollView(
@@ -111,6 +111,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     TextFieldContainer(
                                       textField: InternationalPhoneNumberInput(
+                                        // countries: [
+                                        //   'BD',
+                                        //   'AE',
+                                        // ],
+                                        initialValue: number,
                                         onInputChanged: (PhoneNumber number) {
                                           print(number.phoneNumber);
                                           setState(() {
@@ -138,6 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             TextInputType.numberWithOptions(
                                                 signed: true, decimal: false),
                                         inputBorder: OutlineInputBorder(),
+                                        countrySelectorScrollControlled: true,
                                         onSaved: (PhoneNumber number) {
                                           print('On Saved: $number');
                                         },

@@ -23,6 +23,9 @@ class _EnterPhoneState extends State<EnterPhone> {
   bool _isApiCallProcess = false;
   TextEditingController phoneController = TextEditingController();
   String phoneNumber = "";
+  String initialCountry = 'BD';
+  PhoneNumber number = PhoneNumber(isoCode: 'BD');
+
   @override
   void initState() {
     super.initState();
@@ -91,6 +94,7 @@ class _EnterPhoneState extends State<EnterPhone> {
                                 ),
                                 TextFieldContainer(
                                   textField: InternationalPhoneNumberInput(
+                                    initialValue: number,
                                     onInputChanged: (PhoneNumber number) {
                                       print(number.phoneNumber);
                                       setState(() {
