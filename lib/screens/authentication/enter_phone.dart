@@ -25,11 +25,23 @@ class _EnterPhoneState extends State<EnterPhone> {
   String phoneNumber = "";
   String initialCountry = 'BD';
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
+  String signCode = '';
+
+  getAppSignature() async {
+    await SmsAutoFill().getAppSignature.then((value) {
+      setState(() {
+        signCode = value;
+      });
+    });
+
+    print("App Signature $signCode");
+  }
 
   @override
   void initState() {
     super.initState();
     requestModel = new PhoneRequest();
+    getAppSignature();
   }
 
   @override
@@ -178,6 +190,8 @@ class _EnterPhoneState extends State<EnterPhone> {
                   buttonText: "Enter",
                   onTap: () {
                     if (validateAndSave()) {
+                      requestModel.appSignature = signCode;
+
                       setState(() {
                         _isApiCallProcess = true;
                       });
@@ -192,8 +206,6 @@ class _EnterPhoneState extends State<EnterPhone> {
                         });
 
                         if (value.status) {
-                          final signCode = await SmsAutoFill().getAppSignature;
-                          print("App Signature $signCode");
                           Navigator.pushNamed(
                             context,
                             OTPCode.id,

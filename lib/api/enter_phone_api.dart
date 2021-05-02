@@ -64,14 +64,17 @@ class EnterPhoneResponse {
 //to send data to the server
 class PhoneRequest {
   String phone;
+  String appSignature;
 
   PhoneRequest({
     this.phone,
+    this.appSignature,
   });
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       'phone': phone.trim(),
+      'appSignature': appSignature.trim(),
     };
     return map;
   }

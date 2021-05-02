@@ -53,9 +53,13 @@ class CategoriesPanels extends StatelessWidget {
                 Expanded(
                   child: Center(
                     child: Icon(
-                      IconDataSolid(
-                        int.parse('0x$iconUnicode'),
-                      ),
+                      iconUnicode == null
+                          ? const IconData(
+                              0xe911,
+                            )
+                          : IconData(
+                              int.tryParse("0x$iconUnicode"),
+                            ),
                       color: kPrimaryColor,
                       size: 25,
                     ),
