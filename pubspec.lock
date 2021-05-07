@@ -64,6 +64,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  custom_timer:
+    dependency: "direct main"
+    description:
+      name: custom_timer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   dio:
     dependency: "direct main"
     description:
