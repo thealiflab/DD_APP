@@ -50,11 +50,14 @@ class _PaymentState extends State<Payment> {
   int subscriptionMinutesRemaining = 0;
 
   subscriptionExpiryDate() {
-    final DateTime todayDateTime = DateTime.now();
-    DateTime subscriptionExpiredDate = DateTime.parse("2021-06-07 23:28:51");
-    setState(() {
-      subscriptionMinutesRemaining =
-          subscriptionExpiredDate.difference(todayDateTime).inMinutes;
+    UserInfoAPI().getUserInfo().then((value) {
+      final DateTime todayDateTime = DateTime.now();
+      DateTime subscriptionExpiredDate =
+          DateTime.parse(value.lastSubscriptionExpireDate);
+      setState(() {
+        subscriptionMinutesRemaining =
+            subscriptionExpiredDate.difference(todayDateTime).inMinutes;
+      });
     });
   }
 
