@@ -57,7 +57,7 @@ class CategoriesPanels extends StatelessWidget {
                           ? const IconData(
                               0xe911,
                             )
-                          : IconData(
+                          : IconDataSolid(
                               int.tryParse("0x$iconUnicode"),
                             ),
                       color: kPrimaryColor,

@@ -28,6 +28,24 @@ class VendorCard extends StatelessWidget {
     }
   }
 
+  //<=========== Open Map
+  launchMap() async {
+    String homeLat = "37.3230";
+    String homeLng = "122.0312";
+
+    final String googleMapslocationUrl =
+        "https://www.google.com/maps/search/?api=1&query=$homeLat,$homeLng";
+
+    final String encodedURl = Uri.encodeFull(googleMapslocationUrl);
+
+    if (await canLaunch(encodedURl)) {
+      await launch(encodedURl);
+    } else {
+      print('Could not launch $encodedURl');
+      throw 'Could not launch $encodedURl';
+    }
+  }
+
   _email(String email) async {
     if (await canLaunch("mailto:$email")) {
       await launch("mailto:$email");
@@ -123,9 +141,7 @@ class VendorCard extends StatelessWidget {
                             height: 5,
                           ),
                           Text(
-                            snapshot.data['data'][index]['discount_amount']
-                                    .toString() +
-                                "%",
+                            "Discount ${snapshot.data['data'][index]['discount_amount']}%",
                             style:
                                 TextStyle(fontSize: 16, color: kPrimaryColor),
                           ),
@@ -138,12 +154,10 @@ class VendorCard extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    _email(snapshot.data['data'][index]
-                                            ['vendor_email']
-                                        .toString());
+                                    launchMap();
                                   },
                                   child: Icon(
-                                    Icons.email_rounded,
+                                    Icons.location_on,
                                     size: 20,
                                     color: kPrimaryColor,
                                   ),

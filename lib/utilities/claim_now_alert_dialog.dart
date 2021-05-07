@@ -69,7 +69,7 @@ AlertDialog claimNowAlertDialog(
             height: 20,
           ),
           Text(
-            snapshot.data['data'][index]['discount_amount'].toString() + "%",
+            "Discount ${snapshot.data['data'][index]['discount_amount']}%",
             style: TextStyle(
               fontSize: 26,
               color: kPrimaryColor,
