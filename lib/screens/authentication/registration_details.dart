@@ -7,6 +7,7 @@ import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
 import 'package:dd_app/screens/authentication/login_screen.dart';
 import 'package:dd_app/utilities/snack_bar_message.dart';
+import 'package:password_strength/password_strength.dart';
 
 class RegisterUserDetails extends StatefulWidget {
   static const String id = "registration_new_user";
@@ -20,6 +21,9 @@ class _RegisterUserDetailsState extends State<RegisterUserDetails> {
 
   bool _hidePassword = true;
   bool _isApiCallProcess = false;
+  bool isWeak = false;
+  bool isAllRight = false;
+  bool isStrong = false;
 
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -133,6 +137,32 @@ class _RegisterUserDetailsState extends State<RegisterUserDetails> {
                                       textField: TextFormField(
                                         controller: passwordController,
                                         textAlign: TextAlign.center,
+                                        onChanged: (input) {
+                                          double strength =
+                                              estimatePasswordStrength(input);
+                                          if (strength < 0.3) {
+                                            setState(() {
+                                              isWeak = true;
+                                              isAllRight = false;
+                                              isStrong = false;
+                                            });
+                                            print('This password is weak!');
+                                          } else if (strength < 0.7) {
+                                            print('This password is alright.');
+                                            setState(() {
+                                              isWeak = false;
+                                              isAllRight = true;
+                                              isStrong = false;
+                                            });
+                                          } else {
+                                            print('This passsword is strong!');
+                                            setState(() {
+                                              isWeak = false;
+                                              isAllRight = false;
+                                              isStrong = true;
+                                            });
+                                          }
+                                        },
                                         decoration:
                                             kLoginInputDecoration.copyWith(
                                           hintText: "Password",
@@ -160,6 +190,46 @@ class _RegisterUserDetailsState extends State<RegisterUserDetails> {
                                                 input.isEmpty
                                             ? "Password should be at least 6 character long"
                                             : null,
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Container(
+                                        height: 5,
+                                        width: 260,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              height: 5,
+                                              color: isWeak
+                                                  ? Colors.red
+                                                  : isAllRight
+                                                      ? Colors.green
+                                                      : isStrong
+                                                          ? Colors.blue
+                                                          : Colors.white,
+                                              width: 80,
+                                            ),
+                                            Container(
+                                              height: 5,
+                                              color: isAllRight
+                                                  ? Colors.green
+                                                  : isStrong
+                                                      ? Colors.blue
+                                                      : Colors.white,
+                                              width: 80,
+                                            ),
+                                            Container(
+                                              height: 5,
+                                              color: isStrong
+                                                  ? Colors.blue
+                                                  : Colors.white,
+                                              width: 80,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],

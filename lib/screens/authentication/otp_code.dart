@@ -33,9 +33,9 @@ class _OTPCodeState extends State<OTPCode> {
 
   OTPRequest requestModel;
 
-  final TextEditingController _pinPutController = TextEditingController();
+  // final TextEditingController _pinPutController = TextEditingController();
   final TextEditingController smsAutoFilController = TextEditingController();
-  final FocusNode _pinPutFocusNode = FocusNode();
+  // final FocusNode _pinPutFocusNode = FocusNode();
 
   bool _isApiCallProcess = false;
 

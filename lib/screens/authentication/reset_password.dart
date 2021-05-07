@@ -270,7 +270,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     ),
                     ActionButton(
                         buttonColor: Colors.white,
-                        buttonText: "Register",
+                        buttonText: "Confirm",
                         onTap: () {
                           if (validateAndSave()) {
                             setState(() {
