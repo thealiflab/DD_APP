@@ -30,8 +30,8 @@ class VendorCard extends StatelessWidget {
 
   //<=========== Open Map
   launchMap(lat, lng) async {
-    String homeLat = lat.toString();
-    String homeLng = lng.toString();
+    String homeLat = lat.toString() ?? "37.3230";
+    String homeLng = lng.toString() ?? "122.0312";
 
     final String googleMapslocationUrl =
         "https://www.google.com/maps/search/?api=1&query=$homeLat,$homeLng";
