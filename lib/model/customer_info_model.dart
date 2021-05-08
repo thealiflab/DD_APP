@@ -9,6 +9,7 @@ class CustomerInfoGetModel {
   String userLastLogin;
   List<bool> subscriptionStatus;
   bool isRegistered;
+  bool isSubscriptionExpired;
   String lastSubscriptionDate;
   String lastSubscriptionLimit;
   String lastSubscriptionExpireDate;
@@ -27,6 +28,7 @@ class CustomerInfoGetModel {
       this.userLastLogin,
       this.subscriptionStatus,
       this.isRegistered,
+      this.isSubscriptionExpired,
       this.lastSubscriptionDate,
       this.lastSubscriptionLimit,
       this.lastSubscriptionExpireDate,
@@ -45,6 +47,7 @@ class CustomerInfoGetModel {
     userLastLogin = json['user_last_login'];
     subscriptionStatus = json['subscription_status'].cast<bool>();
     isRegistered = json['isRegistered'];
+    isSubscriptionExpired = json['isSubscriptionExpired'];
     lastSubscriptionDate = json['lastSubscriptionDate'];
     lastSubscriptionLimit = json['lastSubscriptionLimit'];
     lastSubscriptionExpireDate = json['lastSubscriptionExpireDate'];
