@@ -169,9 +169,9 @@ class _PaymentState extends State<Payment> {
                             visible: !snapshot.data.isSubscriptionExpired,
                             child: CustomTimer(
                               controller: _timerController,
-                              from:
-                                  Duration(hours: subscriptionMinutesRemaining),
-                              to: Duration(hours: 0),
+                              from: Duration(
+                                  minutes: subscriptionMinutesRemaining ?? 1),
+                              to: Duration(minutes: 0),
                               interval: Duration(seconds: 1),
                               onBuildAction: CustomTimerAction.auto_start,
                               builder: (CustomTimerRemainingTime remaining) {
@@ -269,6 +269,7 @@ class _PaymentState extends State<Payment> {
                                       true,
                                     ),
                                   );
+                                  Navigator.pop(context);
                                 });
                               },
                               child: Text('Pay Amount'),
