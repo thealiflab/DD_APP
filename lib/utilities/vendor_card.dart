@@ -140,6 +140,20 @@ class VendorCard extends StatelessWidget {
                           SizedBox(
                             height: 5,
                           ),
+                          Expanded(
+                            child: Text(
+                              snapshot.data['data'][index]
+                                      ['vendor_full_address']
+                                  .toString(),
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Text(
                             "Discount ${snapshot.data['data'][index]['discount_amount']}%",
                             style:

@@ -71,7 +71,7 @@ class _PaymentState extends State<Payment> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            'Subscription',
+            'Payment',
             style: TextStyle(
               color: Colors.white,
             ),
