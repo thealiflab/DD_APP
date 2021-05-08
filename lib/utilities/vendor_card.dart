@@ -167,9 +167,11 @@ class VendorCard extends StatelessWidget {
                                   onTap: () {
                                     launchMap(
                                       snapshot.data['data'][index]
-                                          ['vendor_latitude'],
+                                              ['vendor_latitude'] ??
+                                          "37.3230",
                                       snapshot.data['data'][index]
-                                          ['vendor_longitude'],
+                                              ['vendor_longitude'] ??
+                                          "122.0312",
                                     );
                                   },
                                   child: Icon(
