@@ -165,28 +165,35 @@ class _PaymentState extends State<Payment> {
                             height: 20,
                           ),
                           // <================================ Show Subscription Timer
-                          CustomTimer(
-                            controller: _timerController,
-                            from: Duration(hours: subscriptionMinutesRemaining),
-                            to: Duration(hours: 0),
-                            interval: Duration(seconds: 1),
-                            onBuildAction: CustomTimerAction.auto_start,
-                            builder: (CustomTimerRemainingTime remaining) {
-                              return Row(
-                                children: [
-                                  Text("Time Remaining : "),
-                                  Text(
-                                    "  ${remaining.days} days :${remaining.hours} hours:${remaining.minutes} minutes",
-                                    style: TextStyle(
-                                        fontSize: 12.0,
-                                        color: int.parse(remaining.days) > 2
-                                            ? Colors.green
-                                            : Colors.red),
-                                  ),
-                                ],
-                              );
-                            },
+                          Visibility(
+                            visible: !snapshot.data.isSubscriptionExpired,
+                            child: CustomTimer(
+                              controller: _timerController,
+                              from:
+                                  Duration(hours: subscriptionMinutesRemaining),
+                              to: Duration(hours: 0),
+                              interval: Duration(seconds: 1),
+                              onBuildAction: CustomTimerAction.auto_start,
+                              builder: (CustomTimerRemainingTime remaining) {
+                                return Row(
+                                  children: [
+                                    Text("Time Remaining : "),
+                                    Text(
+                                      "  ${remaining.days} days :${remaining.hours} hours:${remaining.minutes} minutes",
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          color: int.parse(remaining.days) > 5
+                                              ? Colors.green
+                                              : Colors.red),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
                           ),
+                          Visibility(
+                              visible: snapshot.data.isSubscriptionExpired,
+                              child: Text("No Subscription Remaining")),
                           SizedBox(
                             height: 10,
                           ),
