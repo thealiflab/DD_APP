@@ -72,3 +72,5 @@ class MyApp extends StatelessWidget {
 
 //To build apk without errors, run -> flutter build apk --no-tree-shake-icons
 //for play store run ->
+// Get SHA -1 Key
+//keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android

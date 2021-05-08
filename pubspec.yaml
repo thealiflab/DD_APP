@@ -35,6 +35,10 @@ dependencies:
   sms_autofill: ^2.0.0
   password_strength: ^0.2.0
   custom_timer: ^0.0.3
+  
+
+  firebase_core: ^1.1.0
+  firebase_analytics: ^8.0.3
 
 dev_dependencies:
   flutter_test:
