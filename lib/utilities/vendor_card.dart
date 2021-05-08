@@ -29,9 +29,9 @@ class VendorCard extends StatelessWidget {
   }
 
   //<=========== Open Map
-  launchMap() async {
-    String homeLat = "37.3230";
-    String homeLng = "122.0312";
+  launchMap(lat, lng) async {
+    String homeLat = lat.toString();
+    String homeLng = lng.toString();
 
     final String googleMapslocationUrl =
         "https://www.google.com/maps/search/?api=1&query=$homeLat,$homeLng";
@@ -140,15 +140,12 @@ class VendorCard extends StatelessWidget {
                           SizedBox(
                             height: 5,
                           ),
-                          Expanded(
-                            child: Text(
-                              snapshot.data['data'][index]
-                                      ['vendor_full_address']
-                                  .toString(),
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.grey,
-                              ),
+                          Text(
+                            snapshot.data['data'][index]['location_name']
+                                .toString(),
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey,
                             ),
                           ),
                           SizedBox(
@@ -168,7 +165,12 @@ class VendorCard extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    launchMap();
+                                    launchMap(
+                                      snapshot.data['data'][index]
+                                          ['vendor_latitude'],
+                                      snapshot.data['data'][index]
+                                          ['vendor_longitude'],
+                                    );
                                   },
                                   child: Icon(
                                     Icons.location_on,
