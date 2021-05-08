@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dd_app/screens/login_register.dart';
+import 'package:dd_app/screens/authentication/login_register.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';

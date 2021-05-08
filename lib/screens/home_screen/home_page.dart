@@ -5,7 +5,7 @@ import 'package:dd_app/screens/search/search_bar_panel.dart';
 import 'package:dd_app/screens/payment_history.dart';
 import 'package:dd_app/screens/payment_screen.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
-import 'package:dd_app/screens/login_register.dart';
+import 'package:dd_app/screens/authentication/login_register.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/screens/blog.dart';
 import 'package:dd_app/screens/profile_screen/profile.dart';

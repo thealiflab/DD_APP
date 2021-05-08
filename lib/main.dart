@@ -10,7 +10,7 @@ import 'package:dd_app/screens/authentication/login_screen.dart';
 import 'package:dd_app/screens/authentication/enter_phone.dart';
 import 'package:dd_app/screens/authentication/otp_code.dart';
 import 'package:dd_app/screens/authentication/registration_details.dart';
-import 'package:dd_app/screens/login_register.dart';
+import 'package:dd_app/screens/authentication/login_register.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/scanned_data_screen.dart';
