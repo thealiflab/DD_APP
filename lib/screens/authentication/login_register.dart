@@ -4,6 +4,8 @@ import 'package:dd_app/screens/authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/action_button.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dd_app/progressHUD.dart';
 import 'package:dd_app/api/guest_login_api.dart';
@@ -20,8 +22,14 @@ class LoginRegister extends StatefulWidget {
 }
 
 class _LoginRegisterState extends State<LoginRegister> {
+  GoogleSignIn _googleSignIn = GoogleSignIn();
   GuestLoginAPI guestLoginAPI;
   bool _isApiCallProcess = false;
+
+  String _gUserPhoto = "";
+  String _gUserName = "";
+  String _gUserID = "";
+  String _gUserEmail = "";
 
   Future sharedPrefFunc() async {
     localStorage = await SharedPreferences.getInstance();
@@ -124,7 +132,42 @@ class _LoginRegisterState extends State<LoginRegister> {
                     textColor: kPrimaryColor,
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.12,
+                    height: 30,
+                  ),
+                  Text(
+                    "Login with :",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                          icon: FaIcon(
+                            FontAwesomeIcons.facebookF,
+                          ),
+                          onPressed: () {
+                            print(_gUserName);
+                          }),
+                      IconButton(
+                          icon: FaIcon(FontAwesomeIcons.google),
+                          onPressed: () {
+                            _googleSignIn.signIn().then((userData) {
+                              print(userData);
+                              setState(() {
+                                _gUserID = userData.id;
+                                _gUserEmail = userData.email;
+                                _gUserName = userData.displayName;
+                                _gUserPhoto = userData.photoUrl;
+                              });
+                            });
+                          }),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
