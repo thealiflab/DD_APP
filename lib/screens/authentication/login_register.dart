@@ -134,41 +134,41 @@ class _LoginRegisterState extends State<LoginRegister> {
                   SizedBox(
                     height: 30,
                   ),
-                  Text(
-                    "Login with :",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                          icon: FaIcon(
-                            FontAwesomeIcons.facebookF,
-                          ),
-                          onPressed: () {
-                            print(_gUserName);
-                          }),
-                      IconButton(
-                          icon: FaIcon(FontAwesomeIcons.google),
-                          onPressed: () {
-                            _googleSignIn.signIn().then((userData) {
-                              print(userData);
-                              setState(() {
-                                _gUserID = userData.id;
-                                _gUserEmail = userData.email;
-                                _gUserName = userData.displayName;
-                                _gUserPhoto = userData.photoUrl;
-                              });
-                            });
-                          }),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  // Text(
+                  //   "Login with :",
+                  //   style: TextStyle(color: Colors.white, fontSize: 16),
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     IconButton(
+                  //         icon: FaIcon(
+                  //           FontAwesomeIcons.facebookF,
+                  //         ),
+                  //         onPressed: () {
+                  //           print(_gUserName);
+                  //         }),
+                  //     IconButton(
+                  //         icon: FaIcon(FontAwesomeIcons.google),
+                  //         onPressed: () {
+                  //           _googleSignIn.signIn().then((userData) {
+                  //             print(userData);
+                  //             setState(() {
+                  //               _gUserID = userData.id;
+                  //               _gUserEmail = userData.email;
+                  //               _gUserName = userData.displayName;
+                  //               _gUserPhoto = userData.photoUrl;
+                  //             });
+                  //           });
+                  //         }),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: TextButton(
