@@ -189,6 +189,8 @@ class _ProfileEditState extends State<ProfileEdit> {
   }
 
   Widget _uiSetup(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
+    double _height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -199,173 +201,182 @@ class _ProfileEditState extends State<ProfileEdit> {
         ),
         title: Text("Profile Update"),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 25),
-          child: FutureBuilder<dynamic>(
-            future: userInfoAPI.getUData(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                TextEditingController fullNameController =
-                    TextEditingController(
-                        text:
-                            snapshot.data['data']['user_fullname'].toString() ??
-                                "No Data");
-                TextEditingController emailController = TextEditingController(
-                    text: snapshot.data['data']['user_email'].toString() ??
-                        "No Data");
-                TextEditingController passwordController =
-                    TextEditingController();
-                return Form(
-                  key: _globalFormKey,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 115,
-                        width: 115,
-                        child: Stack(
-                          fit: StackFit.expand,
-                          clipBehavior: Clip.none,
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: NetworkImage(baseUrl +
-                                      "/" +
-                                      snapshot.data['data']
-                                              ['user_profile_image']
-                                          .toString()) ??
-                                  "",
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: -12,
-                              child: SizedBox(
-                                height: 46,
-                                width: 46,
-                                child: TextButton(
-                                  onPressed: () {
-                                    showCameraOptionPopUp(context);
-                                  },
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50),
-                                        side: BorderSide(
-                                          color: Colors.black,
+      body: Container(
+        width: _width,
+        height: _height,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 25),
+            child: FutureBuilder<dynamic>(
+              future: userInfoAPI.getUData(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  TextEditingController fullNameController =
+                      TextEditingController(
+                          text: snapshot.data['data']['user_fullname']
+                                  .toString() ??
+                              "No Data");
+                  TextEditingController emailController = TextEditingController(
+                      text: snapshot.data['data']['user_email'].toString() ??
+                          "No Data");
+                  TextEditingController passwordController =
+                      TextEditingController();
+                  return Form(
+                    key: _globalFormKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 115,
+                          width: 115,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            clipBehavior: Clip.none,
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: NetworkImage(baseUrl +
+                                        "/" +
+                                        snapshot.data['data']
+                                                ['user_profile_image']
+                                            .toString()) ??
+                                    "",
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: -12,
+                                child: SizedBox(
+                                  height: 46,
+                                  width: 46,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      showCameraOptionPopUp(context);
+                                    },
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          side: BorderSide(
+                                            color: Colors.black,
+                                          ),
                                         ),
                                       ),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.white),
                                     ),
-                                    backgroundColor:
-                                        MaterialStateProperty.all(Colors.white),
+                                    child: isImageLoading == false
+                                        ? SvgPicture.asset(
+                                            "assets/icons/camera.svg")
+                                        : CircularProgressIndicator(),
                                   ),
-                                  child: isImageLoading == false
-                                      ? SvgPicture.asset(
-                                          "assets/icons/camera.svg")
-                                      : CircularProgressIndicator(),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      TextFieldContainer(
-                        textField: TextFormField(
-                          controller: fullNameController,
-                          textAlign: TextAlign.center,
-                          decoration:
-                              kLoginInputDecoration.copyWith(hintText: ""),
-                          keyboardType: TextInputType.text,
-                          validator: (input) =>
-                              input.isEmpty ? "Enter valid name" : null,
-                        ),
-                      ),
-                      TextFieldContainer(
-                        textField: TextFormField(
-                          controller: emailController,
-                          textAlign: TextAlign.center,
-                          decoration:
-                              kLoginInputDecoration.copyWith(hintText: "Email"),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            Pattern pattern =
-                                r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                r"{0,253}[a-zA-Z0-9])?)*$";
-                            RegExp regex = new RegExp(pattern);
-                            if (!regex.hasMatch(value) || value.isEmpty)
-                              return 'Enter a valid email address';
-                            else
-                              return null;
-                          },
-                        ),
-                      ),
-                      TextFieldContainer(
-                        textField: TextFormField(
-                          controller: passwordController,
-                          textAlign: TextAlign.center,
-                          decoration: kLoginInputDecoration.copyWith(
-                            hintText: "New Password",
+                            ],
                           ),
-                          autofocus: false,
-                          keyboardType: TextInputType.text,
-                          maxLength: 50,
-                          validator: (input) => input.length < 6 ||
-                                  input.isEmpty
-                              ? "Password should be at least 6 character long"
-                              : null,
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      ActionButton(
-                          buttonColor: kPrimaryColor,
-                          buttonText: "Update",
-                          onTap: () {
-                            setState(() {
-                              _isApiCallProcess = true;
-                            });
-
-                            requestModel.name =
-                                fullNameController.text.toString();
-                            requestModel.email =
-                                emailController.text.toString();
-                            requestModel.password =
-                                passwordController.text.toString();
-
-                            UserDetailsUpdate userDetailsUpdate =
-                                UserDetailsUpdate();
-                            userDetailsUpdate.login(requestModel).then((value) {
+                        SizedBox(height: 20),
+                        TextFieldContainer(
+                          textField: TextFormField(
+                            controller: fullNameController,
+                            textAlign: TextAlign.center,
+                            decoration:
+                                kLoginInputDecoration.copyWith(hintText: ""),
+                            keyboardType: TextInputType.text,
+                            validator: (input) =>
+                                input.isEmpty ? "Enter valid name" : null,
+                          ),
+                        ),
+                        TextFieldContainer(
+                          textField: TextFormField(
+                            controller: emailController,
+                            textAlign: TextAlign.center,
+                            decoration: kLoginInputDecoration.copyWith(
+                                hintText: "Email"),
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              Pattern pattern =
+                                  r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                                  r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                                  r"{0,253}[a-zA-Z0-9])?)*$";
+                              RegExp regex = new RegExp(pattern);
+                              if (!regex.hasMatch(value) || value.isEmpty)
+                                return 'Enter a valid email address';
+                              else
+                                return null;
+                            },
+                          ),
+                        ),
+                        TextFieldContainer(
+                          textField: TextFormField(
+                            controller: passwordController,
+                            textAlign: TextAlign.center,
+                            decoration: kLoginInputDecoration.copyWith(
+                              hintText: "New Password",
+                            ),
+                            autofocus: false,
+                            keyboardType: TextInputType.text,
+                            maxLength: 50,
+                            validator: (input) => input.length < 6 ||
+                                    input.isEmpty
+                                ? "Password should be at least 6 character long"
+                                : null,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        ActionButton(
+                            buttonColor: kPrimaryColor,
+                            buttonText: "Update",
+                            onTap: () {
                               setState(() {
-                                _isApiCallProcess = false;
+                                _isApiCallProcess = true;
                               });
 
-                              if (value.status.toString() == "true") {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  snackBarMessage(
-                                    "Profile Update Success!",
-                                    true,
-                                  ),
-                                );
+                              requestModel.name =
+                                  fullNameController.text.toString();
+                              requestModel.email =
+                                  emailController.text.toString();
+                              requestModel.password =
+                                  passwordController.text.toString();
 
-                                Navigator.pushNamed(context, HomePage.id);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  snackBarMessage(
-                                    value.message.toString(),
-                                    false,
-                                  ),
-                                );
-                              }
-                            });
-                          },
-                          textColor: Colors.white),
-                    ],
-                  ),
-                );
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
+                              UserDetailsUpdate userDetailsUpdate =
+                                  UserDetailsUpdate();
+                              userDetailsUpdate
+                                  .login(requestModel)
+                                  .then((value) {
+                                setState(() {
+                                  _isApiCallProcess = false;
+                                });
+
+                                if (value.status.toString() == "true") {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBarMessage(
+                                      "Profile Update Success!",
+                                      true,
+                                    ),
+                                  );
+
+                                  Navigator.pushNamed(context, HomePage.id);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBarMessage(
+                                      value.message.toString(),
+                                      false,
+                                    ),
+                                  );
+                                }
+                              });
+                            },
+                            textColor: Colors.white),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
           ),
         ),
       ),
