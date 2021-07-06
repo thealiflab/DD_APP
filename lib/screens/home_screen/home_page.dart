@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'drawer_per_user.dart';
 import 'open_qr_scanner.dart';
 import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/utilities/api_constants.dart';
 import 'package:dd_app/api/user_info_api.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../search/search_bar_page.dart';

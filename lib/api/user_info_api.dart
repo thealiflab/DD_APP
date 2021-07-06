@@ -1,7 +1,7 @@
 import 'package:dd_app/model/customer_info_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/utilities/api_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences localStorage;
@@ -11,7 +11,7 @@ class UserInfoAPI {
     localStorage = await SharedPreferences.getInstance();
     try {
       http.Response response = await http.get(
-        Uri.parse("$baseUrl/api/v1/customer"),
+        Uri.parse(baseUrl + customerExt),
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',
@@ -28,7 +28,7 @@ class UserInfoAPI {
   Future<CustomerInfoGetModel> getUserInfo() async {
     localStorage = await SharedPreferences.getInstance();
     var response = await http.get(
-      Uri.parse("$baseUrl/api/v1/customer"),
+      Uri.parse(baseUrl + customerExt),
       headers: <String, String>{
         'Authorization': 'Bearer ${localStorage.get('Authorization')}',
         'Customer-ID': '${localStorage.get('Customer-ID')}',

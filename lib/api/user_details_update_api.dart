@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/utilities/api_constants.dart';
 
 SharedPreferences localStorage;
 
@@ -10,7 +10,7 @@ class UserDetailsUpdate {
     localStorage = await SharedPreferences.getInstance();
     try {
       final response = await http.post(
-        Uri.parse("$baseUrl/api/v1/customer/update"),
+        Uri.parse(baseUrl + userDetailsUpdateExt),
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',

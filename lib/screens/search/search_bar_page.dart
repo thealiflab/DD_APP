@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dd_app/api/all_vendors_api.dart';
+import 'package:dd_app/utilities/api_constants.dart';
 
 SharedPreferences localStorage;
 var dataFromAPI;
@@ -170,7 +171,7 @@ class _SearchBarPageState extends State<SearchBarPage> {
 
   void _getVendorNames() async {
     localStorage = await SharedPreferences.getInstance();
-    var url = Uri.parse('https://apps.dd.limited/api/v1/vendor/0');
+    var url = Uri.parse(baseUrl + vendorsExt);
     http.Response response = await http.get(
       url,
       headers: <String, String>{

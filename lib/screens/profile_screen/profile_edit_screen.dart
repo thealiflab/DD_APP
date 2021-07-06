@@ -1,9 +1,9 @@
 import 'package:dd_app/screens/home_screen/home_page.dart';
-import 'package:dd_app/screens/profile_screen/profile.dart';
 import "package:flutter/material.dart";
 import 'package:dd_app/api/user_info_api.dart';
 import 'package:dd_app/utilities/text_field_container.dart';
 import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/utilities/api_constants.dart';
 import 'package:dd_app/utilities/action_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -38,18 +38,6 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   //http client
   Dio dio = new Dio();
-
-  //refresh indicator
-  // var _refreshProfileKey = GlobalKey<RefreshIndicatorState>();
-  // Future<Null> refreshProfile() async {
-  //   _refreshProfileKey.currentState?.show(atTop: false);
-  //   await Future.delayed(Duration(seconds: 1));
-  //   setState(() {
-  //     imageCache.clear();
-  //     imageCache.clearLiveImages();
-  //   });
-  //   return null;
-  // }
 
   @override
   void initState() {
@@ -93,7 +81,7 @@ class _ProfileEditState extends State<ProfileEdit> {
           {"profileImage": await MultipartFile.fromFile(imageFile.path)});
 
       final response =
-          await dio.post("$baseUrl/api/v1/customer/update", data: formData);
+          await dio.post(baseUrl + userDetailsUpdateExt, data: formData);
       print("upload image response data ${response.data}");
       print(
           "status of the resutl: ${json.decode(response.toString())['status']} <--");
