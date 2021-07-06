@@ -23,7 +23,7 @@ Star⭐ the repository if you like the app.
 |------|
 |<img src="screenshots/7.png" width="400">|
 
-## 👇 Get the app from Playstore
+##
 [![DD Travel APP](https://github.com/thealiflab/DD_APP/blob/main/screenshots/playstore.png)](https://play.google.com/store/apps/details?id=com.limited.dd_app&hl=en_US)
 
 ## ✨ Requirements
