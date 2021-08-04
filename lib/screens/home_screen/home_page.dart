@@ -1,6 +1,7 @@
 import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:dd_app/screens/about_us.dart';
 import 'package:dd_app/screens/discount_history.dart';
+import 'package:dd_app/screens/home_screen/notifications_screen.dart';
 import 'package:dd_app/screens/search/search_bar_panel.dart';
 import 'package:dd_app/screens/payment_history.dart';
 import 'package:dd_app/screens/payment_screen.dart';
@@ -302,26 +303,51 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Text(
-                'Hello,',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, Profile.id);
+            },
+            child: Container(
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: snapshot.data['data']['user_profile_image']
+                                .toString() !=
+                            null
+                        ? NetworkImage(
+                            baseUrl +
+                                "/" +
+                                snapshot.data['data']['user_profile_image']
+                                    .toString(),
+                          )
+                        : AssetImage('assets/images/profile.jpg'),
+                  ),
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          'Hello,',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 5.0),
+                        Text(
+                          snapshot.data['data']['user_fullname'].toString() ??
+                              "Guest User",
+                          style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: kPrimaryColor),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 5.0),
-              Text(
-                snapshot.data['data']['user_fullname'].toString() ??
-                    "Guest User",
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: kPrimaryColor),
-              ),
-            ],
+            ),
           ),
           Container(
             height: 50,
@@ -337,19 +363,12 @@ class _HomePageState extends State<HomePage> {
             ),
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, Profile.id);
+                Navigator.pushNamed(context, NotificationScreen.id);
               },
               child: CircleAvatar(
-                backgroundImage:
-                    snapshot.data['data']['user_profile_image'].toString() !=
-                            null
-                        ? NetworkImage(
-                            baseUrl +
-                                "/" +
-                                snapshot.data['data']['user_profile_image']
-                                    .toString(),
-                          )
-                        : AssetImage('assets/images/homepage/profile.jpg'),
+                backgroundImage: AssetImage(
+                  'assets/images/homepage/ddlogow.png',
+                ),
               ),
             ),
           )

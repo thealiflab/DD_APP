@@ -1,4 +1,5 @@
 import 'package:dd_app/screens/blog.dart';
+import 'package:dd_app/screens/home_screen/notifications_screen.dart';
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
 import 'package:dd_app/screens/search/search_bar_page.dart';
 import 'package:dd_app/screens/payment_screen.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         DiscountHistory.id: (context) => DiscountHistory(),
         PaymentHistory.id: (context) => PaymentHistory(),
         AboutUs.id: (context) => AboutUs(),
+        NotificationScreen.id: (context) => NotificationScreen(),
       },
     );
   }

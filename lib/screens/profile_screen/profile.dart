@@ -40,7 +40,7 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.white,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () => Navigator.pushNamed(context, HomePage.id),
         ),
         title: Text("Profile"),
