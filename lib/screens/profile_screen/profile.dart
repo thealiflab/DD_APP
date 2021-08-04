@@ -70,12 +70,12 @@ class _ProfileState extends State<Profile> {
                       info: snapshot.data['data']['user_fullname'].toString() ??
                           "No Data", //null-safety assurance
                     ),
-                    ProfileInfoPanel(
-                      textIcon: Icons.lock,
-                      info:
-                          snapshot.data['data']['user_unique_id'].toString() ??
-                              "No Data",
-                    ),
+                    // ProfileInfoPanel(
+                    //   textIcon: Icons.lock,
+                    //   info:
+                    //       snapshot.data['data']['user_unique_id'].toString() ??
+                    //           "No Data",
+                    // ),
                     ProfileInfoPanel(
                       textIcon: Icons.phone,
                       info: snapshot.data['data']['user_phone'].toString() ??
