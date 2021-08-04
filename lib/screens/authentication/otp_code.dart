@@ -128,7 +128,55 @@ class _OTPCodeState extends State<OTPCode> {
                                                 Colors.black.withOpacity(0.3)),
                                           ),
                                           currentCode: _code,
-                                          onCodeSubmitted: (code) {},
+                                          onCodeSubmitted: (code) {
+                                            setState(() {
+                                              _isApiCallProcess = true;
+                                            });
+                                            requestModel.otp =
+                                                smsAutoFilController.text;
+                                            requestModel.phone =
+                                                receivedData['phone'];
+
+                                            EnterOTPApi apiServices =
+                                                EnterOTPApi();
+                                            apiServices
+                                                .login(requestModel)
+                                                .then((value) {
+                                              setState(() {
+                                                _isApiCallProcess = false;
+                                              });
+
+                                              localStorage.setString(
+                                                  "Authorization",
+                                                  value.token.toString());
+                                              localStorage.setString(
+                                                  "Customer-ID",
+                                                  value.CI.toString());
+
+                                              if (value.status) {
+                                                if (localStorage
+                                                    .getBool("resetPassword")) {
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    ResetPassword.id,
+                                                  );
+                                                } else {
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    RegisterUserDetails.id,
+                                                  );
+                                                }
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  snackBarMessage(
+                                                    value.message.toString(),
+                                                    false,
+                                                  ),
+                                                );
+                                              }
+                                            });
+                                          },
                                           onCodeChanged: (code) {
                                             if (code.length == 6) {
                                               FocusScope.of(context)
