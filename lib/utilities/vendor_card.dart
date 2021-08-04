@@ -127,7 +127,8 @@ class VendorCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Expanded(
+                          FittedBox(
+                            fit: BoxFit.contain,
                             child: Text(
                               snapshot.data['data'][index]['vendor_name']
                                   .toString(),
