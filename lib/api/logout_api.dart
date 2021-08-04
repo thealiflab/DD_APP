@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/utilities/api_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences localStorage;
@@ -14,7 +14,7 @@ class LogoutAPI {
 
     try {
       http.Response response = await http.post(
-        Uri.parse("$baseUrl/api/v1/logout"),
+        Uri.parse(baseUrl + logoutExt),
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',

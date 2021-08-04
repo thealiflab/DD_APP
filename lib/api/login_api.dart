@@ -1,11 +1,11 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/utilities/api_constants.dart';
 
 class LoginService {
   Future<LoginResponseModel> login(LoginRequestModel requestModel) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/api/v1/login"),
+      Uri.parse(baseUrl + loginExt),
       body: requestModel.toJson(),
     );
 

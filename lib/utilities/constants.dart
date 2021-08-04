@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-//API Constants
-const baseUrl = "https://apps.dd.limited";
-
 //UI Constants
 const kPrimaryColor = Color(0xFF24b5c4);
 const kLightPrimaryColor = Color(0xFF34d3ae);

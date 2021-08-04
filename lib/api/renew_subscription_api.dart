@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/utilities/api_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences localStorage;
@@ -8,7 +8,7 @@ SharedPreferences localStorage;
 class RenewSubAPI {
 //Get Request for Registration details
   Future getRegistrationFee() async {
-    String url = "$baseUrl/api/v1/globals/registrationFee";
+    String url = baseUrl + registrationFeeExt;
     localStorage = await SharedPreferences.getInstance();
     String authorization = "Bearer ${localStorage.get('Authorization')}";
     var response = await http.get(Uri.parse(url), headers: {
@@ -33,7 +33,7 @@ class RenewSubAPI {
 
 // <===================== Get Request for Subscription details
   Future getSubscriptionFee() async {
-    String url = "$baseUrl/api/v1/globals/subscriptionFee";
+    String url = baseUrl + subscriptionFeeExt;
     localStorage = await SharedPreferences.getInstance();
 
     String authorization = "Bearer ${localStorage.get('Authorization')}";
@@ -64,7 +64,7 @@ class RenewSubAPI {
     try {
       http.Response response = await http.get(
         Uri.parse(
-            "$baseUrl/api/v1/customer/renewSubscription?subscription_limit=$month&transaction_id=$tID&subscription_fee=$fee"),
+            "$baseUrl$renewSubscriptionExt?subscription_limit=$month&transaction_id=$tID&subscription_fee=$fee"),
         headers: <String, String>{
           'Authorization': 'Bearer ${localStorage.get('Authorization')}',
           'Customer-ID': '${localStorage.get('Customer-ID')}',

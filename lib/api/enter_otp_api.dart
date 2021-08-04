@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:dd_app/utilities/constants.dart';
+import 'package:dd_app/utilities/api_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences localStorage;
@@ -11,7 +11,7 @@ class EnterOTPApi {
     try {
       if (localStorage.getBool("resetPassword")) {
         final response = await http.post(
-          Uri.parse("$baseUrl/api/v1/forgotPassword"),
+          Uri.parse(baseUrl + forgetPasswordExt),
           headers: <String, String>{
             'State': 'Second',
           },
@@ -25,7 +25,7 @@ class EnterOTPApi {
         }
       } else {
         final response = await http.post(
-          Uri.parse("$baseUrl/api/v1/customer/register"),
+          Uri.parse(baseUrl + registerExt),
           headers: <String, String>{
             'State': 'Second',
           },
