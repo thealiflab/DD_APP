@@ -36,7 +36,7 @@ class _DiscountHistoryState extends State<DiscountHistory> {
       ),
       body: SingleChildScrollView(
         child: FutureBuilder<dynamic>(
-          future: userInfoAPI.getUData(),
+          future: userInfoAPI.getUData(context),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(

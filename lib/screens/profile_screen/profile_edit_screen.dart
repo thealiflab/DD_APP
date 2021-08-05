@@ -41,7 +41,7 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   @override
   void initState() {
-    apiData = userInfoAPI.getUData();
+    apiData = userInfoAPI.getUData(context);
     requestModel = UpdateDetailsRequest();
     super.initState();
   }
@@ -196,7 +196,7 @@ class _ProfileEditState extends State<ProfileEdit> {
           child: Padding(
             padding: const EdgeInsets.only(top: 25),
             child: FutureBuilder<dynamic>(
-              future: userInfoAPI.getUData(),
+              future: userInfoAPI.getUData(context),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   TextEditingController fullNameController =

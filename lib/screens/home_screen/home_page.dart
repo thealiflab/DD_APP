@@ -1,5 +1,6 @@
 import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:dd_app/screens/about_us.dart';
+import 'package:dd_app/screens/authentication/login_screen.dart';
 import 'package:dd_app/screens/discount_history.dart';
 import 'package:dd_app/screens/home_screen/notifications_screen.dart';
 import 'package:dd_app/screens/search/search_bar_panel.dart';
@@ -122,6 +123,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       global.isNewImageUploaded = false;
     }
+
     super.initState();
   }
 
@@ -188,58 +190,103 @@ class _HomePageState extends State<HomePage> {
                         ),
                       )
                     : FutureBuilder<dynamic>(
-                        future: userInfoAPI.getUData(),
+                        future: userInfoAPI.getUData(context),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            // ignore: missing_return
-                            return SmartRefresher(
-                              enablePullDown: true,
-                              enablePullUp: false,
-                              header: WaterDropMaterialHeader(),
-                              footer: CustomFooter(
-                                builder:
-                                    (BuildContext context, LoadStatus mode) {
-                                  Widget body;
-                                  if (mode == LoadStatus.idle) {
-                                    body = Text("pull up load");
-                                  } else if (mode == LoadStatus.loading) {
-                                    body = CircularProgressIndicator();
-                                  } else if (mode == LoadStatus.failed) {
-                                    body = Text("Load Failed!Click retry!");
-                                  } else if (mode == LoadStatus.canLoading) {
-                                    body = Text("release to load more");
-                                  } else {
-                                    body = Text("No more Data");
-                                  }
-                                  return Container(
-                                    height: 55.0,
-                                    child: Center(child: body),
-                                  );
-                                },
-                              ),
-                              controller: _refreshController,
-                              onRefresh: _onRefresh,
-                              onLoading: _onLoading,
-                              child: ListView(
-                                children: <Widget>[
-                                  userHeaderSection(snapshot),
-                                  SizedBox(height: 3.0),
-                                  searchBarSection(context),
-                                  SizedBox(
-                                    height: 20.0,
+                          if (!snapshot.hasError) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none:
+                                return Center(
+                                  child: Text(
+                                    "Offline!",
+                                    style: TextStyle(
+                                        fontSize: 24, color: Colors.red),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  categorySection(),
-                                  SizedBox(
-                                    height: 20.0,
+                                );
+                              case ConnectionState.waiting:
+                                return Center(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      CircularProgressIndicator(),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 20.0,
+                                        ),
+                                        child: Text(
+                                          "Please Wait",
+                                          style: TextStyle(fontSize: 20.0),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  popularDiscountDealsSection(context),
-                                ],
-                              ),
+                                );
+                                break;
+                              default:
+                                return SmartRefresher(
+                                  enablePullDown: true,
+                                  enablePullUp: false,
+                                  header: WaterDropMaterialHeader(),
+                                  footer: CustomFooter(
+                                    builder: (BuildContext context,
+                                        LoadStatus mode) {
+                                      Widget body;
+                                      if (mode == LoadStatus.idle) {
+                                        body = Text("pull up load");
+                                      } else if (mode == LoadStatus.loading) {
+                                        body = CircularProgressIndicator();
+                                      } else if (mode == LoadStatus.failed) {
+                                        body = Text("Load Failed!Click retry!");
+                                      } else if (mode ==
+                                          LoadStatus.canLoading) {
+                                        body = Text("release to load more");
+                                      } else {
+                                        body = Text("No more Data");
+                                      }
+                                      return Container(
+                                        height: 55.0,
+                                        child: Center(child: body),
+                                      );
+                                    },
+                                  ),
+                                  controller: _refreshController,
+                                  onRefresh: _onRefresh,
+                                  onLoading: _onLoading,
+                                  child: ListView(
+                                    children: <Widget>[
+                                      userHeaderSection(snapshot),
+                                      SizedBox(height: 3.0),
+                                      searchBarSection(context),
+                                      SizedBox(
+                                        height: 20.0,
+                                      ),
+                                      categorySection(),
+                                      SizedBox(
+                                        height: 20.0,
+                                      ),
+                                      popularDiscountDealsSection(context),
+                                    ],
+                                  ),
+                                );
+                            }
+                          } else if (!snapshot.hasData) {
+                            return Center(
+                              child: Text("No Data Available"),
                             );
                           } else {
-                            return Center(child: CircularProgressIndicator());
+                            return Center(
+                              child: Text("${snapshot.error}"),
+                            );
                           }
+                          // } else {
+                          //   return Center(child: CircularProgressIndicator());
+                          // }
                         },
                       ),
           ),
@@ -311,16 +358,15 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: snapshot.data['data']['user_profile_image']
-                                .toString() !=
-                            null
-                        ? NetworkImage(
-                            baseUrl +
-                                "/" +
-                                snapshot.data['data']['user_profile_image']
-                                    .toString(),
-                          )
-                        : AssetImage('assets/images/profile.jpg'),
+                    backgroundImage:
+                        snapshot.data['data']['user_profile_image'] == null
+                            ? NetworkImage(
+                                baseUrl +
+                                    "/" +
+                                    snapshot.data['data']['user_profile_image']
+                                        .toString(),
+                              )
+                            : AssetImage('assets/images/homepage/profile.jpg'),
                   ),
                   Container(
                     child: Column(
@@ -350,8 +396,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Container(
-            height: 50,
-            width: 50,
+            height: 32,
+            width: 32,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50.0),
               boxShadow: [
@@ -366,8 +412,9 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, NotificationScreen.id);
               },
               child: CircleAvatar(
+                radius: 16,
                 backgroundImage: AssetImage(
-                  'assets/images/homepage/ddlogow.png',
+                  'assets/images/ddlogow.png',
                 ),
               ),
             ),
@@ -573,7 +620,7 @@ class _HomePageState extends State<HomePage> {
 
   FutureBuilder<dynamic> drawerUser() {
     return FutureBuilder<dynamic>(
-        future: userInfoAPI.getUData(),
+        future: userInfoAPI.getUData(context),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return ListView(

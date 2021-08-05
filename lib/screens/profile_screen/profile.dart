@@ -30,7 +30,7 @@ class _ProfileState extends State<Profile> {
       global.isNewImageUploaded = false;
     }
 
-    apiData = userInfoAPI.getUData();
+    apiData = userInfoAPI.getUData(context);
     super.initState();
   }
 
@@ -49,7 +49,7 @@ class _ProfileState extends State<Profile> {
         child: Padding(
           padding: const EdgeInsets.only(top: 25),
           child: FutureBuilder<dynamic>(
-            future: userInfoAPI.getUData(),
+            future: userInfoAPI.getUData(context),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return Column(
