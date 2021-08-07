@@ -151,102 +151,130 @@ class _PaymentState extends State<Payment> {
                           SizedBox(
                             height: 30,
                           ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              "Subscription : ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          // <================================ Show Subscription Timer
-                          Visibility(
-                            visible: !snapshot.data.isSubscriptionExpired,
-                            child: CustomTimer(
-                              controller: _timerController,
-                              from: Duration(
-                                  minutes: subscriptionMinutesRemaining ?? 1),
-                              to: Duration(minutes: 0),
-                              interval: Duration(seconds: 1),
-                              onBuildAction: CustomTimerAction.auto_start,
-                              builder: (CustomTimerRemainingTime remaining) {
-                                return Row(
-                                  children: [
-                                    Text("Time Remaining : "),
-                                    Text(
-                                      "  ${remaining.days} days :${remaining.hours} hours:${remaining.minutes} minutes",
+                          Card(
+                            elevation: 10,
+                            child: Container(
+                              margin: EdgeInsets.all(10),
+                              child: Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Subscription : ",
                                       style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: int.parse(remaining.days) > 5
-                                              ? Colors.green
-                                              : Colors.red),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
                                     ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                          Visibility(
-                              visible: snapshot.data.isSubscriptionExpired,
-                              child: Text("No Subscription Remaining")),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              "Subscription fee : $subscriptionFee/- Tk",
-                              style: TextStyle(
-                                fontSize: 16,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  // <================================ Show Subscription Timer
+                                  Visibility(
+                                    visible:
+                                        !snapshot.data.isSubscriptionExpired,
+                                    child: CustomTimer(
+                                      controller: _timerController,
+                                      from: Duration(
+                                          minutes:
+                                              subscriptionMinutesRemaining ??
+                                                  1),
+                                      to: Duration(minutes: 0),
+                                      interval: Duration(seconds: 1),
+                                      onBuildAction:
+                                          CustomTimerAction.auto_start,
+                                      builder:
+                                          (CustomTimerRemainingTime remaining) {
+                                        return Row(
+                                          children: [
+                                            Text("Time Remaining : "),
+                                            Text(
+                                              "  ${remaining.days} days :${remaining.hours} hours:${remaining.minutes} minutes",
+                                              style: TextStyle(
+                                                  fontSize: 12.0,
+                                                  color: int.parse(
+                                                              remaining.days) >
+                                                          5
+                                                      ? Colors.green
+                                                      : Colors.red),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Visibility(
+                                      visible:
+                                          snapshot.data.isSubscriptionExpired,
+                                      child: Text("No Subscription Remaining")),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Subscription fee : $subscriptionFee/- Tk",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
 
                           Card(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    if (monthNumber > 1) {
+                            elevation: 10,
+                            child: Container(
+                              margin: EdgeInsets.all(10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      if (monthNumber > 1) {
+                                        setState(() {
+                                          monthNumber--;
+                                        });
+                                        fee = monthNumber * subscriptionFee;
+                                      }
+                                    },
+                                    icon: Icon(Icons.remove),
+                                  ),
+                                  Text("$monthNumber month"),
+                                  IconButton(
+                                    onPressed: () {
                                       setState(() {
-                                        monthNumber--;
+                                        monthNumber++;
                                       });
                                       fee = monthNumber * subscriptionFee;
-                                    }
-                                  },
-                                  icon: Icon(Icons.remove),
-                                ),
-                                Text("$monthNumber month"),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      monthNumber++;
-                                    });
-                                    fee = monthNumber * subscriptionFee;
-                                  },
-                                  icon: Icon(Icons.add),
-                                ),
-                              ],
+                                    },
+                                    icon: Icon(Icons.add),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
 
                           SizedBox(
                             height: 20,
                           ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              snapshot.data.isRegistered
-                                  ? "Total fee : $fee/- Tk"
-                                  : "Total fee : ${fee + regFee}/- Tk",
-                              style: TextStyle(
-                                fontSize: 18,
+                          Card(
+                            elevation: 10,
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  snapshot.data.isRegistered
+                                      ? "Total fee : $fee/- Tk"
+                                      : "Total fee : ${fee + regFee}/- Tk",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
