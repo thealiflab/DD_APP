@@ -16,6 +16,8 @@ class _PaymentHistoryState extends State<PaymentHistory> {
 
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
+    double _height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -35,7 +37,9 @@ class _PaymentHistoryState extends State<PaymentHistory> {
           },
         ),
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        height: _height,
+        width: _width,
         child: FutureBuilder<dynamic>(
           future: userInfoAPI.getUData(context),
           builder: (BuildContext context, AsyncSnapshot snapshot) {

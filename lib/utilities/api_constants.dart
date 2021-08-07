@@ -4,6 +4,9 @@ const baseUrl = "https://apps.dd.limited";
 //All Category API
 const categoryExt = "/api/v1/category";
 
+//All Notification API
+const notifications = "/notification/getAllNotifications";
+
 //All Vendors API
 const vendorsExt = "/api/v1/vendor/0";
 
