@@ -62,9 +62,9 @@ class UpdateDetailsRequest {
       return map;
     } else {
       Map<String, dynamic> map = {
-        'name': name.trim(),
-        'email': email.trim(),
-        'password': password.trim(),
+        'name': name ?? '',
+        'email': email ?? '',
+        'password': password ?? '',
       };
       return map;
     }

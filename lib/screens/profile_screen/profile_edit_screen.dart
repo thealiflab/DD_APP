@@ -35,7 +35,7 @@ class _ProfileEditState extends State<ProfileEdit> {
   GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
 
   bool _isApiCallProcess = false;
-
+  TextEditingController passwordController = TextEditingController();
   //http client
   Dio dio = new Dio();
 
@@ -199,16 +199,6 @@ class _ProfileEditState extends State<ProfileEdit> {
               future: userInfoAPI.getUData(context),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  TextEditingController fullNameController =
-                      TextEditingController(
-                          text: snapshot.data['data']['user_fullname']
-                                  .toString() ??
-                              "No Data");
-                  TextEditingController emailController = TextEditingController(
-                      text: snapshot.data['data']['user_email'].toString() ??
-                          "No Data");
-                  TextEditingController passwordController =
-                      TextEditingController();
                   return Form(
                     key: _globalFormKey,
                     child: Column(
@@ -267,18 +257,25 @@ class _ProfileEditState extends State<ProfileEdit> {
                         SizedBox(height: 20),
                         TextFieldContainer(
                           textField: TextFormField(
-                            controller: fullNameController,
+                            initialValue:
+                                snapshot.data['data']['user_fullname'] ?? "",
+                            // controller: fullNameController,
                             textAlign: TextAlign.center,
                             decoration:
                                 kLoginInputDecoration.copyWith(hintText: ""),
                             keyboardType: TextInputType.text,
                             validator: (input) =>
                                 input.isEmpty ? "Enter valid name" : null,
+                            onChanged: (input) {
+                              requestModel.name = input;
+                            },
                           ),
                         ),
                         TextFieldContainer(
                           textField: TextFormField(
-                            controller: emailController,
+                            initialValue:
+                                snapshot.data['data']['user_email'] ?? "",
+                            // controller: emailController,
                             textAlign: TextAlign.center,
                             decoration: kLoginInputDecoration.copyWith(
                                 hintText: "Email"),
@@ -293,6 +290,9 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 return 'Enter a valid email address';
                               else
                                 return null;
+                            },
+                            onChanged: (input) {
+                              requestModel.email = input;
                             },
                           ),
                         ),
@@ -321,10 +321,10 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 _isApiCallProcess = true;
                               });
 
-                              requestModel.name =
-                                  fullNameController.text.toString();
-                              requestModel.email =
-                                  emailController.text.toString();
+                              // requestModel.name =
+                              //     fullNameController.text.toString();
+                              // requestModel.email =
+                              //     emailController.text.toString();
                               requestModel.password =
                                   passwordController.text.toString();
 
