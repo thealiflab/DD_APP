@@ -1,6 +1,5 @@
 import 'package:dd_app/api/top_vendors_api.dart';
 import 'package:dd_app/screens/about_us.dart';
-import 'package:dd_app/screens/authentication/login_screen.dart';
 import 'package:dd_app/screens/discount_history.dart';
 import 'package:dd_app/screens/home_screen/notifications_screen.dart';
 import 'package:dd_app/screens/search/search_bar_panel.dart';
@@ -359,7 +358,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   CircleAvatar(
                     backgroundImage:
-                        snapshot.data['data']['user_profile_image'] == null
+                        snapshot.data['data']['user_profile_image'] != null
                             ? NetworkImage(
                                 baseUrl +
                                     "/" +
