@@ -410,10 +410,11 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.pushNamed(context, NotificationScreen.id);
               },
-              child: CircleAvatar(
-                radius: 16,
-                backgroundImage: AssetImage(
+              child: Card(
+                color: Colors.black,
+                child: Image.asset(
                   'assets/images/ddlogow.png',
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

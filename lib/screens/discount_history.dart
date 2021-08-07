@@ -2,6 +2,7 @@ import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/api/user_info_api.dart';
 import 'package:dd_app/utilities/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DiscountHistory extends StatefulWidget {
   static const String id = "discount_history";
@@ -15,6 +16,8 @@ class _DiscountHistoryState extends State<DiscountHistory> {
 
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
+    double _height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -34,7 +37,9 @@ class _DiscountHistoryState extends State<DiscountHistory> {
           },
         ),
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        height: _height,
+        width: _width,
         child: FutureBuilder<dynamic>(
           future: userInfoAPI.getUData(context),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -52,69 +57,107 @@ class _DiscountHistoryState extends State<DiscountHistory> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                snapshot.data['data']['claimHistory'][index]
-                                        ['vendor_name'] ??
-                                    "No data found",
-                                style: TextStyle(
-                                  fontSize: 16,
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  snapshot.data['data']['claimHistory'][index]
+                                          ['vendor_name'] ??
+                                      "No data found",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                snapshot.data['data']['claimHistory'][index]
-                                        ['date_time'] ??
-                                    "No data found",
-                                style: TextStyle(
-                                  color: kPrimaryColor,
-                                  fontSize: 10,
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                snapshot.data['data']['claimHistory'][index]
-                                        ['location_name'] ??
-                                    "No data found",
-                                style: TextStyle(
-                                  color: kPrimaryColor,
-                                ),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      snapshot.data['data']['claimHistory']
+                                              [index]['location_name'] ??
+                                          "No data found",
+                                      style: TextStyle(
+                                        color: kPrimaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Icon(
+                                          Icons.timer,
+                                          color: kPrimaryColor,
+                                        ),
+                                        Text(
+                                          snapshot.data['data']['claimHistory']
+                                                  [index]['date_time'] ??
+                                              "No data found",
+                                          style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Center(
-                              child: Text(
-                                snapshot.data['data']['claimHistory'][index]
-                                        ['discount_amount'] ??
-                                    "No data found",
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              snapshot.data['data']['claimHistory'][index]
-                                      ['claim_via'] ??
-                                  "No data found",
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "${snapshot.data['data']['claimHistory'][index]['discount_amount']}%" ??
+                                        "No data found",
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Discount",
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Align(
                               alignment: Alignment.bottomLeft,
-                              child: Text(
-                                snapshot.data['data']['claimHistory'][index]
-                                        ['vendor_unique_id'] ??
-                                    "No data found",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.grey,
+                              child: InkWell(
+                                onTap: () {
+                                  launch(
+                                      "tel://${snapshot.data['data']['claimHistory'][index]['vendor_phone']}");
+                                  print("object");
+                                },
+                                child: Container(
+                                  width: _width / 2.3,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.call,
+                                        color: Colors.grey,
+                                      ),
+                                      Text(
+                                        snapshot.data['data']['claimHistory']
+                                                [index]['vendor_phone'] ??
+                                            "No data found",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
