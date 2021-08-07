@@ -394,31 +394,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Container(
-            height: 32,
-            width: 32,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50.0),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black54,
-                    offset: Offset(0.0, 4),
-                    blurRadius: 10.0)
-              ],
-            ),
-            child: InkWell(
-              onTap: () {
+          IconButton(
+              onPressed: () {
                 Navigator.pushNamed(context, NotificationScreen.id);
               },
-              child: Card(
-                color: Colors.black,
-                child: Image.asset(
-                  'assets/images/ddlogow.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          )
+              icon: Icon(Icons.notifications_active))
         ],
       ),
     );
