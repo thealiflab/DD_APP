@@ -15,7 +15,7 @@ class CustomerInfoGetModel {
   String lastSubscriptionExpireDate;
   List<SubscriptionHistory> subscriptionHistory;
   List<ClaimHistory> claimHistory;
-  List<UnseenNotification> unseenNotification;
+  int unseenNotification;
 
   CustomerInfoGetModel(
       {this.id,
@@ -63,12 +63,7 @@ class CustomerInfoGetModel {
         claimHistory.add(new ClaimHistory.fromJson(v));
       });
     }
-    if (json['unseenNotification'] != null) {
-      unseenNotification = List<UnseenNotification>.empty(growable: true);
-      json['unseenNotification'].forEach((v) {
-        unseenNotification.add(new UnseenNotification.fromJson(v));
-      });
-    }
+    unseenNotification = json["unseenNotification"];
   }
 
   Map<String, dynamic> toJson() {
@@ -93,10 +88,7 @@ class CustomerInfoGetModel {
     if (this.claimHistory != null) {
       data['claimHistory'] = this.claimHistory.map((v) => v.toJson()).toList();
     }
-    if (this.unseenNotification != null) {
-      data['unseenNotification'] =
-          this.unseenNotification.map((v) => v.toJson()).toList();
-    }
+
     return data;
   }
 }
@@ -195,35 +187,6 @@ class ClaimHistory {
     data['claim_via'] = this.claimVia;
     data['date_time'] = this.dateTime;
     data['accepted'] = this.accepted;
-    return data;
-  }
-}
-
-class UnseenNotification {
-  String id;
-  String userId;
-  String notificationText;
-  String dateTime;
-  String seen;
-
-  UnseenNotification(
-      {this.id, this.userId, this.notificationText, this.dateTime, this.seen});
-
-  UnseenNotification.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
-    notificationText = json['notification_text'];
-    dateTime = json['dateTime'];
-    seen = json['seen'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['notification_text'] = this.notificationText;
-    data['dateTime'] = this.dateTime;
-    data['seen'] = this.seen;
     return data;
   }
 }
