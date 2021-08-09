@@ -45,3 +45,6 @@ const userDetailsUpdateExt = "/api/v1/customer/update";
 
 //User Info API
 const customerExt = "/api/v1/customer";
+
+//Payment History API
+const paymentHistory = "/api/v1/customer/subscriptionHistory";

@@ -1,6 +1,6 @@
+import 'package:dd_app/api/payment_history_api.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:dd_app/api/user_info_api.dart';
 import 'package:dd_app/utilities/constants.dart';
 
 class PaymentHistory extends StatefulWidget {
@@ -11,7 +11,7 @@ class PaymentHistory extends StatefulWidget {
 
 class _PaymentHistoryState extends State<PaymentHistory> {
   //For API Call
-  UserInfoAPI userInfoAPI = UserInfoAPI();
+  PaymentHistoryAPI paymentHistoryAPI = PaymentHistoryAPI();
   String isSubscriptionExpired = "";
 
   @override
@@ -41,7 +41,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
         height: _height,
         width: _width,
         child: FutureBuilder<dynamic>(
-          future: userInfoAPI.getUData(context),
+          future: paymentHistoryAPI.getPaymentHistory(context),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(

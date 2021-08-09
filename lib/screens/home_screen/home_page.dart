@@ -368,22 +368,23 @@ class _HomePageState extends State<HomePage> {
                             : AssetImage('assets/images/homepage/profile.jpg'),
                   ),
                   Container(
-                    child: Column(
+                    child: Row(
                       children: <Widget>[
+                        SizedBox(width: 5.0),
                         Text(
                           'Hello,',
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 5.0),
+                        SizedBox(width: 5.0),
                         Text(
                           snapshot.data['data']['user_fullname'].toString() ??
                               "Guest User",
                           style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                               fontWeight: FontWeight.bold,
                               color: kPrimaryColor),
                         ),
