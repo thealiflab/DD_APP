@@ -48,3 +48,6 @@ const customerExt = "/api/v1/customer";
 
 //Payment History API
 const paymentHistory = "/api/v1/customer/subscriptionHistory";
+
+//Discount History API
+const discountHistory = "/api/v1/customer/claimHistory";

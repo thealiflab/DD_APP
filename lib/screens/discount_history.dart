@@ -1,6 +1,6 @@
+import 'package:dd_app/api/discount_history_api.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:dd_app/api/user_info_api.dart';
 import 'package:dd_app/utilities/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,7 +12,7 @@ class DiscountHistory extends StatefulWidget {
 
 class _DiscountHistoryState extends State<DiscountHistory> {
   //For API Call
-  UserInfoAPI userInfoAPI = UserInfoAPI();
+  DiscountHistoryAPI discountHistoryAPI = DiscountHistoryAPI();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _DiscountHistoryState extends State<DiscountHistory> {
         height: _height,
         width: _width,
         child: FutureBuilder<dynamic>(
-          future: userInfoAPI.getUData(context),
+          future: discountHistoryAPI.getDiscountHistory(context),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
