@@ -395,14 +395,42 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          IconButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  NotificationScreen.id,
-                );
-              },
-              icon: Icon(Icons.notifications_active))
+          Column(
+            children: [
+              Container(
+                height: 20,
+                width: 20,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      NotificationScreen.id,
+                    );
+                  },
+                  icon: Icon(Icons.notifications_active),
+                ),
+              ),
+              snapshot.data['data']['unseenNotification'] > 0
+                  ? Align(
+                      alignment: Alignment.bottomRight,
+                      child: CircleAvatar(
+                        radius: 10,
+                        child: Flexible(
+                          child: Text(
+                            snapshot.data['data']['unseenNotification'] < 10
+                                ? "${snapshot.data['data']['unseenNotification']}"
+                                : "9+",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container()
+            ],
+          )
         ],
       ),
     );
