@@ -45,15 +45,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
               return ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.all(12),
-                  itemCount:
-                      snapshot.data['data']['subscriptionHistory'].length,
+                  itemCount: snapshot.data['data'].length,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    //Checking subscribe status
+                    var notification = snapshot.data["data"][index];
 
-                    return NotificationCard();
+                    return NotificationCard(
+                      title: "${notification["dateTime"]}",
+                      subtitle: "${notification["notification_text"]}",
+                    );
                   });
+            } else if (snapshot.hasError) {
+              return Center(child: Text("${snapshot.error.toString()}"));
             } else {
               return Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -68,11 +72,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
 }
 
 class NotificationCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final bool isNew;
+
+  const NotificationCard(
+      {Key key, this.title, this.subtitle, this.isNew = false})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(10),
       child: Card(
-        child: Text("data"),
+        child: ListTile(
+          title: Text("$title"),
+          subtitle: Text("$subtitle"),
+          trailing: Icon(
+            Icons.remove_red_eye,
+            color: isNew ? Colors.red : Colors.grey,
+            size: 12,
+          ),
+        ),
       ),
     );
   }

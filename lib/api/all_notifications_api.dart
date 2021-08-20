@@ -19,6 +19,7 @@ class AllNotificationsAPI {
           'Customer-ID': '${localStorage.get('Customer-ID')}',
         },
       );
+      print(response.body);
 
       return json.decode(response.body);
     } catch (e) {
