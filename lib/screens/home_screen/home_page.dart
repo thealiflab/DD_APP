@@ -418,20 +418,18 @@ class _HomePageState extends State<HomePage> {
                           right: 0,
                           child: CircleAvatar(
                             radius: 10,
-                            child: Flexible(
-                              child: Text(
-                                snapshot.data['data']['unseenNotification'] < 10
-                                    ? "${snapshot.data['data']['unseenNotification']}"
-                                    : "9+",
-                                style: TextStyle(
-                                    fontSize: snapshot.data['data']
-                                                ['unseenNotification'] <
-                                            10
-                                        ? 14
-                                        : 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red),
-                              ),
+                            child: Text(
+                              snapshot.data['data']['unseenNotification'] < 10
+                                  ? "${snapshot.data['data']['unseenNotification']}"
+                                  : "9+",
+                              style: TextStyle(
+                                  fontSize: snapshot.data['data']
+                                              ['unseenNotification'] <
+                                          10
+                                      ? 14
+                                      : 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red),
                             ),
                           ),
                         )
