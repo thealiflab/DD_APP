@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dd_app/screens/home_screen/home_page.dart';
 import 'package:dd_app/screens/payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import 'snack_bar_message.dart';
 
 class PaymentWebview extends StatefulWidget {
   static const String id = "ssl_payment";
@@ -56,6 +59,31 @@ class _PaymentWebviewState extends State<PaymentWebview> {
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
                 _webViewController.complete(webViewController);
+              },
+              navigationDelegate: (NavigationRequest request) {
+                if (request.url ==
+                    "https://apps.dd.limited/pay/message/success.php") {
+                  print('blocking navigation to $request}');
+                  Navigator.pushNamed(context, HomePage.id);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    snackBarMessage(
+                      "Payment Successfull",
+                      true,
+                    ),
+                  );
+                } else if (request.url.startsWith(
+                    "https://apps.dd.limited/pay/message/error.php")) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    snackBarMessage(
+                      "Payment Failed",
+                      true,
+                    ),
+                  );
+                }
+                print('allowing navigation to $request');
+
+                return NavigationDecision.navigate;
               },
             ),
           ),

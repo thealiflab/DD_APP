@@ -6,7 +6,6 @@ import 'package:dd_app/utilities/payment_webview_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/api/renew_subscription_api.dart';
-import 'package:dd_app/utilities/snack_bar_message.dart';
 
 class Payment extends StatefulWidget {
   static const String id = "payment";
@@ -50,7 +49,7 @@ class _PaymentState extends State<Payment> {
 
   int subscriptionMinutesRemaining = 0;
 
-  subscriptionExpiryDate() {
+  void subscriptionExpiryDate() {
     UserInfoAPI().getUserInfo().then((value) {
       final DateTime todayDateTime = DateTime.now();
 
@@ -59,6 +58,20 @@ class _PaymentState extends State<Payment> {
       setState(() {
         subscriptionMinutesRemaining =
             subscriptionExpiredDate.difference(todayDateTime).inMinutes;
+      });
+    });
+  }
+
+  refreshPaymentScreen() {
+    subscriptionExpiryDate();
+    RenewSubAPI().getRegistrationFee().then((value) {
+      setState(() {
+        regFee = int.parse(value["optionValue"]);
+      });
+    });
+    RenewSubAPI().getSubscriptionFee().then((value) {
+      setState(() {
+        subscriptionFee = int.parse(value["optionValue"]);
       });
     });
   }
