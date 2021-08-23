@@ -24,6 +24,8 @@ import 'package:dd_app/screens/authentication/reset_password.dart';
 import 'package:dd_app/screens/payment_history.dart';
 import 'package:dd_app/screens/profile_screen/profile_edit_screen.dart';
 
+import 'utilities/payment_webview_screen.dart';
+
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
@@ -67,6 +69,7 @@ class MyApp extends StatelessWidget {
         PaymentHistory.id: (context) => PaymentHistory(),
         AboutUs.id: (context) => AboutUs(),
         NotificationScreen.id: (context) => NotificationScreen(),
+        PaymentWebview.id: (context) => PaymentWebview(),
       },
     );
   }

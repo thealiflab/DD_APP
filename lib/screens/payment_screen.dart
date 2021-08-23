@@ -2,6 +2,7 @@ import 'package:custom_timer/custom_timer.dart';
 import 'package:dd_app/api/user_info_api.dart';
 import 'package:dd_app/model/customer_info_model.dart';
 import 'package:dd_app/screens/home_screen/home_page.dart';
+import 'package:dd_app/utilities/payment_webview_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/api/renew_subscription_api.dart';
@@ -52,6 +53,7 @@ class _PaymentState extends State<Payment> {
   subscriptionExpiryDate() {
     UserInfoAPI().getUserInfo().then((value) {
       final DateTime todayDateTime = DateTime.now();
+
       DateTime subscriptionExpiredDate =
           DateTime.parse(value.lastSubscriptionExpireDate);
       setState(() {
@@ -171,43 +173,37 @@ class _PaymentState extends State<Payment> {
                                     height: 20,
                                   ),
                                   // <================================ Show Subscription Timer
-                                  Visibility(
-                                    visible:
-                                        !snapshot.data.isSubscriptionExpired,
-                                    child: CustomTimer(
-                                      controller: _timerController,
-                                      from: Duration(
-                                          minutes:
-                                              subscriptionMinutesRemaining ??
-                                                  1),
-                                      to: Duration(minutes: 0),
-                                      interval: Duration(seconds: 1),
-                                      onBuildAction:
-                                          CustomTimerAction.auto_start,
-                                      builder:
-                                          (CustomTimerRemainingTime remaining) {
-                                        return Row(
-                                          children: [
-                                            Text("Time Remaining : "),
-                                            Text(
-                                              "  ${remaining.days} days :${remaining.hours} hours:${remaining.minutes} minutes",
-                                              style: TextStyle(
-                                                  fontSize: 12.0,
-                                                  color: int.parse(
-                                                              remaining.days) >
-                                                          5
-                                                      ? Colors.green
-                                                      : Colors.red),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Visibility(
-                                      visible:
-                                          snapshot.data.isSubscriptionExpired,
-                                      child: Text("No Subscription Remaining")),
+                                  !snapshot.data.isSubscriptionExpired
+                                      ? CustomTimer(
+                                          controller: _timerController,
+                                          from: Duration(
+                                              minutes:
+                                                  subscriptionMinutesRemaining ??
+                                                      1),
+                                          to: Duration(minutes: 0),
+                                          interval: Duration(seconds: 1),
+                                          onBuildAction:
+                                              CustomTimerAction.auto_start,
+                                          builder: (CustomTimerRemainingTime
+                                              remaining) {
+                                            return Row(
+                                              children: [
+                                                Text("Time Remaining : "),
+                                                Text(
+                                                  "  ${remaining.days} days :${remaining.hours} hours:${remaining.minutes} minutes",
+                                                  style: TextStyle(
+                                                      fontSize: 12.0,
+                                                      color: int.parse(remaining
+                                                                  .days) >
+                                                              5
+                                                          ? Colors.green
+                                                          : Colors.red),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        )
+                                      : Text("No Subscription Remaining"),
                                   SizedBox(
                                     height: 10,
                                   ),
@@ -285,19 +281,30 @@ class _PaymentState extends State<Payment> {
                                 fee = monthNumber * subscriptionFee;
                                 renewSubAPI
                                     .getData(
+                                        context,
                                         "$monthNumber",
-                                        "bkash",
                                         snapshot.data.isRegistered
                                             ? "$fee"
                                             : "${fee + regFee}")
                                     .then((value) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    snackBarMessage(
-                                      value['message'].toString(),
-                                      true,
-                                    ),
-                                  );
-                                  Navigator.pop(context);
+                                  print(value);
+                                  if (value["status"]) {
+                                    Navigator.pushNamed(
+                                        context, PaymentWebview.id, arguments: {
+                                      'paymentUrl': value["payment"]
+                                    });
+                                    print(value["payment"]);
+                                  } else {
+                                    print("Something went to wrong ");
+                                  }
+
+                                  // ScaffoldMessenger.of(context).showSnackBar(
+                                  //   snackBarMessage(
+                                  //     value['message'].toString(),
+                                  //     true,
+                                  //   ),
+                                  // );
+                                  // Navigator.pop(context);
                                 });
                               },
                               child: Text('Pay Amount'),
