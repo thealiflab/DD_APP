@@ -404,17 +404,18 @@ class _HomePageState extends State<HomePage> {
               );
             },
             child: Container(
-              height: 30,
-              width: 30,
-              child: Column(
+              height: 36,
+              width: 36,
+              child: Stack(
                 children: [
                   Container(
-                      height: 20,
-                      width: 20,
+                      height: 32,
+                      width: 32,
                       child: Icon(Icons.notifications_active)),
                   snapshot.data['data']['unseenNotification'] > 0
-                      ? Align(
-                          alignment: Alignment.bottomRight,
+                      ? Positioned(
+                          bottom: 0,
+                          right: 0,
                           child: CircleAvatar(
                             radius: 10,
                             child: Flexible(
@@ -423,7 +424,11 @@ class _HomePageState extends State<HomePage> {
                                     ? "${snapshot.data['data']['unseenNotification']}"
                                     : "9+",
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: snapshot.data['data']
+                                                ['unseenNotification'] <
+                                            10
+                                        ? 14
+                                        : 12,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.red),
                               ),
