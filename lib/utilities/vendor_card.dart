@@ -128,8 +128,7 @@ class VendorCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          FittedBox(
-                            fit: BoxFit.contain,
+                          Container(
                             child: Text(
                               snapshot.data['data'][index]['vendor_name']
                                   .toString(),
@@ -137,6 +136,7 @@ class VendorCard extends StatelessWidget {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           SizedBox(
