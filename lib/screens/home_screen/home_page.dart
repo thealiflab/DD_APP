@@ -367,10 +367,13 @@ class _HomePageState extends State<HomePage> {
                               )
                             : AssetImage('assets/images/homepage/profile.jpg'),
                   ),
+                  SizedBox(
+                    width: 5,
+                  ),
                   Container(
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(width: 5.0),
                         Text(
                           'Hello,',
                           textAlign: TextAlign.start,
