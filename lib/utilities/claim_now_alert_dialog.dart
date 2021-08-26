@@ -5,6 +5,9 @@ import 'package:dd_app/utilities/constants.dart';
 import 'package:dd_app/utilities/api_constants.dart';
 import 'dart:ui';
 
+import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 ClaimDiscountRequest claimDiscountRequest;
 
 AlertDialog claimNowAlertDialog(
@@ -76,6 +79,65 @@ AlertDialog claimNowAlertDialog(
               color: kPrimaryColor,
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    launchMap(
+                      snapshot.data['data'][index]['vendor_latitude'] ??
+                          "37.3230",
+                      snapshot.data['data'][index]['vendor_longitude'] ??
+                          "122.0312",
+                    );
+                  },
+                  child: Icon(
+                    Icons.location_on,
+                    size: 20,
+                    color: kPrimaryColor,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    dial(snapshot.data['data'][index]['vendor_phone']
+                        .toString());
+                  },
+                  child: Icon(
+                    Icons.phone_android_rounded,
+                    size: 20,
+                    color: kPrimaryColor,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    gotoWeb(snapshot.data['data'][index]['vendor_website']
+                        .toString());
+                  },
+                  child: Icon(
+                    Icons.public_rounded,
+                    size: 20,
+                    color: kPrimaryColor,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    gotoWeb(snapshot.data['data'][index]['vendor_facebook']
+                        .toString());
+                  },
+                  child: SvgPicture.asset(
+                    'assets/icons/facebook.svg',
+                    width: 20,
+                    height: 20,
+                    color: kPrimaryColor,
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     ),
@@ -134,4 +196,48 @@ AlertDialog claimNowAlertDialog(
       )
     ],
   );
+}
+
+//URL Launcher functions
+dial(String phoneNumber) async {
+  var dial = 'tel:$phoneNumber';
+  if (await canLaunch(dial)) {
+    await launch(dial);
+  } else {
+    throw 'Could not launch $dial';
+  }
+}
+
+//<=========== Open Map
+launchMap(lat, lng) async {
+  String homeLat = lat.toString() ?? "37.3230";
+  String homeLng = lng.toString() ?? "122.0312";
+
+  final String googleMapslocationUrl =
+      "https://www.google.com/maps/search/?api=1&query=$homeLat,$homeLng";
+
+  final String encodedURl = Uri.encodeFull(googleMapslocationUrl);
+
+  if (await canLaunch(encodedURl)) {
+    await launch(encodedURl);
+  } else {
+    print('Could not launch $encodedURl');
+    throw 'Could not launch $encodedURl';
+  }
+}
+
+goToEmail(String email) async {
+  if (await canLaunch("mailto:$email")) {
+    await launch("mailto:$email");
+  } else {
+    throw 'Could not launch';
+  }
+}
+
+gotoWeb(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
