@@ -24,9 +24,7 @@ class ActionButton extends StatelessWidget {
         padding: MaterialStateProperty.all(
           EdgeInsets.symmetric(
             vertical: 15,
-            horizontal: buttonText == "Registration"
-                ? MediaQuery.of(context).size.width * 0.25
-                : MediaQuery.of(context).size.width * 0.33,
+            horizontal: MediaQuery.of(context).size.width * 0.25,
           ),
         ),
         shape: MaterialStateProperty.all(

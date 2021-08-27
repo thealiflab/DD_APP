@@ -20,14 +20,14 @@ import 'package:flutter/src/painting/binding.dart';
 
 SharedPreferences localStorage;
 
-class ProfileEdit extends StatefulWidget {
-  static const String id = "profile_edit";
+class ChangePasswordScreen extends StatefulWidget {
+  static const String id = "change_password";
 
   @override
-  _ProfileEditState createState() => _ProfileEditState();
+  _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
 }
 
-class _ProfileEditState extends State<ProfileEdit> {
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Future<dynamic> apiData;
   UserInfoAPI userInfoAPI = new UserInfoAPI();
   UpdateDetailsRequest requestModel;
@@ -36,6 +36,7 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   bool _isApiCallProcess = false;
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   //http client
   Dio dio = new Dio();
 
@@ -122,51 +123,6 @@ class _ProfileEditState extends State<ProfileEdit> {
     });
   }
 
-  Future<bool> showCameraOptionPopUp(context) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return StatefulBuilder(builder: (context, setState) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              backgroundColor: Colors.white,
-              title: Text("Choose One",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold)),
-              content: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    IconButton(
-                        icon: Icon(
-                          Icons.photo_camera,
-                          size: 64,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          imageGetAndUpload(ImageSource.camera);
-                        }),
-                    IconButton(
-                        icon: Icon(
-                          Icons.camera,
-                          size: 64,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          imageGetAndUpload(ImageSource.gallery);
-                        }),
-                  ],
-                ),
-              ),
-            );
-          });
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return ProgressHUD(
@@ -204,114 +160,41 @@ class _ProfileEditState extends State<ProfileEdit> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 115,
-                          width: 115,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            clipBehavior: Clip.none,
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(baseUrl +
-                                        "/" +
-                                        snapshot.data['data']
-                                                ['user_profile_image']
-                                            .toString()) ??
-                                    "",
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: -12,
-                                child: SizedBox(
-                                  height: 46,
-                                  width: 46,
-                                  child: TextButton(
-                                    onPressed: () {
-                                      showCameraOptionPopUp(context);
-                                    },
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          side: BorderSide(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.white),
-                                    ),
-                                    child: isImageLoading == false
-                                        ? SvgPicture.asset(
-                                            "assets/icons/camera.svg")
-                                        : CircularProgressIndicator(),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                         SizedBox(height: 20),
                         TextFieldContainer(
                           textField: TextFormField(
-                            initialValue:
-                                snapshot.data['data']['user_fullname'] ?? "",
-                            // controller: fullNameController,
+                            obscureText: true,
+                            controller: passwordController,
                             textAlign: TextAlign.center,
-                            decoration:
-                                kLoginInputDecoration.copyWith(hintText: ""),
+                            decoration: kLoginInputDecoration.copyWith(
+                              hintText: "New Password",
+                            ),
+                            autofocus: false,
                             keyboardType: TextInputType.text,
-                            validator: (input) =>
-                                input.isEmpty ? "Enter valid name" : null,
-                            onChanged: (input) {
-                              requestModel.name = input;
-                            },
+                            maxLength: 50,
+                            validator: (input) => input.length < 6 ||
+                                    input.isEmpty
+                                ? "Password should be at least 6 character long"
+                                : null,
                           ),
                         ),
                         TextFieldContainer(
                           textField: TextFormField(
-                            initialValue:
-                                snapshot.data['data']['user_email'] ?? "",
-                            // controller: emailController,
+                            obscureText: true,
+                            controller: confirmPasswordController,
                             textAlign: TextAlign.center,
                             decoration: kLoginInputDecoration.copyWith(
-                                hintText: "Email"),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              Pattern pattern =
-                                  r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                  r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                  r"{0,253}[a-zA-Z0-9])?)*$";
-                              RegExp regex = new RegExp(pattern);
-                              if (!regex.hasMatch(value) || value.isEmpty)
-                                return 'Enter a valid email address';
-                              else
-                                return null;
-                            },
-                            onChanged: (input) {
-                              requestModel.email = input;
-                            },
+                              hintText: "Confirm Password",
+                            ),
+                            autofocus: false,
+                            keyboardType: TextInputType.text,
+                            maxLength: 50,
+                            validator: (input) => input !=
+                                    confirmPasswordController.text
+                                ? "Password should be at least 6 character long"
+                                : null,
                           ),
                         ),
-                        // TextFieldContainer(
-                        //   textField: TextFormField(
-                        //     controller: passwordController,
-                        //     textAlign: TextAlign.center,
-                        //     decoration: kLoginInputDecoration.copyWith(
-                        //       hintText: "New Password",
-                        //     ),
-                        //     autofocus: false,
-                        //     keyboardType: TextInputType.text,
-                        //     maxLength: 50,
-                        //     validator: (input) => input.length < 6 ||
-                        //             input.isEmpty
-                        //         ? "Password should be at least 6 character long"
-                        //         : null,
-                        //   ),
-                        // ),
                         SizedBox(height: 20),
                         ActionButton(
                             buttonColor: kPrimaryColor,
@@ -325,6 +208,8 @@ class _ProfileEditState extends State<ProfileEdit> {
                               //     fullNameController.text.toString();
                               // requestModel.email =
                               //     emailController.text.toString();
+                              requestModel.password =
+                                  confirmPasswordController.text.toString();
 
                               UserDetailsUpdate userDetailsUpdate =
                                   UserDetailsUpdate();

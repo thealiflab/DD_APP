@@ -1,4 +1,5 @@
 import 'package:dd_app/screens/home_screen/home_page.dart';
+import 'package:dd_app/screens/profile_screen/change_password_screen.dart';
 import 'package:dd_app/screens/profile_screen/profile_edit_screen.dart';
 import 'package:dd_app/utilities/action_button.dart';
 import 'package:dd_app/utilities/constants.dart';
@@ -94,6 +95,16 @@ class _ProfileState extends State<Profile> {
                         buttonText: "Update Info",
                         onTap: () {
                           Navigator.pushNamed(context, ProfileEdit.id);
+                        },
+                        textColor: Colors.white),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    ActionButton(
+                        buttonColor: kPrimaryColor,
+                        buttonText: "Change Password",
+                        onTap: () {
+                          Navigator.pushNamed(context, ChangePasswordScreen.id);
                         },
                         textColor: Colors.white),
                   ],

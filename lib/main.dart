@@ -1,6 +1,7 @@
 import 'package:dd_app/screens/blog.dart';
 import 'package:dd_app/screens/home_screen/notifications_screen.dart';
 import 'package:dd_app/screens/home_screen/open_qr_scanner.dart';
+import 'package:dd_app/screens/profile_screen/change_password_screen.dart';
 import 'package:dd_app/screens/search/search_bar_page.dart';
 import 'package:dd_app/screens/payment_screen.dart';
 import 'package:dd_app/screens/view_all_vendors.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
         AboutUs.id: (context) => AboutUs(),
         NotificationScreen.id: (context) => NotificationScreen(),
         PaymentWebview.id: (context) => PaymentWebview(),
+        ChangePasswordScreen.id: (context) => ChangePasswordScreen(),
       },
     );
   }
