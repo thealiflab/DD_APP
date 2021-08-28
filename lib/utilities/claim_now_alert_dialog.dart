@@ -175,6 +175,7 @@ AlertDialog claimNowAlertDialog(AsyncSnapshot<dynamic> snapshot,
               }
             });
           } else {
+            Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
               snackBarMessage(
                 "Vendor isn't located in 1 KM Radius",
