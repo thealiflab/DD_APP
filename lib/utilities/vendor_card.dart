@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:dd_app/screens/authentication/login_register.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:dd_app/utilities/constants.dart';
@@ -8,7 +10,7 @@ import 'package:dd_app/utilities/api_constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:dd_app/utilities/claim_now_alert_dialog.dart';
 
-class VendorCard extends StatelessWidget {
+class VendorCard extends StatefulWidget {
   final BuildContext context;
   final AsyncSnapshot<dynamic> snapshot;
   final int index;
@@ -19,7 +21,71 @@ class VendorCard extends StatelessWidget {
       @required this.index,
       @required this.accountType});
 
-  //URL Launcher functions
+  @override
+  _VendorCardState createState() => _VendorCardState();
+}
+
+class _VendorCardState extends State<VendorCard> {
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => CupertinoAlertDialog(
+                title: Text('Location Permission'),
+                content: Text(
+                    'This app needs location access to calculate the distance'),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('Deny'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  CupertinoDialogAction(
+                    child: Text('Settings'),
+                    onPressed: () => openAppSettings(),
+                  ),
+                ],
+              ));
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _determinePosition();
+  }
+
   _dial(String phoneNumber) async {
     var dial = 'tel:$phoneNumber';
     if (await canLaunch(dial)) {
@@ -29,7 +95,6 @@ class VendorCard extends StatelessWidget {
     }
   }
 
-  //<=========== Open Map
   launchMap(lat, lng) async {
     String homeLat = lat.toString() ?? "37.3230";
     String homeLng = lng.toString() ?? "122.0312";
@@ -75,14 +140,39 @@ class VendorCard extends StatelessWidget {
           ),
           child: GestureDetector(
             onTap: () {
-              if (accountType == "Guest") {
+              if (widget.accountType == "Guest") {
                 Navigator.pushNamed(context, LoginRegister.id);
               } else {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return claimNowAlertDialog(snapshot, index, context);
-                    });
+                _determinePosition().then((position) async {
+                  print(position);
+                  if (widget.snapshot.data['data'][widget.index]
+                              ['vendor_latitude'] !=
+                          null ||
+                      widget.snapshot.data['data'][widget.index]
+                              ['vendor_latitude'] !=
+                          "") {
+                    print(widget.snapshot.data['data'][widget.index]
+                        ['vendor_latitude']);
+                    print(widget.snapshot.data['data'][widget.index]
+                        ['vendor_longitude']);
+                    double distanceInMeters = Geolocator.distanceBetween(
+                        position.latitude,
+                        position.longitude,
+                        double.parse(widget.snapshot.data['data'][widget.index]
+                            ['vendor_latitude']),
+                        double.parse(widget.snapshot.data['data'][widget.index]
+                            ['vendor_longitude']));
+                    print(distanceInMeters);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return claimNowAlertDialog(widget.snapshot,
+                              distanceInMeters, widget.index, context);
+                        });
+                  } else {
+                    print("No Location Available");
+                  }
+                });
               }
             },
             child: Container(
@@ -114,14 +204,18 @@ class VendorCard extends StatelessWidget {
                     Container(
                       height: 115,
                       width: 122,
-                      child: snapshot.data['data'][index]
+                      child: widget
+                                  .snapshot
+                                  .data['data'][widget.index]
                                       ['vendor_profile_image']
                                   .toString() !=
                               null
                           ? Image.network(
                               baseUrl +
                                   "/" +
-                                  snapshot.data['data'][index]
+                                  widget
+                                      .snapshot
+                                      .data['data'][widget.index]
                                           ['vendor_profile_image']
                                       .toString(),
                               fit: BoxFit.contain,
@@ -143,7 +237,8 @@ class VendorCard extends StatelessWidget {
                           children: <Widget>[
                             Container(
                               child: Text(
-                                snapshot.data['data'][index]['vendor_name']
+                                widget.snapshot
+                                    .data['data'][widget.index]['vendor_name']
                                     .toString(),
                                 style: TextStyle(
                                   fontSize: 16,
@@ -156,7 +251,8 @@ class VendorCard extends StatelessWidget {
                               height: 5,
                             ),
                             Text(
-                              snapshot.data['data'][index]['location_name']
+                              widget.snapshot
+                                  .data['data'][widget.index]['location_name']
                                   .toString(),
                               style: TextStyle(
                                 fontSize: 10,
@@ -167,7 +263,7 @@ class VendorCard extends StatelessWidget {
                               height: 5,
                             ),
                             Text(
-                              "Discount ${snapshot.data['data'][index]['discount_amount']}%",
+                              "Discount ${widget.snapshot.data['data'][widget.index]['discount_amount']}%",
                               style:
                                   TextStyle(fontSize: 16, color: kPrimaryColor),
                             ),
@@ -182,10 +278,12 @@ class VendorCard extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () {
                                       launchMap(
-                                        snapshot.data['data'][index]
+                                        widget.snapshot.data['data']
+                                                    [widget.index]
                                                 ['vendor_latitude'] ??
                                             "37.3230",
-                                        snapshot.data['data'][index]
+                                        widget.snapshot.data['data']
+                                                    [widget.index]
                                                 ['vendor_longitude'] ??
                                             "122.0312",
                                       );
@@ -198,7 +296,9 @@ class VendorCard extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      _dial(snapshot.data['data'][index]
+                                      _dial(widget
+                                          .snapshot
+                                          .data['data'][widget.index]
                                               ['vendor_phone']
                                           .toString());
                                     },
@@ -210,7 +310,9 @@ class VendorCard extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      _gotoWeb(snapshot.data['data'][index]
+                                      _gotoWeb(widget
+                                          .snapshot
+                                          .data['data'][widget.index]
                                               ['vendor_website']
                                           .toString());
                                     },
@@ -222,7 +324,9 @@ class VendorCard extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      _gotoWeb(snapshot.data['data'][index]
+                                      _gotoWeb(widget
+                                          .snapshot
+                                          .data['data'][widget.index]
                                               ['vendor_facebook']
                                           .toString());
                                     },
@@ -240,46 +344,30 @@ class VendorCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        if (accountType == "Guest") {
-                          Navigator.pushNamed(context, LoginRegister.id);
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return claimNowAlertDialog(
-                                    snapshot, index, context);
-                              });
-                        }
-                      },
-                      splashColor: Colors.white,
-                      highlightColor: Colors.white,
-                      child: Transform.rotate(
-                        angle: pi / -2,
-                        child: Container(
-                          height: 40,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: kPrimaryColor,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 15.0,
-                                offset: Offset(2.0, 4.4),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Claim',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: .2),
+                    Transform.rotate(
+                      angle: pi / -2,
+                      child: Container(
+                        height: 40,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: kPrimaryColor,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 15.0,
+                              offset: Offset(2.0, 4.4),
                             ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Claim',
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: .2),
                           ),
                         ),
                       ),

@@ -10,8 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 ClaimDiscountRequest claimDiscountRequest;
 
-AlertDialog claimNowAlertDialog(
-    AsyncSnapshot<dynamic> snapshot, int index, BuildContext context) {
+AlertDialog claimNowAlertDialog(AsyncSnapshot<dynamic> snapshot,
+    double distance, int index, BuildContext context) {
   return AlertDialog(
     title: Text(
       "Discount Claim",
@@ -144,35 +144,44 @@ AlertDialog claimNowAlertDialog(
     actions: [
       TextButton(
         onPressed: () async {
-          claimDiscountRequest = ClaimDiscountRequest();
-          claimDiscountRequest.vendorUniqueId =
-              snapshot.data['data'][index]['vendor_unique_id'].toString();
+          if (distance < 1001) {
+            claimDiscountRequest = ClaimDiscountRequest();
+            claimDiscountRequest.vendorUniqueId =
+                snapshot.data['data'][index]['vendor_unique_id'].toString();
 
-          print(snapshot.data['data'][index]['vendor_unique_id']);
+            print(snapshot.data['data'][index]['vendor_unique_id']);
 
-          print(claimDiscountRequest.vendorUniqueId);
+            print(claimDiscountRequest.vendorUniqueId);
 
-          //apiService object is created for getting data from web-server through api
-          ClaimDiscountApi apiCL = ClaimDiscountApi();
-          apiCL.login(claimDiscountRequest).then((value) {
-            if (value.status) {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                snackBarMessage(
-                  value.message.toString(),
-                  true,
-                ),
-              );
-            } else {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                snackBarMessage(
-                  value.message.toString(),
-                  false,
-                ),
-              );
-            }
-          });
+            //apiService object is created for getting data from web-server through api
+            ClaimDiscountApi apiCL = ClaimDiscountApi();
+            apiCL.login(claimDiscountRequest).then((value) {
+              if (value.status) {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  snackBarMessage(
+                    value.message.toString(),
+                    true,
+                  ),
+                );
+              } else {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  snackBarMessage(
+                    value.message.toString(),
+                    false,
+                  ),
+                );
+              }
+            });
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              snackBarMessage(
+                "Vendor isn't located in 1 KM Radius",
+                false,
+              ),
+            );
+          }
         },
         child: Text(
           "Claim Now",
