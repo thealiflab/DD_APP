@@ -383,13 +383,20 @@ class _HomePageState extends State<HomePage> {
                               fontWeight: FontWeight.bold),
                         ),
                         SizedBox(width: 5.0),
-                        Text(
-                          snapshot.data['data']['user_fullname'].toString() ??
-                              "Guest User",
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColor),
+                        Container(
+                          width: 150,
+                          child: RichText(
+                            text: TextSpan(
+                              text: snapshot.data['data']['user_fullname']
+                                      .toString() ??
+                                  "Guest User",
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: kPrimaryColor),
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
