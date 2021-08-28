@@ -32,7 +32,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   UserInfoAPI userInfoAPI = new UserInfoAPI();
   UpdateDetailsRequest requestModel;
 
-  GlobalKey<FormState> _globalFormKey = new GlobalKey<FormState>();
+  GlobalKey<FormState> globalFormKey = new GlobalKey<FormState>();
 
   bool _isApiCallProcess = false;
   TextEditingController passwordController = TextEditingController();
@@ -156,7 +156,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   return Form(
-                    key: _globalFormKey,
+                    key: globalFormKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -189,10 +189,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             autofocus: false,
                             keyboardType: TextInputType.text,
                             maxLength: 50,
-                            validator: (input) => input !=
-                                    confirmPasswordController.text
-                                ? "Password should be at least 6 character long"
-                                : null,
+                            validator: (input) =>
+                                input != passwordController.text
+                                    ? "Password didn't matched"
+                                    : null,
                           ),
                         ),
                         SizedBox(height: 20),
@@ -200,44 +200,46 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             buttonColor: kPrimaryColor,
                             buttonText: "Update",
                             onTap: () {
-                              setState(() {
-                                _isApiCallProcess = true;
-                              });
-
-                              // requestModel.name =
-                              //     fullNameController.text.toString();
-                              // requestModel.email =
-                              //     emailController.text.toString();
-                              requestModel.password =
-                                  confirmPasswordController.text.toString();
-
-                              UserDetailsUpdate userDetailsUpdate =
-                                  UserDetailsUpdate();
-                              userDetailsUpdate
-                                  .login(requestModel)
-                                  .then((value) {
+                              if (validateAndSave(globalFormKey)) {
                                 setState(() {
-                                  _isApiCallProcess = false;
+                                  _isApiCallProcess = true;
                                 });
 
-                                if (value.status.toString() == "true") {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    snackBarMessage(
-                                      "Profile Update Success!",
-                                      true,
-                                    ),
-                                  );
+                                // requestModel.name =
+                                //     fullNameController.text.toString();
+                                // requestModel.email =
+                                //     emailController.text.toString();
+                                requestModel.password =
+                                    confirmPasswordController.text.toString();
 
-                                  Navigator.pushNamed(context, HomePage.id);
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    snackBarMessage(
-                                      value.message.toString(),
-                                      false,
-                                    ),
-                                  );
-                                }
-                              });
+                                UserDetailsUpdate userDetailsUpdate =
+                                    UserDetailsUpdate();
+                                userDetailsUpdate
+                                    .login(requestModel)
+                                    .then((value) {
+                                  setState(() {
+                                    _isApiCallProcess = false;
+                                  });
+
+                                  if (value.status.toString() == "true") {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      snackBarMessage(
+                                        "Profile Update Success!",
+                                        true,
+                                      ),
+                                    );
+
+                                    Navigator.pushNamed(context, HomePage.id);
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      snackBarMessage(
+                                        value.message.toString(),
+                                        false,
+                                      ),
+                                    );
+                                  }
+                                });
+                              }
                             },
                             textColor: Colors.white),
                       ],
@@ -254,8 +256,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  bool validateAndSave() {
-    final form = _globalFormKey.currentState;
+  bool validateAndSave(GlobalKey<FormState> globalFormKey) {
+    final form = globalFormKey.currentState;
     if (form.validate()) {
       form.save();
       return true;
