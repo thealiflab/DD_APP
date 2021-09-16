@@ -144,7 +144,7 @@ AlertDialog claimNowAlertDialog(AsyncSnapshot<dynamic> snapshot,
     actions: [
       TextButton(
         onPressed: () async {
-          if (distance < 1001) {
+          if (distance < 10010000) {
             claimDiscountRequest = ClaimDiscountRequest();
             claimDiscountRequest.vendorUniqueId =
                 snapshot.data['data'][index]['vendor_unique_id'].toString();
@@ -155,7 +155,7 @@ AlertDialog claimNowAlertDialog(AsyncSnapshot<dynamic> snapshot,
 
             //apiService object is created for getting data from web-server through api
             ClaimDiscountApi apiCL = ClaimDiscountApi();
-            apiCL.login(claimDiscountRequest).then((value) {
+            apiCL.claim(claimDiscountRequest).then((value) {
               if (value.status) {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(

@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 SharedPreferences localStorage;
 
 class ClaimDiscountApi {
-  Future<ClaimDiscountResponse> login(
+  Future<ClaimDiscountResponse> claim(
       ClaimDiscountRequest claimDiscountRequest) async {
     localStorage = await SharedPreferences.getInstance();
     try {
@@ -18,7 +18,30 @@ class ClaimDiscountApi {
         },
         body: claimDiscountRequest.toJson(),
       );
+      print(response);
+      if (response.body != null) {
+        return ClaimDiscountResponse.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Failed to load Data');
+      }
+    } catch (e) {
+      throw Exception('Failed to load Data');
+    }
+  }
 
+  //Claim by Vendor ID
+  Future claimById(String vendorID) async {
+    localStorage = await SharedPreferences.getInstance();
+    try {
+      final response = await http.post(
+        Uri.parse(baseUrl + claimDiscountExt),
+        headers: <String, String>{
+          'Authorization': 'Bearer ${localStorage.get('Authorization')}',
+          'Customer-ID': '${localStorage.get('Customer-ID')}',
+        },
+        body: {'vendorUniqueId': vendorID},
+      );
+      print(response);
       if (response.body != null) {
         return ClaimDiscountResponse.fromJson(json.decode(response.body));
       } else {

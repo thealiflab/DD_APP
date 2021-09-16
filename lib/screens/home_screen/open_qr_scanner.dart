@@ -1,4 +1,6 @@
+import 'package:dd_app/api/claim_discount_api.dart';
 import 'package:dd_app/screens/scanned_data_screen.dart';
+import 'package:dd_app/utilities/snack_bar_message.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -34,10 +36,15 @@ class _OpenQRScannerState extends State<OpenQRScanner> {
                 controller.scannedDataStream.listen((scanData) {
                   if (mounted) {
                     _controller.dispose();
+                    print("Unique Id ${scanData.code}");
+                    List vendorUniqueID = scanData.code.split('"');
+                    print(vendorUniqueID[3]);
+                    ClaimDiscountRequest().vendorUniqueId = vendorUniqueID[3];
+
                     Navigator.pushNamed(
                       context,
                       ScannedData.id,
-                      arguments: ReceiveDataClass(scanData.code),
+                      arguments: ReceiveDataClass(vendorUniqueID[3]),
                     );
                   }
                 });
