@@ -54,32 +54,7 @@ class _ScannedDataState extends State<ScannedData> {
                 fontSize: 20,
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  ClaimDiscountApi apiCL = ClaimDiscountApi();
-                  apiCL.claimById(receivedData.barCodeString).then((value) {
-                    if (value.status) {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        snackBarMessage(
-                          value.message.toString(),
-                          true,
-                        ),
-                      );
-                    } else {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        snackBarMessage(
-                          value.message.toString(),
-                          false,
-                        ),
-                      );
-                    }
-                  });
-                },
-                child: Text("Claim"))
+            ElevatedButton(onPressed: () {}, child: Text("Claim"))
           ],
         ),
       ),

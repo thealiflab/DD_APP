@@ -41,11 +41,31 @@ class _OpenQRScannerState extends State<OpenQRScanner> {
                     print(vendorUniqueID[3]);
                     ClaimDiscountRequest().vendorUniqueId = vendorUniqueID[3];
 
-                    Navigator.pushNamed(
-                      context,
-                      ScannedData.id,
-                      arguments: ReceiveDataClass(vendorUniqueID[3]),
-                    );
+                    ClaimDiscountApi apiCL = ClaimDiscountApi();
+                    apiCL.claimById(vendorUniqueID[3]).then((value) {
+                      if (value.status) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          snackBarMessage(
+                            value.message.toString(),
+                            true,
+                          ),
+                        );
+                      } else {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          snackBarMessage(
+                            value.message.toString(),
+                            false,
+                          ),
+                        );
+                      }
+                    });
+                    // Navigator.pushNamed(
+                    //   context,
+                    //   ScannedData.id,
+                    //   arguments: ReceiveDataClass(vendorUniqueID[3]),
+                    // );
                   }
                 });
               },
